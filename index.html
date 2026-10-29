@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>The Noise – התוכנית הכי מזייפת באינסטגרם</title>
+<meta name="description" content="The Noise – התוכנית הכי מזייפת באינסטגרם. כל עוקב הוא כיסא באולם.">
+<meta property="og:title" content="The Noise 🎤">
+<meta property="og:description" content="התוכנית הכי מזייפת באינסטגרם. כל עוקב = עוד כיסא באולם.">
+<meta property="og:image" content="icon.png">
+<link rel="icon" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;900&display=swap">
+<style>
+:root{--y:#FFC24B;--r:#E01F26;--bg:#07040c;--card:rgba(14,10,22,.88);--line:rgba(255,255,255,.12)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:#fff;font-family:Heebo,system-ui,sans-serif;overflow:hidden;-webkit-tap-highlight-color:transparent}
+#c{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none}
+button{font-family:inherit;cursor:pointer}
+.k{color:var(--y)}
+#hud{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;gap:10px;padding:10px 12px;pointer-events:none}
+#hud img{width:46px;height:46px;pointer-events:auto}
+.pill{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-weight:700;font-size:14px;backdrop-filter:blur(6px);pointer-events:auto;white-space:nowrap}
+.pill b{color:var(--y);font-weight:900}
+#phase{background:var(--r);border-color:var(--r)}
+#spacer{flex:1}
+#count{font-size:13px}
+#bar{position:fixed;bottom:0;left:0;right:0;padding:10px 12px calc(10px + env(safe-area-inset-bottom));display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+#bar button{background:var(--card);color:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 14px;font-weight:700;font-size:15px;min-height:44px;backdrop-filter:blur(6px)}
+#bar button.main{background:var(--y);color:#111;border-color:var(--y)}
+#search{position:fixed;top:66px;left:12px;right:12px;display:flex;justify-content:center;pointer-events:none}
+#search form{pointer-events:auto;display:flex;gap:6px;width:min(420px,100%)}
+#search input{flex:1;min-height:44px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:#fff;padding:0 14px;font:700 15px Heebo,sans-serif;direction:ltr;text-align:right}
+#search button{min-height:44px;border-radius:12px;border:0;background:var(--r);color:#fff;font-weight:900;padding:0 14px}
+.panel{position:fixed;left:50%;bottom:76px;transform:translateX(-50%);width:min(460px,calc(100% - 24px));max-height:62vh;overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px 16px 18px;backdrop-filter:blur(10px);display:none}
+.panel.on{display:block}
+.panel h2{margin:0 0 10px;font-size:22px;font-weight:900}
+.panel .x{position:absolute;left:10px;top:8px;background:none;border:0;color:#fff;font-size:26px;width:44px;height:44px}
+.row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:0}
+.row .n{width:30px;height:30px;border-radius:50%;background:var(--r);display:grid;place-items:center;font-weight:900;font-size:14px;flex:none}
+.row .h{font-weight:900;direction:ltr}
+.row .s{font-size:13px;opacity:.75}
+.row .tag{margin-inline-start:auto;font-size:12px;font-weight:700;border-radius:999px;padding:3px 10px;background:#333;white-space:nowrap}
+.tag.in{background:#1fae5b}.tag.saved{background:#2d6cdf}.tag.out{background:#555;text-decoration:line-through}.tag.winner{background:var(--y);color:#111}.tag.casting{background:var(--r)}.tag.elected{background:var(--y);color:#111}
+.panel p{line-height:1.55;margin:6px 0}
+.panel ol{padding-inline-start:20px;line-height:1.6;margin:6px 0}
+.empty{opacity:.7;font-size:14px}
+#card{position:fixed;left:50%;top:120px;transform:translateX(-50%);background:var(--card);border:1px solid var(--y);border-radius:16px;padding:12px 18px;text-align:center;display:none;min-width:220px}
+#card .h{font-weight:900;font-size:20px;direction:ltr}
+#card .s{font-size:14px;opacity:.85}
+#toast{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 16px;display:none;font-weight:700;z-index:9}
+#intro{position:fixed;inset:0;background:radial-gradient(ellipse at 50% 40%,#2a0b14 0%,#07040c 70%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;z-index:5;text-align:center;padding:24px;transition:opacity .6s}
+#intro img{width:min(62vw,300px)}
+#intro h1{margin:0;font-size:clamp(24px,6vw,40px);font-weight:900}
+#intro p{margin:0;opacity:.85;font-size:16px}
+#intro button{margin-top:10px;background:var(--y);color:#111;border:0;border-radius:16px;padding:14px 30px;font-size:20px;font-weight:900;min-height:52px}
+#intro .cd{font-weight:700;font-size:15px;opacity:.9}
+#admin{position:fixed;inset:0;background:rgba(5,3,10,.97);z-index:20;overflow:auto;padding:16px;display:none;direction:rtl}
+#admin.on{display:block}
+#admin .box{max-width:720px;margin:0 auto 14px;background:#120d1c;border:1px solid var(--line);border-radius:14px;padding:14px}
+#admin h3{margin:0 0 8px}
+#admin label{display:block;font-size:13px;opacity:.8;margin:8px 0 4px}
+#admin input,#admin select,#admin textarea{width:100%;min-height:42px;border-radius:10px;border:1px solid var(--line);background:#0b0812;color:#fff;padding:8px 10px;font:15px Heebo,sans-serif}
+#admin textarea{min-height:110px}
+#admin .g{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px}
+#admin button{min-height:44px;border-radius:10px;border:0;background:var(--y);color:#111;font-weight:900;padding:0 16px;margin-top:10px}
+#admin .msg{font-size:14px;margin-top:8px;min-height:20px}
+#admin table{width:100%;border-collapse:collapse;font-size:13px}
+#admin td,#admin th{border-bottom:1px solid var(--line);padding:6px;text-align:right}
+@media (max-width:560px){#next{display:none}.pill{font-size:13px;padding:5px 11px}#hud img{width:40px;height:40px}}
+@media (prefers-reduced-motion:reduce){#intro{transition:none}}
+</style>
+</head>
+<body>
+<canvas id="c" aria-label="אולפן The Noise בתלת־ממד"></canvas>
+
+<div id="hud">
+  <img src="icon.png" alt="The Noise">
+  <div class="pill" id="phase">בקרוב</div>
+  <div id="spacer"></div>
+  <div class="pill" id="count">בקהל: <b id="nPub">0</b></div>
+  <div class="pill" id="next">הפרק הבא: <b id="cd">--:--:--</b></div>
+</div>
+
+<div id="search"><form id="sf"><input id="q" placeholder="@השם שלכם" aria-label="חיפוש הכיסא שלכם" autocomplete="off"><button type="submit">איפה אני?</button></form></div>
+<div id="card"><div class="h" id="cardH"></div><div class="s" id="cardS"></div></div>
+
+<div id="bar">
+  <button class="main" data-p="how">איך משתתפים?</button>
+  <button data-p="cont">המתמודדים</button>
+  <button data-p="judges">השופטים</button>
+  <button data-p="news">חדשות</button>
+</div>
+
+<section class="panel" id="p-how"><button class="x" aria-label="סגירה">×</button><h2>איך משתתפים ב-<span class="k">The Noise</span>?</h2>
+<ol>
+<li><b>עקבו</b> אחרי <b>@the_noise_2026</b> – כל עוקב חדש מקבל כיסא באולם.</li>
+<li><b>שופטים:</b> 8 התגובות עם הכי הרבה לייקים הופכות למועמדים, והקהל בוחר 4.</li>
+<li><b>מתמודדים:</b> כתבו בתגובות את <b>השם שלכם + השיר</b> שתרצו לשיר. התגובות עם הכי הרבה לייקים עולות לאודישן.</li>
+<li><b>אודישן:</b> כל יום מתמודד אחד שר (בקול מזייף 😉). הקהל מצביע ✅ נשאר / ❌ הולח. 2 שופטים שמסתובבים = ניצל!</li>
+<li><b>10 מתמודדים</b> בצוות ← דו־קרב כל יום ← נשאר אחד. הזוכה מקבל <b class="k">20 ₪ בביט</b>.</li>
+</ol>
+<p class="empty">כל פרק עולה בשעה 19:00. המבצע אינו קשור לאינסטגרם ואינו ממומן על ידה.</p>
+</section>
+<section class="panel" id="p-cont"><button class="x" aria-label="סגירה">×</button><h2>המתמודדים</h2><div id="lCont"></div></section>
+<section class="panel" id="p-judges"><button class="x" aria-label="סגירה">×</button><h2>השופטים</h2><div id="lJud"></div></section>
+<section class="panel" id="p-news"><button class="x" aria-label="סגירה">×</button><h2 id="newsT">חדשות</h2><p id="newsB"></p></section>
+
+<div id="intro">
+  <img src="logo_t.png" alt="The Noise">
+  <h1>ברוכים הבאים ל-<span class="k">The Noise</span></h1>
+  <p>התוכנית הכי מזייפת באינסטגרם. כל עוקב = עוד כיסא באולם.</p>
+  <div class="cd">הפרק הבא בעוד <span id="cd2">--:--:--</span></div>
+  <button id="enter">היכנסו לאולפן</button>
+</div>
+<div id="toast"></div>
+
+<div id="admin">
+  <div class="box"><h3>ניהול The Noise</h3>
+    <label for="aPass">סיסמה</label><input id="aPass" type="password" autocomplete="current-password">
+    <div class="msg" id="aMsg"></div>
+  </div>
+  <div class="box"><h3>שלב ועדכון</h3>
+    <div class="g">
+      <div><label for="aPhase">שלב</label><select id="aPhase">
+        <option value="teaser">בקרוב</option><option value="judges_call">מחפשים שופטים</option><option value="judges_vote">הצבעה על השופטים</option>
+        <option value="casting">אודישנים</option><option value="duels">דו־קרבות</option><option value="final">הגמר</option><option value="ended">העונה הסתיימה</option></select></div>
+      <div><label for="aEp">מספר פרק</label><input id="aEp" type="number" min="0"></div>
+    </div>
+    <label for="aNT">כותרת חדשות</label><input id="aNT">
+    <label for="aNB">טקסט חדשות</label><textarea id="aNB"></textarea>
+    <button id="aSaveState">שמירת שלב + חדשות</button>
+  </div>
+  <div class="box"><h3>הוספת קהל (עוקב בכל שורה)</h3>
+    <textarea id="aPub" placeholder="@user1&#10;@user2" style="direction:ltr;text-align:left"></textarea>
+    <button id="aAddPub">הוספה לקהל</button>
+  </div>
+  <div class="box"><h3>שופט / מתמודד</h3>
+    <div class="g">
+      <div><label for="aH">שם משתמש</label><input id="aH" style="direction:ltr"></div>
+      <div><label for="aRole">תפקיד</label><select id="aRole"><option value="public">קהל</option><option value="judge">שופט</option><option value="contestant">מתמודד</option></select></div>
+      <div><label for="aSt">סטטוס</label><select id="aSt">
+        <option value="active">רגיל</option><option value="candidate">מועמד לשופט</option><option value="elected">שופט נבחר</option>
+        <option value="registered">נרשם</option><option value="casting">באודישן</option><option value="in">בצוות</option><option value="saved">ניצל ע״י השופטים</option><option value="out">הודח</option><option value="winner">הזוכה</option></select></div>
+      <div><label for="aSort">מספר (להצבעה / סדר)</label><input id="aSort" type="number"></div>
+      <div><label for="aChair">כיסא שופט (1-4)</label><input id="aChair" type="number" min="1" max="4"></div>
+      <div><label for="aVotes">קולות</label><input id="aVotes" type="number"></div>
+    </div>
+    <label for="aSong">שיר</label><input id="aSong">
+    <button id="aSave">שמירה</button> <button id="aDel" style="background:#E01F26;color:#fff">הסרה</button>
+  </div>
+  <div class="box"><h3>כל המשתתפים</h3><table><thead><tr><th>שם</th><th>תפקיד</th><th>סטטוס</th><th>שיר</th><th>#</th></tr></thead><tbody id="aList"></tbody></table>
+    <button id="aClose" style="background:#333;color:#fff">חזרה לאולפן</button></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+const CONFIG={SUPABASE_URL:"https://ohvmnaymozoxfirkbntt.supabase.co",SUPABASE_KEY:"sb_publishable_kQz8LnmhYbK-8m79fAPe8Q_51MAcYgz",IG:"https://www.instagram.com/the_noise_2026/"};
+const PHASES={teaser:"בקרוב: מחפשים שופטים",judges_call:"שלב 1: מחפשים שופטים",judges_vote:"שלב 2: הצבעה על השופטים",casting:"שלב 3: אודישנים",duels:"שלב 4: דו־קרבות",final:"הגמר!",ended:"העונה הסתיימה"};
+const ST={active:"קהל",candidate:"מועמד",elected:"שופט",registered:"נרשם",casting:"באודישן",in:"בצוות",saved:"ניצל",out:"הודח",winner:"הזוכה 🏆"};
+const $=s=>document.querySelector(s);
+function toast(m){const t=$('#toast');t.textContent=m;t.style.display='block';clearTimeout(toast.h);toast.h=setTimeout(()=>t.style.display='none',3200)}
+window.addEventListener('error',e=>toast('שגיאה: '+(e.message||'')));
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function sb(path,opts={}){return fetch(CONFIG.SUPABASE_URL+"/rest/v1/"+path,{...opts,headers:{apikey:CONFIG.SUPABASE_KEY,"Content-Type":"application/json",...(opts.headers||{})}})}
+
+// ---------- countdown to next 19:00 Israel ----------
+function nextEpisode(){const now=new Date();
+  const fmt=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Jerusalem',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
+  const [h,m,s]=fmt.format(now).split(':').map(Number);let secs=19*3600-(h*3600+m*60+s);if(secs<=0)secs+=86400;return secs}
+function tick(){const s=nextEpisode();const t=[Math.floor(s/3600),Math.floor(s%3600/60),s%60].map(v=>String(v).padStart(2,'0')).join(':');$('#cd').textContent=t;$('#cd2').textContent=t}
+setInterval(tick,1000);tick();
+
+// ---------- 3D ----------
+const canvas=$('#c');
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true,preserveDrawingBuffer:!!window.CAP});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.outputEncoding=THREE.sRGBEncoding;
+const scene=new THREE.Scene();scene.background=new THREE.Color(0x05030a);scene.fog=new THREE.FogExp2(0x0b0614,0.022);
+const camera=new THREE.PerspectiveCamera(55,1,0.1,250);camera.position.set(0,16,34);
+const controls=new THREE.OrbitControls(camera,canvas);controls.target.set(0,2.5,2);controls.enableDamping=true;controls.maxDistance=60;controls.minDistance=3;controls.maxPolarAngle=Math.PI*0.49;controls.enabled=false;
+function resize(){const w=innerWidth,h=innerHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.fov=w<h?62:50;camera.updateProjectionMatrix()}
+addEventListener('resize',resize);resize();
+
+function glowTex(){const c=document.createElement('canvas');c.width=c.height=128;const g=c.getContext('2d');const gr=g.createRadialGradient(64,64,0,64,64,64);gr.addColorStop(0,'rgba(255,255,255,1)');gr.addColorStop(.25,'rgba(255,255,255,.45)');gr.addColorStop(1,'rgba(255,255,255,0)');g.fillStyle=gr;g.fillRect(0,0,128,128);return new THREE.CanvasTexture(c)}
+const GLOW=glowTex();
+function glow(color,size,op=1){const s=new THREE.Sprite(new THREE.SpriteMaterial({map:GLOW,color,blending:THREE.AdditiveBlending,depthWrite:false,transparent:true,opacity:op}));s.scale.set(size,size,1);return s}
+function label(text,opt={}){const c=document.createElement('canvas');const fs=opt.fs||56;const g=c.getContext('2d');g.font=`900 ${fs}px Heebo, sans-serif`;
+  const w=Math.ceil(g.measureText(text).width)+fs;c.width=w;c.height=fs*1.6;g.font=`900 ${fs}px Heebo, sans-serif`;
+  g.fillStyle=opt.bg||'rgba(0,0,0,.6)';const r=c.height/2;g.beginPath();g.moveTo(r,0);g.lineTo(w-r,0);g.arc(w-r,r,r,-Math.PI/2,Math.PI/2);g.lineTo(r,c.height);g.arc(r,r,r,Math.PI/2,Math.PI*1.5);g.fill();
+  g.fillStyle=opt.color||'#fff';g.textAlign='center';g.textBaseline='middle';g.fillText(text,w/2,c.height/2+2);
+  const t=new THREE.CanvasTexture(c);t.encoding=THREE.sRGBEncoding;const s=new THREE.Sprite(new THREE.SpriteMaterial({map:t,transparent:true,depthWrite:false}));
+  const h=opt.h||.42;s.scale.set(h*w/c.height,h,1);return s}
+
+scene.add(new THREE.AmbientLight(0x404060,.5));scene.add(new THREE.HemisphereLight(0x6655aa,0x110808,.4));
+const floor=new THREE.Mesh(new THREE.CircleGeometry(70,64),new THREE.MeshStandardMaterial({color:0x0c0a12,roughness:.35,metalness:.6}));floor.rotation.x=-Math.PI/2;scene.add(floor);
+const stage=new THREE.Mesh(new THREE.CylinderGeometry(7,7.3,.7,64),new THREE.MeshStandardMaterial({color:0x15121c,roughness:.25,metalness:.7}));stage.position.set(0,.35,-1);scene.add(stage);
+const ringMat=new THREE.MeshBasicMaterial({color:0xE01F26});const ring=new THREE.Mesh(new THREE.TorusGeometry(7.15,.07,8,96),ringMat);ring.rotation.x=Math.PI/2;ring.position.set(0,.72,-1);scene.add(ring);
+const ring2=new THREE.Mesh(new THREE.TorusGeometry(5.2,.04,8,96),new THREE.MeshBasicMaterial({color:0xFFC24B}));ring2.rotation.x=Math.PI/2;ring2.position.set(0,.72,-1);scene.add(ring2);
+
+// LED screen
+const scrC=document.createElement('canvas');scrC.width=1024;scrC.height=640;const sg=scrC.getContext('2d');const scrTex=new THREE.CanvasTexture(scrC);scrTex.encoding=THREE.sRGBEncoding;
+const screen=new THREE.Mesh(new THREE.PlaneGeometry(17,10.6),new THREE.MeshBasicMaterial({map:scrTex,toneMapped:false}));screen.position.set(0,6.3,-9.5);scene.add(screen);
+const scrFrame=new THREE.Mesh(new THREE.BoxGeometry(17.6,11.2,.3),new THREE.MeshStandardMaterial({color:0x111111,metalness:.8,roughness:.3}));scrFrame.position.set(0,6.3,-9.7);scene.add(scrFrame);
+const scrGlow=glow(0xE01F26,30,.25);scrGlow.position.set(0,6.3,-9.3);scene.add(scrGlow);
+const logoImg=new Image();logoImg.src='logo_t.png';
+let screenLine='';
+function drawScreen(t){const g=sg;g.fillStyle='#07040c';g.fillRect(0,0,1024,640);g.globalAlpha=.25;g.fillStyle='#1b0a12';for(let y=0;y<640;y+=6)g.fillRect(0,y,1024,2);
+  for(let i=0;i<32;i++){const h=40+Math.abs(Math.sin(t*7+i*1.7)*Math.cos(t*3.1+i))*200;g.fillStyle=i%2?'#E01F26':'#FFC24B';g.globalAlpha=.4;g.fillRect(16+i*31.5,640-h,22,h)}
+  g.globalAlpha=1;if(logoImg.complete&&logoImg.naturalWidth)g.drawImage(logoImg,512-260,40,520,520);
+  if(screenLine){g.fillStyle='rgba(0,0,0,.6)';g.fillRect(0,560,1024,80);g.fillStyle='#FFC24B';g.font='900 52px Heebo';g.textAlign='center';g.textBaseline='middle';g.direction='rtl';g.fillText(screenLine,512,600)}
+  scrTex.needsUpdate=true}
+
+// towers
+const towers=[];for(const sx of[-11,11,-15,15]){const g=new THREE.Group();g.position.set(sx,0,-6+(Math.abs(sx)>12?3:0));const col=new THREE.Mesh(new THREE.BoxGeometry(1.2,12,1.2),new THREE.MeshStandardMaterial({color:0x101014,metalness:.7,roughness:.4}));col.position.y=6;g.add(col);
+  const bars=[];for(let i=0;i<14;i++){const b=new THREE.Mesh(new THREE.BoxGeometry(1.25,.35,1.25),new THREE.MeshBasicMaterial({color:0xE01F26}));b.position.y=.8+i*.8;g.add(b);bars.push(b)}g.userData.bars=bars;scene.add(g);towers.push(g)}
+
+// mic
+const mic=new THREE.Group();const metal=new THREE.MeshStandardMaterial({color:0x888890,metalness:.9,roughness:.25});
+const pole=new THREE.Mesh(new THREE.CylinderGeometry(.04,.04,1.6,12),metal);pole.position.y=.8;mic.add(pole);
+mic.add(new THREE.Mesh(new THREE.CylinderGeometry(.35,.4,.06,24),metal));
+const mh=new THREE.Mesh(new THREE.SphereGeometry(.11,20,16),new THREE.MeshStandardMaterial({color:0x2a2a2e,metalness:.85,roughness:.3}));mh.position.set(0,1.9,.1);mic.add(mh);
+const mg=glow(0xFFC24B,1.6,.6);mg.position.set(0,1.9,.15);mic.add(mg);mic.position.set(0,.7,.5);scene.add(mic);
+
+// judge chairs
+const chairRed=new THREE.MeshStandardMaterial({color:0xC0161C,roughness:.45,metalness:.2,emissive:0x2a0002});const chairDark=new THREE.MeshStandardMaterial({color:0x151515,metalness:.7,roughness:.3});
+const chairs=[];for(let i=0;i<4;i++){const g=new THREE.Group();
+  const seat=new THREE.Mesh(new THREE.BoxGeometry(1.5,.3,1.3),chairRed);seat.position.y=.9;g.add(seat);
+  const back=new THREE.Mesh(new THREE.BoxGeometry(1.7,2.4,.35),chairRed);back.position.set(0,2.05,.6);g.add(back);
+  const ped=new THREE.Mesh(new THREE.CylinderGeometry(.15,.5,.75,16),chairDark);ped.position.y=.38;g.add(ped);
+  const arms=new THREE.Mesh(new THREE.BoxGeometry(1.9,.2,1.1),chairDark);arms.position.y=1.25;g.add(arms);
+  const gl=glow(0xE01F26,4,.35);gl.position.set(0,1.8,1.3);g.add(gl);
+  g.position.set(-5.1+i*3.4,0,8.6);scene.add(g);chairs.push({g,label:null,turn:0,target:0})}
+
+// contestants on stage
+const contMat=new THREE.MeshStandardMaterial({color:0x0d0b10,roughness:.5});const rimY=new THREE.MeshBasicMaterial({color:0xFFC24B,side:THREE.BackSide}),rimR=new THREE.MeshBasicMaterial({color:0xE01F26,side:THREE.BackSide});
+const contGroup=new THREE.Group();scene.add(contGroup);
+function figure(rim){const g=new THREE.Group();const add=(geo,y)=>{const m=new THREE.Mesh(geo,contMat);m.position.y=y;g.add(m);const o=new THREE.Mesh(geo,rim);o.position.y=y;o.scale.setScalar(1.12);g.add(o)};
+  add(new THREE.BoxGeometry(.7,1,.4),.75);add(new THREE.BoxGeometry(.5,.5,.5),1.55);add(new THREE.BoxGeometry(.6,.3,.35),.15);return g}
+
+// lights
+function coneMat(color){return new THREE.ShaderMaterial({transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,side:THREE.DoubleSide,uniforms:{c:{value:new THREE.Color(color)},k:{value:.18}},
+  vertexShader:'varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',fragmentShader:'uniform vec3 c;uniform float k;varying vec2 vUv;void main(){float a=k*pow(vUv.y,1.6);gl_FragColor=vec4(c*a,a);}'})}
+const LIGHTS=[];const lcol=[0xffffff,0xE01F26,0xFFC24B,0x8a5cff,0xffffff,0xE01F26];const lpos=[[-8,15,4],[8,15,4],[-12,14,-4],[12,14,-4],[0,16,10],[0,15,-6]];
+for(let i=0;i<6;i++){const h=24;const geo=new THREE.ConeGeometry(3.2,h,24,1,true);geo.translate(0,-h/2,0);geo.rotateX(-Math.PI/2);const cone=new THREE.Mesh(geo,coneMat(lcol[i]));cone.position.set(...lpos[i]);scene.add(cone);
+  const sl=new THREE.SpotLight(lcol[i],1.6,60,.32,.5,1.2);sl.position.set(...lpos[i]);scene.add(sl);scene.add(sl.target);const hd=glow(lcol[i],2.2);hd.position.set(...lpos[i]);scene.add(hd);LIGHTS.push({cone,sl})}
+
+// audience seats (grow with followers)
+const SEATS=[];for(let r=0;r<16;r++){const rad=13+r*1.6;const n=22+r*4;for(let k=0;k<n;k++){const a=-.95+k*(1.9/(n-1));SEATS.push([Math.sin(a)*rad,r*.45,-1+Math.cos(a)*rad,a,r,k])}}
+// order seats: front rows center first
+const seatOrder=SEATS.map((s,i)=>i).sort((a,b)=>SEATS[a][4]-SEATS[b][4]||Math.abs(SEATS[a][3])-Math.abs(SEATS[b][3]));
+const MAXS=SEATS.length;
+const seatMesh=new THREE.InstancedMesh(new THREE.BoxGeometry(.8,.55,.7),new THREE.MeshStandardMaterial({color:0xffffff,roughness:.6}),MAXS);
+const bodyMesh=new THREE.InstancedMesh(new THREE.BoxGeometry(.6,.75,.4),new THREE.MeshStandardMaterial({color:0xffffff,roughness:.7}),MAXS);
+const headMesh=new THREE.InstancedMesh(new THREE.BoxGeometry(.42,.42,.42),new THREE.MeshStandardMaterial({color:0xffffff,roughness:.7}),MAXS);
+const dm=new THREE.Object3D(),tc=new THREE.Color();
+const skin=[0xf1c27d,0xe0ac69,0xc68642,0x8d5524,0xffdbac],shirts=[0xE01F26,0xFFC24B,0x2d6cdf,0x22aa66,0xffffff,0x9b30ff,0xff7a1a,0x18c3c3];
+function hash(s){let h=2166136261;for(const ch of s){h^=ch.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0}
+for(let i=0;i<MAXS;i++){const[x,y,z,a]=SEATS[i];dm.position.set(x,y+.3,z);dm.rotation.set(0,a+Math.PI,0);dm.scale.setScalar(1);dm.updateMatrix();seatMesh.setMatrixAt(i,dm.matrix);seatMesh.setColorAt(i,tc.set(0x7a0d12));
+  bodyMesh.setColorAt(i,tc.set(0xffffff));headMesh.setColorAt(i,tc.set(0xffffff));dm.scale.setScalar(.0001);dm.updateMatrix();bodyMesh.setMatrixAt(i,dm.matrix);headMesh.setMatrixAt(i,dm.matrix)}
+scene.add(seatMesh,bodyMesh,headMesh);
+const nameLabels=new THREE.Group();scene.add(nameLabels);
+
+// ---------- data ----------
+let PEOPLE=[],STATE={},seatOf={},highlight=null;
+const DEMO=location.search.includes('demo');
+async function load(){
+  try{
+    if(DEMO){const r=await fetch('demo.json');const d=await r.json();PEOPLE=d.people;STATE=d.state}
+    else{const [p,s]=await Promise.all([sb('noise_people?select=*&order=created_at.asc'),sb('noise_state?select=key,value')]);
+      if(!p.ok)throw new Error('people '+p.status);PEOPLE=await p.json();STATE={};(await s.json()).forEach(r=>STATE[r.key]=r.value)}
+    apply()
+  }catch(e){toast('לא הצלחנו לטעון את הנתונים, נסו שוב בעוד רגע')}
+}
+function apply(){
+  const pub=PEOPLE;// every follower in the audience, including judges/contestants
+  $('#nPub').textContent=pub.length;
+  $('#phase').textContent=PHASES[STATE.phase]||PHASES.teaser;
+  const ep=STATE.episode;screenLine=ep?`פרק ${ep}`:'';
+  if(STATE.news){$('#newsT').textContent=STATE.news.title||'חדשות';$('#newsB').textContent=STATE.news.body||''}
+  // audience
+  seatOf={};while(nameLabels.children.length)nameLabels.remove(nameLabels.children[0]);
+  pub.slice(0,MAXS).forEach((p,k)=>{const si=seatOrder[k];seatOf[p.handle]=si;const h=hash(p.handle);
+    bodyMesh.setColorAt(si,tc.set(shirts[h%shirts.length]));headMesh.setColorAt(si,tc.set(skin[(h>>4)%skin.length]));
+    const[x,y,z,a]=SEATS[si];dm.rotation.set(0,a+Math.PI,0);dm.scale.setScalar(1);dm.position.set(x,y+.95,z);dm.updateMatrix();bodyMesh.setMatrixAt(si,dm.matrix);dm.position.set(x,y+1.55,z);dm.updateMatrix();headMesh.setMatrixAt(si,dm.matrix);
+    if(k<400){const l=label('@'+p.handle,{fs:44,h:.28,bg:p.role==='judge'?'rgba(224,31,38,.85)':p.role==='contestant'?'rgba(255,194,75,.9)':'rgba(0,0,0,.55)',color:p.role==='contestant'?'#111':'#fff'});l.position.set(x,y+2.15,z);l.userData.handle=p.handle;nameLabels.add(l)}});
+  bodyMesh.instanceMatrix.needsUpdate=headMesh.instanceMatrix.needsUpdate=true;bodyMesh.instanceColor.needsUpdate=headMesh.instanceColor.needsUpdate=true;
+  // judges
+  const judges=PEOPLE.filter(p=>p.role==='judge');const elected=judges.filter(j=>j.status==='elected');
+  chairs.forEach((c,i)=>{if(c.label){c.g.remove(c.label);c.label=null}const j=elected.find(x=>x.chair===i+1);
+    c.label=label(j?'@'+j.handle:'?',{fs:52,h:.5,bg:'rgba(255,194,75,.95)',color:'#111'});c.label.position.set(0,3.6,.6);c.g.add(c.label)});
+  $('#lJud').innerHTML=judges.length?judges.sort((a,b)=>(a.sort||0)-(b.sort||0)).map(j=>`<div class="row"><div class="n">${j.chair||j.sort||'?'}</div><div><div class="h">@${esc(j.handle)}</div></div><span class="tag ${j.status==='elected'?'elected':''}">${ST[j.status]||''}</span></div>`).join(''):'<p class="empty">עוד אין שופטים. במוצאי שבת בשעה 19:00 מתחילים לחפש! 👀</p>';
+  // contestants
+  const conts=PEOPLE.filter(p=>p.role==='contestant').sort((a,b)=>(a.sort||0)-(b.sort||0));
+  while(contGroup.children.length)contGroup.remove(contGroup.children[0]);
+  const onStage=conts.filter(c=>c.status!=='out');
+  onStage.forEach((c,i)=>{const n=onStage.length;const a=n===1?0:-1+i*(2/(n-1));const f=figure(c.status==='winner'?rimY:(i%2?rimR:rimY));
+    f.position.set(Math.sin(a)*4.2,.7,-1.2-Math.cos(a)*3.2+.6);f.rotation.y=-a*.5;const l=label('@'+c.handle,{fs:48,h:.42,bg:'rgba(0,0,0,.7)'});l.position.set(0,2.4,0);f.add(l);
+    const gl=glow(c.status==='winner'?0xFFC24B:0xE01F26,3.2,.6);gl.position.set(0,1.1,-.5);f.add(gl);contGroup.add(f)});
+  $('#lCont').innerHTML=conts.length?conts.map((c,i)=>`<div class="row"><div class="n">${c.sort||i+1}</div><div><div class="h">@${esc(c.handle)}</div>${c.song?`<div class="s">🎵 ${esc(c.song)}</div>`:''}</div><span class="tag ${esc(c.status)}">${ST[c.status]||esc(c.status)}</span></div>`).join(''):'<p class="empty">ההרשמה למתמודדים נפתחת אחרי בחירת השופטים. כתבו בתגובות את השם + השיר!</p>';
+}
+load();setInterval(load,60000);
+
+// ---------- UI ----------
+document.querySelectorAll('#bar button').forEach(b=>b.onclick=()=>{const p=$('#p-'+b.dataset.p);const on=p.classList.contains('on');document.querySelectorAll('.panel').forEach(x=>x.classList.remove('on'));if(!on)p.classList.add('on')});
+document.querySelectorAll('.panel .x').forEach(b=>b.onclick=()=>b.parentElement.classList.remove('on'));
+let fly=null;
+function flyTo(pos,look,dur=1.6){fly={p0:camera.position.clone(),l0:controls.target.clone(),p1:pos,l1:look,t0:performance.now(),d:dur*1000}}
+$('#sf').onsubmit=e=>{e.preventDefault();const h=$('#q').value.trim().replace(/^@/,'').toLowerCase();if(!h)return;
+  const si=seatOf[h];const p=PEOPLE.find(x=>x.handle===h);
+  if(si===undefined){$('#cardH').textContent='@'+h;$('#cardS').textContent='עוד לא באולם – עקבו אחרי @the_noise_2026 ותקבלו כיסא!';$('#card').style.display='block';setTimeout(()=>$('#card').style.display='none',5000);return}
+  const[x,y,z]=SEATS[si];highlight={x,y,z};flyTo(new THREE.Vector3(x*.72,y+3.5,(z+1)*.72-1),new THREE.Vector3(x,y+1.6,z));
+  const row=SEATS[si][4]+1;$('#cardH').textContent='@'+h;$('#cardS').textContent=`שורה ${row} · ${p.role==='judge'?'שופט/ת':p.role==='contestant'?'מתמודד/ת':'בקהל'}`;$('#card').style.display='block';setTimeout(()=>$('#card').style.display='none',6000)};
+const hl=glow(0xFFC24B,3,0);scene.add(hl);
+
+$('#enter').onclick=()=>{const i=$('#intro');i.style.opacity=0;setTimeout(()=>i.style.display='none',600);controls.enabled=true;flyTo(new THREE.Vector3(0,7,22),new THREE.Vector3(0,3,0),2.4)};
+
+// ---------- loop ----------
+const clock=new THREE.Clock();
+function frame(t){
+  LIGHTS.forEach((L,i)=>{const tgt=new THREE.Vector3(Math.sin(t*(.4+i*.08)+i*2)*7,0,-1+Math.cos(t*(.3+i*.07)+i)*5);L.cone.lookAt(tgt);L.sl.target.position.copy(tgt)});
+  ringMat.color.setHSL(0,1,.35+.15*Math.sin(t*3));
+  towers.forEach((g,j)=>g.userData.bars.forEach((b,i)=>{const lvl=(Math.sin(t*4+j)*.5+.5)*14;b.material.color.set(i<lvl?(i>10?0xffffff:i>6?0xFFC24B:0xE01F26):0x1a0508)}));
+  drawScreen(t);scrGlow.material.opacity=.15+.1*Math.sin(t*2);
+  contGroup.children.forEach((f,i)=>f.position.y=.7+Math.max(0,Math.sin(t*3+i))*.06);
+  if(highlight){hl.position.set(highlight.x,highlight.y+1.6,highlight.z);hl.material.opacity=.6+.4*Math.sin(t*6)}
+  if(fly){const k=Math.min(1,(performance.now()-fly.t0)/fly.d);const e=k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2;camera.position.lerpVectors(fly.p0,fly.p1,e);controls.target.lerpVectors(fly.l0,fly.l1,e);if(k>=1)fly=null}
+  else if(!controls.enabled){const a=t*.05;camera.position.set(Math.sin(a)*30,14,Math.cos(a)*30+4);controls.target.set(0,3,0)}
+  const cp=camera.position;nameLabels.children.forEach(l=>{const d=l.position.distanceTo(cp);l.visible=d>2.5&&d<(innerWidth<560?13:18)});
+  controls.update();renderer.render(scene,camera)}
+window.capHook=frame;
+function loop(){if(!window.CAP)frame(clock.getElapsedTime());requestAnimationFrame(loop)}
+loop();
+
+// ---------- admin ----------
+async function rpc(fn,body){const r=await sb('rpc/'+fn,{method:'POST',body:JSON.stringify(body)});if(!r.ok){const t=await r.text();throw new Error(t.includes('bad password')?'סיסמה שגויה':t)}return r.json().catch(()=>null)}
+function openAdmin(){if(location.hash!=='#admin'){$('#admin').classList.remove('on');return}$('#admin').classList.add('on');$('#aPhase').value=STATE.phase||'teaser';$('#aEp').value=STATE.episode||'';$('#aNT').value=STATE.news?.title||'';$('#aNB').value=STATE.news?.body||'';
+  $('#aList').innerHTML=PEOPLE.map(p=>`<tr><td dir="ltr">@${esc(p.handle)}</td><td>${p.role}</td><td>${ST[p.status]||p.status}</td><td>${esc(p.song||'')}</td><td>${p.sort||''}</td></tr>`).join('')}
+addEventListener('hashchange',openAdmin);setTimeout(openAdmin,1500);
+const msg=(m,ok)=>{$('#aMsg').textContent=m;$('#aMsg').style.color=ok?'#7CFC9A':'#ff8080'};
+$('#aClose').onclick=()=>{location.hash='';$('#admin').classList.remove('on')};
+$('#aSaveState').onclick=async()=>{try{const pass=$('#aPass').value;await rpc('noise_admin_set_state',{pass,k:'phase',v:$('#aPhase').value});
+  if($('#aEp').value!=='')await rpc('noise_admin_set_state',{pass,k:'episode',v:Number($('#aEp').value)});
+  await rpc('noise_admin_set_state',{pass,k:'news',v:{title:$('#aNT').value,body:$('#aNB').value}});msg('נשמר ✔',1);load()}catch(e){msg(e.message)}};
+$('#aAddPub').onclick=async()=>{try{const items=$('#aPub').value.split(/[\n,]+/).map(s=>s.trim()).filter(Boolean).map(h=>({handle:h}));if(!items.length)return;
+  const n=await rpc('noise_admin_upsert',{pass:$('#aPass').value,items});msg(`נוספו ${n} לקהל ✔`,1);$('#aPub').value='';load()}catch(e){msg(e.message)}};
+function personItem(remove){const v=id=>$(id).value;const it={handle:v('#aH'),role:v('#aRole'),status:v('#aSt'),song:v('#aSong')||null};
+  if(v('#aSort')!=='')it.sort=Number(v('#aSort'));if(v('#aChair')!=='')it.chair=Number(v('#aChair'));if(v('#aVotes')!=='')it.votes=Number(v('#aVotes'));if(remove)it.remove=true;return it}
+$('#aSave').onclick=async()=>{try{if(!$('#aH').value.trim())return msg('חסר שם משתמש');await rpc('noise_admin_upsert',{pass:$('#aPass').value,items:[personItem(false)]});msg('נשמר ✔',1);await load();openAdmin()}catch(e){msg(e.message)}};
+$('#aDel').onclick=async()=>{try{if(!confirm('להסיר את '+$('#aH').value+'?'))return;await rpc('noise_admin_upsert',{pass:$('#aPass').value,items:[personItem(true)]});msg('הוסר ✔',1);await load();openAdmin()}catch(e){msg(e.message)}};
+</script>
+</body>
+</html>
