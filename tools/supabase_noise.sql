@@ -73,3 +73,9 @@ insert into public.noise_state(key, value) values
   ('phase', '"teaser"'::jsonb),
   ('news',  '{"title":"ברוכים הבאים ל-The Noise!","body":"התוכנית הכי מזייפת באינסטגרם מתחילה. עקבו אחרי @the_noise_2026 ותפסו מקום בקהל."}'::jsonb)
 on conflict (key) do nothing;
+
+-- 29.10.2026 : réactions (applaudissements / tomates) + score pour la première rangée
+alter table public.noise_people add column if not exists score int not null default 0;
+create table if not exists public.noise_reactions (day date not null, kind text not null check (kind in ('clap','tomato')), n bigint not null default 0, primary key (day, kind));
+-- + fonction noise_react(k text, cnt int) security definer (max 30 par appel)
+-- tables privées de la routine : noise_ig_seen, noise_ig_welcomed
