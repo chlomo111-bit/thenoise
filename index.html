@@ -338,8 +338,9 @@ function startAudio(){try{
   for(let i=0;i<3;i++){const t=bt+.4+i*.55+Math.random()*.3,w=AC.createOscillator();w.type='sine';const f0=1900+Math.random()*700;w.frequency.setValueAtTime(f0*.7,t);w.frequency.exponentialRampToValueAtTime(f0,t+.18);w.frequency.setValueAtTime(f0*.75,t+.32);w.frequency.exponentialRampToValueAtTime(f0*1.05,t+.55);
     const g=AC.createGain();g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.05,t+.04);g.gain.setValueAtTime(.05,t+.5);g.gain.linearRampToValueAtTime(0,t+.6);w.connect(g).connect(OUT);w.start(t);w.stop(t+.65)}
   const m=AC.createBufferSource();m.buffer=noiseBuf(4);m.loop=true;const mf=AC.createBiquadFilter();mf.type='bandpass';mf.frequency.value=450;mf.Q.value=.5;const mg=AC.createGain();mg.gain.setValueAtTime(0,now);mg.gain.linearRampToValueAtTime(.045,bt+5);m.connect(mf).connect(mg).connect(OUT);m.start(now);
+  OUT.gain.setValueAtTime(muted?0:1,bt+5.5);OUT.gain.linearRampToValueAtTime(muted?0:.5,bt+7);
  }catch(e){}}
-$('#mute').onclick=()=>{muted=!muted;$('#mute').textContent=muted?'🔇':'🔊';if(OUT)OUT.gain.value=muted?0:1};
+$('#mute').onclick=()=>{muted=!muted;$('#mute').textContent=muted?'🔇':'🔊';if(OUT){OUT.gain.cancelScheduledValues(AC.currentTime);OUT.gain.value=muted?0:(show&&(performance.now()-show.t0)/1000>8?.5:1)}};
 $('#enter').onclick=()=>{const i=$('#intro');i.style.opacity=0;setTimeout(()=>i.style.display='none',600);startAudio();show={t0:performance.now()};
   camera.position.set(0,24,46);controls.target.set(0,4,0);controls.enabled=true;flyTo(new THREE.Vector3(0,7,22),new THREE.Vector3(0,3,0),3.4)};
 
