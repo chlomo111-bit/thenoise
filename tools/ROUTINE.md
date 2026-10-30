@@ -13,7 +13,7 @@ Détails techniques des fonctions SQL : `tools/ROUTINE_FONCTIONS_COMMUNES.md`.
 
 ## 0. Shabbat
 Rien entre vendredi 16:00 et samedi 18:30 (heure d'Israël). Toute tâche qui se déclenche dans ce créneau s'arrête immédiatement.
-La loterie et la vidéo du vendredi sont faites samedi à partir de 18:30 (loterie du vendredi d'abord, `noise_fan_draw('<date du vendredi>')`), puis celle du samedi à 20:00.
+La loterie du vendredi est faite (vidéo : chat « The Noise – vidéos ») samedi à partir de 18:30 (loterie du vendredi d'abord, `noise_fan_draw('<date du vendredi>')`), puis celle du samedi à 20:00.
 Le vendredi : production du matin + passages 6:00 et 12:00 seulement ; pas de passage 17:00 ni 19:55, pas de loterie 20:00.
 
 ## 1. Vidéo du jour (à partir du dimanche 1/11)
@@ -60,5 +60,5 @@ Il est annoncé dans noise_state `news` (titre + texte) et raconté dans la vid�
 - « The Noise – production du matin » 5:43 dim–ven (avant le passage de 6:00) : post du jour + événement extraordinaire + débrief court (PAS de texte vidéo : c'est le chat « The Noise – vidéos »).
 - Chat « The Noise – vidéos » : réveil 16:00 dim–jeu (texte voix → MP3 → reel 19:00), vendredi 12:00 (texte de la vidéo du samedi), samedi 18:35 (montage, reel 19:30). Chaque réveil programme le suivant.
 - « The Noise – passages » 6:00, 12:00, 17:00, 19:55 (vendredi : 6:00, 12:00).
-- « The Noise – loterie 20:00 » dim–jeu + sam 20:00 ; samedi 18:30 : loterie du vendredi + vidéo du vendredi si besoin.
+- « The Noise – loterie 20:00 » dim–jeu + sam 20:00 ; samedi 18:30 : loterie du vendredi.
 - « The Noise – publier le reel collab » (ponctuelle, 31/10 19:00, dans le chat « The Noise – vidéos »).
