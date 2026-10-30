@@ -14,18 +14,14 @@ Schéma complet : `tools/supabase_noise_v2.sql` (déjà appliqué en base le 29.
   ⚠️ Ces fonctions ne modifient PAS noise_people.score (les points VIP +1/+3 restent gérés comme avant).
 - Missions du jour : +10 à +30.
 
-## 2. 👑 מעריץ היום (tirage quotidien, PAS d'argent ; les 20 ₪ restent pour le grand gagnant de l'émission)
-- Éligible : ≥ 100 🎟️ dans la journée ET commentaire sur le « post du jour » de @the_noise_2026 (règle commune à tous les jeux).
-- Post du jour = dernière publication du feed datée d'aujourd'hui (Israël). Chaque commentateur du jour :
+## 2. 🎁 Loterie 20 ₪ (depuis le 30.10 : remplace « מעריץ היום » ; voir tools/ROUTINE.md §3 et §3 bis)
+- Éligible : ≥ 100 🎟️ dans la journée ET commentaire sur le « post du jour » épinglé de @the_noise_2026.
+- Post du jour = noise_state `daily_post` {day, media_id, permalink}. Chaque commentateur du jour :
   `select noise_mark_commenter('<username>','<media_id>');`
-- Tirage (une seule fois par jour, aléatoire) : `select noise_fan_draw();` → {handle, n_eligible, already}.
-- Le gagnant a le siège 👑 au centre du premier rang le LENDEMAIN (le site le lit dans noise_fan_draws, jour = hier)
-  et doit être cité dans la vidéo suivante : il est noté dans noise_state `fan_to_cite` {day, handle}.
-- Tâche programmée dédiée : « The Noise – tirage מעריץ היום 20:31 » (quotidienne 20:31 Israël). Elle enregistre
-  les commentateurs du jour + les 🎟️ Instagram du jour, fait le tirage, met à jour noise_state.followers.
-  NOTE POUR LA ROUTINE DU SOIR (20:47) : le tirage est déjà fait par cette tâche ; ne pas le refaire.
-  À chaque passage commentaires, appeler aussi noise_ig_award / noise_mark_commenter (voir ci-dessus).
-- La VIDÉO SUIVANTE doit citer « 👑 מעריץ היום: @… » (lire noise_state.fan_to_cite).
+- Tirage 20:00 (une seule fois par jour) : `select noise_fan_draw();` → {handle, n_eligible, already}. Vendredi : fait samedi 18:30 avec `noise_fan_draw('<date du vendredi>')`.
+- Le gagnant reçoit 20 ₪ par Bit (Shlomo) + le siège 👑 le lendemain (le site lit noise_fan_draws, jour = hier) + tag dans la vidéo (noise_state `fan_to_cite`).
+- Le site affiche le tirage en direct : `noise_lottery_live(d)` → {drawn, handle, drawn_at, participants[], qualified, commenters}.
+- 🗣️ המגיב של היום : noise_state `top_commenter` {day, handle, n, power} → couronne sur le personnage + ligne dans « השורה הראשונה ».
 
 ## 3. Missions du jour (3 par jour, changent à minuit heure d'Israël)
 - Tirées de façon déterministe par noise_day_missions(date) dans 3 groupes : (1) entrée / chat / idée,

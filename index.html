@@ -140,7 +140,7 @@ button{font-family:inherit;cursor:pointer}
   <button class="pill" id="tkPill" aria-label="הכרטיסים שלי">🎟️ <b id="tkN">0</b>/100</button>
   <button class="pill" id="mute" aria-label="השתקה">🔊</button>
   <div class="pill" id="count">בקהל: <b id="nPub">0</b></div>
-  <div class="pill" id="next">הפרק הבא: <b id="cd">--:--:--</b></div>
+  <div class="pill" id="next">🎁 הגרלה בעוד <b id="cd">--:--:--</b></div>
 </div>
 
 <div id="search"><form id="sf"><input id="q" placeholder="@השם שלכם" aria-label="חיפוש הכיסא שלכם" autocomplete="off"><button type="submit">איפה אני?</button></form></div>
@@ -192,7 +192,8 @@ button{font-family:inherit;cursor:pointer}
 <div id="nw" role="dialog" aria-modal="true" aria-labelledby="nwT"><div class="in"><h2 id="nwT">🆕 חדש באולפן!</h2>
   <ul>
   <li><b>🎟️ כרטיסים</b> – אוספים על כל 👏 ו־🍅, כניסה יומית, משימות, ותגובות באינסטגרם.</li>
-  <li><b>👑 מעריץ היום</b> – 100 כרטיסים ביום + תגובה על הפוסט של היום = נכנסים להגרלה של 20:30. הזוכה יושב מחר בכיסא 👑 בשורה הראשונה ומופיע בסרטון הבא!</li>
+  <li><b>🎁 הגרלה של 20 ₪ כל ערב ב־20:00</b> – 100 כרטיסים ביום + תגובה על הפוסט של היום (המוצמד בפרופיל) = אתם בהגרלה! ההגרלה בשידור חי כאן באולפן, והזוכה יושב מחר בכיסא 👑.</li>
+  <li><b>🗣️ המגיב של היום</b> – מי שכתב הכי הרבה תגובות ביום מקבל כתר על הדמות ובוחר משהו מטורף שיקרה מחר באולפן!</li>
   <li><b>🎯 3 משימות</b> חדשות כל יום (מתחלפות בחצות).</li>
   <li><b>💬 צ׳אט הקהל</b> + <b>💡 תיבת רעיונות</b> לבמאי.</li>
   <li><b>🏆 טבלת דירוג</b> ו־<b>📊 הסטטיסטיקות שלי</b>.</li>
@@ -203,7 +204,7 @@ button{font-family:inherit;cursor:pointer}
   <img src="logo_t.png" alt="The Noise">
   <h1>ברוכים הבאים ל-<span class="k">The Noise</span></h1>
   <p>התוכנית הכי מזייפת באינסטגרם. כל עוקב = עוד כיסא באולם.</p>
-  <div class="cd">הפרק הבא בעוד <span id="cd2">--:--:--</span></div>
+  <div class="cd">🎁 הגרלת 20 ₪ בעוד <span id="cd2">--:--:--</span></div>
   <button id="enter">היכנסו לאולפן</button>
 </div>
 <div id="flash"></div>
@@ -264,10 +265,13 @@ window.addEventListener('error',e=>toast('שגיאה: '+(e.message||'')));
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function sb(path,opts={}){return fetch(CONFIG.SUPABASE_URL+"/rest/v1/"+path,{...opts,headers:{apikey:CONFIG.SUPABASE_KEY,"Content-Type":"application/json",...(opts.headers||{})}})}
 
-// ---------- countdown to next 19:00 Israel ----------
+// ---------- countdown to the nightly 20 ₪ draw (20:00 Israel; Friday's draw moves to Saturday 18:30, after Shabbat) ----------
 function nextEpisode(){const now=new Date();
-  const fmt=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Jerusalem',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
-  const [h,m,s]=fmt.format(now).split(':').map(Number);let secs=19*3600-(h*3600+m*60+s);if(secs<=0)secs+=86400;return secs}
+  const fmt=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Jerusalem',weekday:'short',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
+  const parts=fmt.formatToParts(now);const g=k=>parts.find(x=>x.type===k).value;const wd=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].indexOf(g('weekday'));
+  const cur=Number(g('hour'))%24*3600+Number(g('minute'))*60+Number(g('second'));
+  for(let d=0;d<8;d++){const day=(wd+d)%7;const tgts=day===5?[]:day===6?[18*3600+30*60,20*3600]:[20*3600];
+    for(const t of tgts){const secs=d*86400+t-cur;if(secs>0)return secs}}return 0}
 function tick(){const s=nextEpisode();const t=[Math.floor(s/3600),Math.floor(s%3600/60),s%60].map(v=>String(v).padStart(2,'0')).join(':');$('#cd').textContent=t;$('#cd2').textContent=t}
 setInterval(tick,1000);tick();
 
@@ -374,7 +378,7 @@ async function load(){
 }
 function apply(){
   // every follower in the audience, including judges/contestants. Yesterday's « מעריץ היום » gets the 👑 seat (front row, center)
-  const FAN=BOARD&&BOARD.fan_today;let pub=PEOPLE;if(FAN){const f=PEOPLE.find(p=>p.handle===FAN);if(f)pub=[f,...PEOPLE.filter(p=>p!==f)]}
+  const FAN=BOARD&&BOARD.fan_today;const TOPC=STATE.top_commenter&&STATE.top_commenter.handle;let pub=PEOPLE;if(FAN){const f=PEOPLE.find(p=>p.handle===FAN);if(f)pub=[f,...PEOPLE.filter(p=>p!==f)]}
   $('#nPub').textContent=pub.length;
   $('#phase').textContent=PHASES[STATE.phase]||PHASES.teaser;
   const ep=STATE.episode;screenLine=ep?`פרק ${ep}`:'';
@@ -384,10 +388,10 @@ function apply(){
   pub.slice(0,MAXS).forEach((p,k)=>{const si=seatOrder[k];seatOf[p.handle]=si;const h=hash(p.handle);
     bodyMesh.setColorAt(si,tc.set(shirts[h%shirts.length]));headMesh.setColorAt(si,tc.set(skin[(h>>4)%skin.length]));
     const[x,y,z,a]=SEATS[si];dm.rotation.set(0,a+Math.PI,0);dm.scale.setScalar(1);dm.position.set(x,y+.95,z);dm.updateMatrix();bodyMesh.setMatrixAt(si,dm.matrix);dm.position.set(x,y+1.55,z);dm.updateMatrix();headMesh.setMatrixAt(si,dm.matrix);
-    const isFan=FAN&&p.handle===FAN;const vip=isFan||(k<10&&(p.score||0)>0);if(k<400){const l=label((isFan?'👑 מעריץ היום · ':vip?'👑 ':'')+'@'+p.handle,{fs:44,h:vip?.34:.28,bg:vip?'rgba(255,194,75,.95)':p.role==='judge'?'rgba(224,31,38,.85)':p.role==='contestant'?'rgba(255,194,75,.9)':'rgba(0,0,0,.55)',color:(vip||p.role==='contestant')?'#111':'#fff'});l.position.set(x,y+2.15,z);l.userData.handle=p.handle;nameLabels.add(l)}});
+    const isFan=FAN&&p.handle===FAN;const isTop=TOPC&&p.handle===TOPC;const vip=isFan||isTop||(k<10&&(p.score||0)>0);if(k<400){const l=label((isFan?'👑 זוכה ההגרלה · ':'')+(isTop?'🗣️👑 המגיב של היום · ':'')+(vip&&!isFan?'👑 ':'')+'@'+p.handle,{fs:44,h:vip?.34:.28,bg:vip?'rgba(255,194,75,.95)':p.role==='judge'?'rgba(224,31,38,.85)':p.role==='contestant'?'rgba(255,194,75,.9)':'rgba(0,0,0,.55)',color:(vip||p.role==='contestant')?'#111':'#fff'});l.position.set(x,y+2.15,z);l.userData.handle=p.handle;nameLabels.add(l)}});
   bodyMesh.instanceMatrix.needsUpdate=headMesh.instanceMatrix.needsUpdate=true;bodyMesh.instanceColor.needsUpdate=headMesh.instanceColor.needsUpdate=true;
   const vips=PEOPLE.filter(p=>(p.score||0)>0&&p.handle!==FAN).slice(0,10);
-  $('#lVip').innerHTML=(FAN?`<div class="row meRow"><div class="n">👑</div><div><div class="h">@${esc(FAN)}</div><div class="s">מעריץ היום – הכיסא המלכותי</div></div><span class="tag winner">🎟️</span></div>`:'')+(vips.length?vips.map((p,i)=>`<div class="row"><div class="n">${i+1}</div><div class="h">@${esc(p.handle)}</div><span class="tag elected">${p.score} נק׳</span></div>`).join(''):'<p class="empty">השורה הראשונה עוד ריקה... התגובה הראשונה שלכם באינסטגרם תושיב אתכם כאן! 👀</p>');
+  $('#lVip').innerHTML=(TOPC?`<div class="row meRow"><div class="n">🗣️</div><div><div class="h">@${esc(TOPC)}</div><div class="s">המגיב של היום${STATE.top_commenter.power?' · '+esc(STATE.top_commenter.power):''}</div></div><span class="tag winner">👑</span></div>`:'')+(FAN?`<div class="row meRow"><div class="n">👑</div><div><div class="h">@${esc(FAN)}</div><div class="s">זוכה ההגרלה – הכיסא המלכותי</div></div><span class="tag winner">🎟️</span></div>`:'')+(vips.length?vips.map((p,i)=>`<div class="row"><div class="n">${i+1}</div><div class="h">@${esc(p.handle)}</div><span class="tag elected">${p.score} נק׳</span></div>`).join(''):'<p class="empty">השורה הראשונה עוד ריקה... התגובה הראשונה שלכם באינסטגרם תושיב אתכם כאן! 👀</p>');
   if(ME&&seatOf[ME]!==undefined)mySeat=seatOf[ME];
   // judges
   const judges=PEOPLE.filter(p=>p.role==='judge');const elected=judges.filter(j=>j.status==='elected');
@@ -515,7 +519,7 @@ const DEMO_ME={handle:'demo',in_audience:true,goal:100,today:64,total:212,commen
 let shownFresh=new Set();
 function setMe(m){if(!m||typeof m!=='object')return;const prev=MESTATE;MESTATE=m;
   (m.fresh||[]).forEach(k=>{if(shownFresh.has(k))return;shownFresh.add(k);const ms=(m.missions||[]).find(x=>x.k===k);if(ms)celebrate('✅ משימה הושלמה!',ms.t,'+'+ms.r+' 🎟️')});
-  if(prev&&prev.handle===m.handle&&prev.today<100&&m.today>=100)setTimeout(()=>celebrate('🎟️ 100 כרטיסים!',m.commented?'אתם בהגרלה של מעריץ היום 👑':'עכשיו רק להגיב על הפוסט של היום ב־@the_noise_2026','🤞'),(m.fresh||[]).length?2800:0);
+  if(prev&&prev.handle===m.handle&&prev.today<100&&m.today>=100)setTimeout(()=>celebrate('🎟️ 100 כרטיסים!',m.commented?'אתם בהגרלה של 20 ₪ הערב ב־20:00 🎁':'עכשיו רק להגיב על הפוסט של היום ב־@the_noise_2026','🤞'),(m.fresh||[]).length?2800:0);
   renderMe()}
 async function visit(){if(DEMO){setMe(DEMO_ME);return}if(!ME)return;try{setMe(await call('noise_visit',{h:ME}))}catch(e){try{setMe(await call('noise_me',{h:ME}))}catch(_){}}}
 async function refreshMe(){if(DEMO||!ME)return;try{setMe(await call('noise_me',{h:ME}))}catch(e){}}
@@ -528,18 +532,18 @@ function renderMe(){renderPill();const el=$('#meBody');if(!el)return;const m=MES
   if(!m.in_audience){el.innerHTML=`<p><b dir="ltr">@${esc(m.handle)}</b> – ${ERRS.not_in_audience}</p>`;return}
   const ok100=m.today>=100,inDraw=ok100&&m.commented;
   el.innerHTML=`<div class="big">${m.today} <small>🎟️ היום · ${m.total} בסך הכול</small></div>${bar(m.today,100)}<div class="s" style="font-size:13px;opacity:.8">${ok100?'💯 עברתם את ה־100!':`עוד ${100-m.today} כרטיסים ל־100`}</div>
-  <div class="box2"><h3>👑 מעריץ היום – הגרלה ב־20:30</h3>
+  <div class="box2"><h3>🎁 הגרלת 20 ₪ – הערב ב־20:00</h3>
    <div class="chk">${ok100?'✅':'⬜'} 100 כרטיסים היום (${Math.min(m.today,100)}/100)</div>
    <div class="chk">${m.commented?'✅':'❌'} תגובה על הפוסט של היום ב־@the_noise_2026</div>
    <p style="font-weight:900;color:var(--y)">${m.drawn?(m.drawn_today?`ההגרלה של היום נערכה: 👑 @${esc(m.drawn_today)}${m.drawn_today===m.handle?' – זה אתם!!! 🎉':''}`:'ההגרלה של היום נערכה – אף אחד לא עמד בתנאים 😢'):inDraw?'אתם בהגרלה של הערב! 🤞':'שני ✅ = כרטיס להגרלה'}</p>
-   <div class="note">הזוכה יושב מחר בכיסא 👑 בשורה הראשונה ומופיע בסרטון הבא. התגובות נבדקות כמה פעמים ביום – הגיבו מוקדם 😉</div></div>
+   <div class="note">זוכה אחד בכל ערב: 20 ₪ בביט + הכיסא 👑 מחר בשורה הראשונה + תיוג בסרטון. התגובות נבדקות ב־6:00, 12:00, 17:00 ו־19:55 – הגיבו מוקדם 😉</div></div>
   <div class="box2"><h3>🎯 משימות היום</h3>${(m.missions||[]).map(x=>`<div class="mis ${x.done?'done':''}"><div class="top"><span>${x.done?'✅':'🎯'} ${esc(x.t)}</span><span class="rw">+${x.r} 🎟️</span></div>${bar(x.progress,x.goal)}<div class="note" style="margin:0">${x.progress}/${x.goal}</div></div>`).join('')}
    <div class="note">משימות חדשות בכל חצות 🕛</div></div>
   <div class="box2"><h3>📊 הסטטיסטיקות שלי</h3><div class="tiles">
    <div class="tile"><b>${m.today}</b><span>🎟️ היום</span></div><div class="tile"><b>${m.total}</b><span>🎟️ בסך הכול</span></div>
    <div class="tile"><b>${m.streak} 🔥</b><span>ימים ברצף (שיא: ${m.best_streak})</span></div><div class="tile"><b>${m.missions_total}</b><span>🎯 משימות שהושלמו</span></div>
    <div class="tile"><b>${m.claps_today} / ${m.claps_total}</b><span>👏 היום / סה״כ</span></div><div class="tile"><b>${m.tomatoes_today} / ${m.tomatoes_total}</b><span>🍅 היום / סה״כ</span></div>
-   <div class="tile"><b>${m.wins}</b><span>👑 זכיות במעריץ היום</span></div><div class="tile"><b>${m.rank_today?'#'+m.rank_today:'–'} / ${m.rank_total?'#'+m.rank_total:'–'}</b><span>🏆 מקום היום / כללי</span></div></div></div>
+   <div class="tile"><b>${m.wins}</b><span>🎁 זכיות בהגרלה</span></div><div class="tile"><b>${m.rank_today?'#'+m.rank_today:'–'} / ${m.rank_total?'#'+m.rank_total:'–'}</b><span>🏆 מקום היום / כללי</span></div></div></div>
   <div class="box2"><h3>איך מרוויחים 🎟️?</h3><ol style="margin:0">
    <li>כניסה לאולפן כל יום: <b class="k">+10</b></li><li>כל 👏 או 🍅: <b class="k">+1</b> (עד 50 ביום)</li>
    <li>תגובה באינסטגרם: <b class="k">+10</b> · תיוג חבר: <b class="k">+30</b> (עד 60 ביום)</li><li>משימות היום: <b class="k">+10 עד +30</b></li></ol></div>`}
@@ -561,7 +565,7 @@ function renderBoard(){const B=BOARD||{today:[],total:[]};const list=B[boardTab]
    <div class="tile"><b style="font-size:15px">${esc(PHASES[STATE.phase]||PHASES.teaser)}</b><span>📺 שלב התוכנית</span></div><div class="tile"><b>${B.players_today||0}</b><span>🙋 שיחקו היום</span></div>
    <div class="tile"><b>${B.tickets_today||0}</b><span>🎟️ כרטיסים היום</span></div><div class="tile"><b>${B.qualified_today||0}</b><span>💯 הגיעו ל־100 היום</span></div>
    <div class="tile"><b>${(TOT.clap||0)} / ${(TOT.tomato||0)}</b><span>👏 / 🍅 היום</span></div><div class="tile"><b>${B.chat_today||0}</b><span>💬 הודעות היום</span></div>`;
-  const fans=B.fans||[];$('#fanHist').innerHTML=`<div class="box2"><h3>👑 מעריצי היום</h3>${B.fan_today?`<p>היום בכיסא המלכותי: <b dir="ltr">@${esc(B.fan_today)}</b></p>`:''}${fans.length?fans.map(f=>`<div class="row"><div class="s">${esc(f.day)}</div><div class="h">@${esc(f.handle)}</div></div>`).join(''):'<p class="empty">ההגרלה הראשונה – הערב ב־20:30! 100 🎟️ + תגובה על הפוסט של היום.</p>'}</div>`}
+  const fans=B.fans||[];$('#fanHist').innerHTML=`<div class="box2"><h3>🎁 הזוכים בהגרלה</h3>${B.fan_today?`<p>היום בכיסא המלכותי: <b dir="ltr">@${esc(B.fan_today)}</b></p>`:''}${fans.length?fans.map(f=>`<div class="row"><div class="s">${esc(f.day)}</div><div class="h">@${esc(f.handle)}</div></div>`).join(''):'<p class="empty">הגרלה של 20 ₪ כל ערב ב־20:00! 100 🎟️ + תגובה על הפוסט של היום.</p>'}</div>`}
 // --- chat (Supabase realtime + polling fallback) ---
 let MSGS=[],lastSeen=0,unread=0;try{lastSeen=Number(localStorage.getItem('noise_chat_seen')||0)}catch(e){}
 const fmtT=new Intl.DateTimeFormat('he-IL',{timeZone:'Asia/Jerusalem',hour:'2-digit',minute:'2-digit'});
@@ -615,6 +619,22 @@ async function aMod(kind){try{const pass=$('#aPass').value;const rows=await rpc(
   $('#aMod').innerHTML=rows.length?'<table>'+rows.map(r=>kind==='chat'?`<tr><td dir="ltr">@${esc(r.handle)}</td><td>${esc(r.body)}</td><td>${r.hidden?'🙈':''}${r.reports?'🚩'+r.reports:''}</td><td><button data-del="${r.id}" style="background:#E01F26;color:#fff;margin:0;min-height:36px">מחיקה</button></td></tr>`:`<tr><td dir="ltr">@${esc(r.handle)}</td><td>${esc(r.body)}</td><td>${esc(r.day)}</td></tr>`).join('')+'</table>':'<p class="empty">ריק</p>';msg('נטען ✔',1)}catch(e){msg(e.message)}}
 $('#aChat').onclick=()=>aMod('chat');$('#aIdeas').onclick=()=>aMod('ideas');
 $('#aMod').addEventListener('click',async e=>{const b=e.target.closest('[data-del]');if(!b)return;if(!confirm('למחוק את ההודעה?'))return;try{await rpc('noise_admin_chat_delete',{pass:$('#aPass').value,mid:Number(b.dataset.del)});aMod('chat');loadChat()}catch(err){msg(err.message)}});
+
+// ---------- 🎁 live draw (20 ₪, every evening 20:00) ----------
+let LOT=null,lotShown=null;try{lotShown=localStorage.getItem('noise_lot_shown')}catch(e){}
+function ilNow(){const p=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Jerusalem',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date()).split(':').map(Number);return p[0]%24*60+p[1]}
+async function pollLottery(force){if(DEMO)return;const m=ilNow();if(!force&&!(m>=18*60+25&&m<=21*60))return;
+  try{const r=await sb('rpc/noise_lottery_live',{method:'POST',body:'{}'});if(!r.ok)return;const L=await r.json();
+    // Friday's draw is made on Saturday evening: also look at yesterday
+    let Y=null;try{const d=new Date(Date.now()-864e5);const yd=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Jerusalem'}).format(d);const ry=await sb('rpc/noise_lottery_live',{method:'POST',body:JSON.stringify({d:yd})});if(ry.ok)Y=await ry.json()}catch(e){}
+    const fresh=[L,Y].filter(x=>x&&x.drawn&&x.drawn_at&&Date.now()-new Date(x.drawn_at).getTime()<15*60e3&&lotShown!==x.day);
+    LOT=L;if(fresh.length)rollDraw(fresh[0])}catch(e){}}
+function rollDraw(x){lotShown=x.day;try{localStorage.setItem('noise_lot_shown',x.day)}catch(e){}
+  const names=(x.participants&&x.participants.length?x.participants:PEOPLE.map(p=>p.handle)).slice(0,60);const d=$('#mdone');let i=0;const t0=performance.now();
+  $('#mdT1').textContent='🎁 ההגרלה של 20 ₪ – בשידור חי!';$('#mdT3').textContent='🥁';d.classList.remove('on');d.style.transform='translate(-50%,-50%) scale(1)';
+  const step=()=>{const el=performance.now()-t0;if(el<4200&&names.length){$('#mdT2').textContent='@'+names[i++%names.length];setTimeout(step,60+el/30)}
+    else{d.style.transform='';if(x.handle)celebrate('🎉 הזוכה של הערב!','@'+x.handle+' · 20 ₪ בביט 💸',x.handle===ME?'זה אתם!!! 🎉':'👑');else celebrate('😱 אף אחד לא עמד בתנאים','מחר ב־20:00 עוד הגרלה!','🎟️')}};step()}
+setInterval(()=>pollLottery(false),20000);setTimeout(()=>pollLottery(false),4000);
 </script>
 </body>
 </html>
