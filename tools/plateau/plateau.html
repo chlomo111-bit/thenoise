@@ -1,0 +1,77 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:H;src:url(heebo-hebrew-900-normal.woff2);font-weight:900}
+@font-face{font-family:H;src:url(heebo-hebrew-400-normal.woff2);font-weight:400}
+@font-face{font-family:HL;src:url(heebo-latin-900-normal.woff2);font-weight:900}
+@font-face{font-family:HL;src:url(heebo-latin-400-normal.woff2);font-weight:400}
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#000;font-family:HL,H,sans-serif}
+#ov{position:absolute;inset:0;pointer-events:none}
+.flash{position:absolute;top:150px;right:60px;background:#e1252d;color:#fff;font-weight:900;font-size:58px;padding:10px 34px;border-radius:10px;direction:rtl;box-shadow:0 6px 30px #e1252d88}
+.live{position:absolute;top:166px;left:60px;color:#fff;font-weight:900;font-size:40px;direction:ltr}.live i{display:inline-block;width:24px;height:24px;border-radius:50%;background:#e1252d;margin-right:12px;vertical-align:middle}
+.card{position:absolute;top:300px;left:90px;right:90px;background:#fff;border-radius:34px;padding:34px 38px;direction:rtl;box-shadow:0 20px 60px #0009}
+.hd{display:flex;align-items:center;gap:22px}.av{width:96px;height:96px;border-radius:50%;background:conic-gradient(#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5,#feda75);padding:6px;box-sizing:border-box}.av div{width:100%;height:100%;border-radius:50%;background:#c9d6ff;border:4px solid #fff;box-sizing:border-box}
+.un{font-weight:900;font-size:42px;color:#111;direction:ltr}.tm{font-size:32px;color:#888;font-weight:400}
+.tx{font-size:56px;font-weight:900;color:#111;margin:22px 0 14px;line-height:1.25}
+.lk{font-size:40px;color:#e1252d;font-weight:900}
+.tag{position:absolute;top:262px;right:110px;background:#FFC24B;color:#111;font-weight:900;font-size:36px;padding:6px 22px;border-radius:30px;direction:rtl;z-index:2}
+.low{position:absolute;bottom:250px;left:0;right:0;direction:rtl}
+.low .n{display:inline-block;margin-right:60px;background:#fff;color:#111;font-weight:900;font-size:44px;padding:10px 28px;border-radius:10px 10px 0 0}
+.low .b{background:#e1252d;color:#fff;font-weight:900;font-size:50px;padding:20px 60px}
+.tick{position:absolute;bottom:170px;left:0;right:0;background:#111;color:#FFC24B;font-weight:900;font-size:36px;padding:16px 60px;direction:rtl;white-space:nowrap}
+.ex{position:absolute;bottom:40px;left:0;right:0;text-align:center;color:#fff8;font-size:30px;direction:rtl}
+</style></head><body>
+<script src="three.min.js"></script>
+<div id="ov">
+<div class="flash">⚡ מבזק</div><div class="live"><i></i>LIVE · קומה 24</div>
+<div class="tag">💬 התגובה של היום</div>
+<div class="card"><div class="hd"><div class="av"><div></div></div><div><div class="un">noa.sings</div><div class="tm">לפני 21 שעות</div></div></div>
+<div class="tx">תעשו שהשופט ייפול מהכיסא כשהוא מסתובב 😂</div><div class="lk">❤️ 23 לייקים</div></div>
+<div class="low"><span class="n">דנית · החדשות של The Noise</span><div class="b">כמו שהבטחנו: זה קרה באולפן!</div></div>
+<div class="tick">🎟️ 100 כרטיסים + תגובה = הגרלה של 20 ₪ ב־20:00 · 👑 המגיב של היום · 🍅 גשם עגבניות באולפן ·</div>
+<div class="ex">(דוגמה – התגובה האמיתית תוחלף בכל יום)</div>
+</div>
+<script>
+const W=1080,H=1920,R=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});R.setSize(W,H);R.shadowMap.enabled=true;document.body.prepend(R.domElement);
+const S=new THREE.Scene();S.background=new THREE.Color(0x05070f);
+const C=new THREE.PerspectiveCamera(42,W/H,0.1,400);C.position.set(0,3.6,15);C.lookAt(0,3.6,0);
+S.add(new THREE.AmbientLight(0x8090b0,0.55));
+const key=new THREE.SpotLight(0xffe2c0,1.4,40,0.6,0.5);key.position.set(3,9,8);key.target.position.set(0,1.5,0);key.castShadow=true;S.add(key,key.target);
+const rim=new THREE.PointLight(0x3a6bff,1.2,20);rim.position.set(-4,4,-2);S.add(rim);
+const M=(c,e=0)=>new THREE.MeshStandardMaterial({color:c,roughness:0.6,emissive:e?c:0,emissiveIntensity:e});
+const box=(w,h,d,m,x,y,z)=>{const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);o.position.set(x,y,z);o.castShadow=o.receiveShadow=true;S.add(o);return o};
+// floor
+box(30,0.1,20,new THREE.MeshStandardMaterial({color:0x1a1c24,roughness:0.25,metalness:0.4}),0,-0.05,0);
+// window city (24th floor): buildings far below
+const cv=document.createElement('canvas');cv.width=64;cv.height=128;const g=cv.getContext('2d');g.fillStyle='#0b0f1d';g.fillRect(0,0,64,128);
+for(let y=4;y<128;y+=8)for(let x=4;x<64;x+=8){if(Math.random()<0.55){g.fillStyle=Math.random()<0.8?'#ffd98a':'#9fd2ff';g.fillRect(x,y,4,5)}}
+const wt=new THREE.CanvasTexture(cv);
+for(let i=0;i<70;i++){const h=4+Math.random()*16,w=1.5+Math.random()*3;const t=wt.clone();t.needsUpdate=true;t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(w/3,h/6);
+ const m=new THREE.MeshStandardMaterial({map:t,emissive:0xffffff,emissiveMap:t,emissiveIntensity:0.9,color:0x222633});
+ const b=new THREE.Mesh(new THREE.BoxGeometry(w,h,w),m);b.position.set(-40+Math.random()*80,-14+h/2-6,-25-Math.random()*60);S.add(b)}
+// sky gradient
+const sk=document.createElement('canvas');sk.width=2;sk.height=256;const sg=sk.getContext('2d');const gr=sg.createLinearGradient(0,0,0,256);gr.addColorStop(0,'#05070f');gr.addColorStop(0.6,'#1a1440');gr.addColorStop(1,'#ff7a45');sg.fillStyle=gr;sg.fillRect(0,0,2,256);
+const sky=new THREE.Mesh(new THREE.PlaneGeometry(260,90),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(sk)}));sky.position.set(0,0,-100);S.add(sky);
+// window frames (glass wall)
+const fr=M(0x0d0f16);for(let x=-12;x<=12;x+=3)box(0.12,12,0.12,fr,x,6,-4);box(26,0.15,0.15,fr,0,0.5,-4);box(26,0.15,0.15,fr,0,8.5,-4);
+// "24" sign on side
+const sc=document.createElement('canvas');sc.width=256;sc.height=256;const s2=sc.getContext('2d');s2.fillStyle='#111';s2.fillRect(0,0,256,256);s2.fillStyle='#FFC24B';s2.font='900 150px HL,sans-serif';s2.textAlign='center';s2.fillText('24',128,180);
+// desk
+const red=M(0xc8202a),dark=M(0x14161e);
+box(5.2,1.25,1.6,dark,0,0.62,1.2);box(5.4,0.1,1.8,new THREE.MeshStandardMaterial({color:0xf2f2f2,roughness:0.2}),0,1.28,1.2);
+const lg=new THREE.TextureLoader().load('logo_t.png');const fp=new THREE.Mesh(new THREE.PlaneGeometry(1.5,1.1),new THREE.MeshBasicMaterial({map:lg,transparent:true}));fp.position.set(0,0.65,2.02);S.add(fp);
+box(5.2,0.1,0.02,M(0xc8202a,0.8),0,0.08,2.01);
+// presenter (cube style)
+const skin=M(0xf1c7a2),hair=M(0x2b1a12),blaz=M(0xc8202a),shirt=M(0xffffff);
+box(1.1,1.2,0.6,blaz,0,1.95,0.6);box(0.4,0.5,0.62,shirt,0,2.25,0.61);
+box(0.8,0.8,0.75,skin,0,2.95,0.6);box(0.9,0.35,0.85,hair,0,3.4,0.58);box(0.9,1.1,0.25,hair,0,2.85,0.2);
+box(0.12,0.12,0.02,M(0x111111),-0.18,3.0,0.98);box(0.12,0.12,0.02,M(0x111111),0.18,3.0,0.98);box(0.28,0.06,0.02,M(0xb0303a),0,2.72,0.98);
+box(0.3,0.9,0.3,blaz,-0.7,1.75,0.95).rotation.x=-0.9;box(0.3,0.9,0.3,blaz,0.7,1.75,0.95).rotation.x=-0.9;
+box(0.5,0.05,0.35,shirt,0.3,1.35,1.3); // papers
+// mic on desk
+box(0.06,0.4,0.06,M(0x222222),-0.6,1.5,1.5);box(0.12,0.12,0.12,M(0x555555),-0.6,1.72,1.5);
+// side screens
+const sm=M(0x1b2a6b,0.4);box(2.2,1.3,0.1,sm,-3.4,2.9,-1.2).rotation.y=0.35;box(2.2,1.3,0.1,sm,3.4,2.9,-1.2).rotation.y=-0.35;
+const s24=new THREE.Mesh(new THREE.PlaneGeometry(1.1,1.1),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(sc)}));s24.position.set(3.38,2.9,-1.13);s24.rotation.y=-0.35;S.add(s24);
+// light rig
+for(let x=-4;x<=4;x+=2){box(0.3,0.3,0.4,M(0x333333),x,7.6,2);}
+document.fonts.ready.then(()=>{s2.fillText('24',128,180);s24.material.map.needsUpdate=true;R.render(S,C);window.ready=true});
+</script></body></html>
