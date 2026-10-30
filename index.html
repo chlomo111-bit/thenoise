@@ -119,6 +119,12 @@ button{font-family:inherit;cursor:pointer}
 .note{font-size:12px;opacity:.65;margin-top:6px}
 #nw{position:fixed;inset:0;background:rgba(5,3,10,.82);z-index:12;display:none;align-items:center;justify-content:center;padding:16px}
 #nw.on{display:flex}
+#sn{position:fixed;inset:0;background:rgba(5,3,10,.86);z-index:14;display:none;align-items:center;justify-content:center;padding:16px}#sn.on{display:flex}
+#sn .in{background:#120d1c;border:2px solid var(--y);border-radius:20px;padding:20px 18px 16px;width:min(420px,100%);text-align:center;animation:pop .5s cubic-bezier(.2,1.4,.4,1)}
+#sn h2{margin:0 0 6px;font-size:27px;font-weight:900}#sn p{margin:6px 0 10px;opacity:.9;line-height:1.5;font-size:16px}
+#sn .bar{height:20px;border-radius:999px;background:#2a2138;overflow:hidden;margin:10px 0 4px;border:1px solid #3a2f4d}#sn .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#FFC24B,#ff5a5a);border-radius:999px;transition:width 1.4s cubic-bezier(.2,1,.3,1)}
+#sn .cnt{font-weight:900;font-size:18px;margin-bottom:6px}#sn .cnt .k{color:var(--y)}
+#sn .acts{display:flex;flex-direction:column;gap:8px;margin-top:10px}#sn .skip{background:none;border:0;color:#aaa;text-decoration:underline;margin-top:8px;font-size:15px;cursor:pointer}
 #jn{position:fixed;inset:0;background:rgba(5,3,10,.85);z-index:13;display:none;align-items:center;justify-content:center;padding:16px}#jn.on{display:flex}
 #jn .in{background:#120d1c;border:2px solid var(--y);border-radius:20px;padding:20px 18px 16px;width:min(420px,100%);text-align:center;animation:pop .5s cubic-bezier(.2,1.4,.4,1)}
 #jn h2{margin:0 0 6px;font-size:26px;font-weight:900}#jn p{margin:4px 0 12px;opacity:.85;line-height:1.5}
@@ -194,6 +200,13 @@ button{font-family:inherit;cursor:pointer}
     <form class="cform" id="ideaForm" style="flex-direction:column"><textarea id="ideaIn" maxlength="200" placeholder="למשל: שהשופטים ישירו בעצמם בגמר 🎤"></textarea><button type="submit">שלחו לבמאי 🎬</button></form>
     <div class="note"><span id="ideaCnt">0</span>/200 · עד 3 רעיונות ביום · הרעיונות הכי טובים ייכנסו לתוכנית!</div></div></div>
 </section>
+<div id="sn" role="dialog" aria-modal="true" aria-labelledby="snT"><div class="in"><h2 id="snT">🎤 The Noise <span class="k">מתחיל בקרוב!</span></h2>
+  <p>כשהאולם יתמלא נבחר 4 שופטים ונפתח את האודישנים 🎶<br>עזרו לנו להגיע ל־<b id="snGoal">50</b> עוקבים כדי שההרפתקה תתחיל!</p>
+  <div class="bar" aria-hidden="true"><i id="snBar"></i></div>
+  <div class="cnt"><span class="k" id="snN">0</span> / <span id="snG">50</span> עוקבים · עוד <span class="k" id="snLeft">50</span> וזה מתחיל 🔥</div>
+  <div class="acts"><a class="btn2" id="snFollow" target="_blank" rel="noopener" style="text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px;box-sizing:border-box">📸 עקבו אחרי <span dir="ltr">@the_noise_2026</span></a>
+  <button class="btn2 alt" id="snShare" type="button">📲 שתפו בסטורי ותייגו אותנו</button></div>
+  <button class="skip" id="snGo" type="button">יאללה לאולפן ←</button></div></div>
 <div id="jn" role="dialog" aria-modal="true" aria-labelledby="jnT"><div class="in"><h2 id="jnT">🎤 ברוכים הבאים לאולפן!</h2>
   <p>מה ה־@ שלכם באינסטגרם?<br>נשמור לכם כיסא בקהל, ותוכלו לאסוף 🎟️ ולהיכנס להגרלה של 20 ₪.</p>
   <form id="jnF"><input id="jnIn" placeholder="@your_name" maxlength="31" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="ה־@ שלכם באינסטגרם"><button class="btn2" type="submit" style="width:100%">תנו לי כיסא! 🪑</button></form>
@@ -619,7 +632,19 @@ async function joinWith(raw){const h=String(raw||'').trim().replace(/^@/,'').toL
 function askHandle(){if(ME||DEMO)return false;let sk=null;try{sk=sessionStorage.getItem('noise_jn_skip')}catch(e){}if(sk)return false;$('#jn').classList.add('on');setTimeout(()=>{try{$('#jnIn').focus()}catch(e){}},300);return true}
 $('#jnF').addEventListener('submit',async e=>{e.preventDefault();const ok=await joinWith($('#jnIn').value);if(ok){$('#jn').classList.remove('on');setTimeout(()=>showNews(),2500)}});
 $('#jnSkip').onclick=()=>{$('#jn').classList.remove('on');try{sessionStorage.setItem('noise_jn_skip','1')}catch(e){}showNews()};
-$('#enter').addEventListener('click',()=>setTimeout(()=>{if(!askHandle())showNews()},3800));
+
+// ---------- "starts soon" popup (until the follower goal is reached) ----------
+const SOON_GOAL=50;
+function soonInfo(){const f=Number(STATE&&STATE.followers&&(STATE.followers.n??STATE.followers))||0;return{f,left:Math.max(0,SOON_GOAL-f)}}
+function showSoon(next){const{f,left}=soonInfo();let seen=null;try{seen=sessionStorage.getItem('noise_soon_seen')}catch(e){}
+  if(DEMO||left<=0||seen){next&&next();return}
+  $('#snN').textContent=f;$('#snG').textContent=SOON_GOAL;$('#snGoal').textContent=SOON_GOAL;$('#snLeft').textContent=left;$('#snFollow').href=CONFIG.IG;$('#snBar').style.width='0';
+  $('#sn').classList.add('on');setTimeout(()=>{$('#snBar').style.width=Math.max(4,Math.round(f/SOON_GOAL*100))+'%'},250);
+  $('#snGo').onclick=()=>{$('#sn').classList.remove('on');try{sessionStorage.setItem('noise_soon_seen','1')}catch(e){}next&&next()}}
+$('#snShare').onclick=async()=>{const url='https://thenoise.hakaveret.online',text='🎤 The Noise – התוכנית הכי מזייפת באינסטגרם מתחילה בקרוב! תפסו כיסא בקהל ועקבו אחרי @the_noise_2026';
+  try{if(navigator.share){await navigator.share({title:'The Noise',text,url});toast('תודה! 🙏 תייגו את @the_noise_2026 בסטורי');return}}catch(e){if(e&&e.name==='AbortError')return}
+  try{await navigator.clipboard.writeText(text+' '+url);toast('הקישור הועתק! 📋 הדביקו בסטורי ותייגו @the_noise_2026')}catch(e){toast('צלמו מסך, שתפו בסטורי ותייגו @the_noise_2026 🙏')}};
+$('#enter').addEventListener('click',()=>setTimeout(()=>showSoon(()=>{if(!askHandle())showNews()}),3800));
 if(location.hash==='#new')setTimeout(()=>showNews(true),1200);
 visit();startRealtime();chatPoll();
 
