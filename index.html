@@ -119,6 +119,11 @@ button{font-family:inherit;cursor:pointer}
 .note{font-size:12px;opacity:.65;margin-top:6px}
 #nw{position:fixed;inset:0;background:rgba(5,3,10,.82);z-index:12;display:none;align-items:center;justify-content:center;padding:16px}
 #nw.on{display:flex}
+#jn{position:fixed;inset:0;background:rgba(5,3,10,.85);z-index:13;display:none;align-items:center;justify-content:center;padding:16px}#jn.on{display:flex}
+#jn .in{background:#120d1c;border:2px solid var(--y);border-radius:20px;padding:20px 18px 16px;width:min(420px,100%);text-align:center;animation:pop .5s cubic-bezier(.2,1.4,.4,1)}
+#jn h2{margin:0 0 6px;font-size:26px;font-weight:900}#jn p{margin:4px 0 12px;opacity:.85;line-height:1.5}
+#jn input{width:100%;box-sizing:border-box;font-size:20px;padding:12px 14px;border-radius:12px;border:2px solid #444;background:#0a0710;color:#fff;text-align:center;direction:ltr;margin-bottom:10px}
+#jn .skip{background:none;border:0;color:#aaa;text-decoration:underline;margin-top:8px;font-size:15px;cursor:pointer}
 #nw .in{background:#120d1c;border:2px solid var(--y);border-radius:20px;padding:18px 18px 16px;width:min(440px,100%);max-height:86vh;overflow:auto;animation:pop .5s cubic-bezier(.2,1.4,.4,1)}
 #nw h2{margin:0 0 8px;font-size:26px;font-weight:900}#nw ul{padding-inline-start:18px;line-height:1.6;margin:6px 0 12px}
 #mdone{position:fixed;left:50%;top:38%;transform:translate(-50%,-50%) scale(0);z-index:11;background:linear-gradient(135deg,#FFC24B,#ff8a3d);color:#111;border-radius:22px;padding:16px 24px;text-align:center;font-weight:900;box-shadow:0 10px 40px rgba(255,194,75,.5);pointer-events:none;min-width:240px}
@@ -189,6 +194,10 @@ button{font-family:inherit;cursor:pointer}
     <form class="cform" id="ideaForm" style="flex-direction:column"><textarea id="ideaIn" maxlength="200" placeholder="למשל: שהשופטים ישירו בעצמם בגמר 🎤"></textarea><button type="submit">שלחו לבמאי 🎬</button></form>
     <div class="note"><span id="ideaCnt">0</span>/200 · עד 3 רעיונות ביום · הרעיונות הכי טובים ייכנסו לתוכנית!</div></div></div>
 </section>
+<div id="jn" role="dialog" aria-modal="true" aria-labelledby="jnT"><div class="in"><h2 id="jnT">🎤 ברוכים הבאים לאולפן!</h2>
+  <p>מה ה־@ שלכם באינסטגרם?<br>נשמור לכם כיסא בקהל, ותוכלו לאסוף 🎟️ ולהיכנס להגרלה של 20 ₪.</p>
+  <form id="jnF"><input id="jnIn" placeholder="@your_name" maxlength="31" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="ה־@ שלכם באינסטגרם"><button class="btn2" type="submit" style="width:100%">תנו לי כיסא! 🪑</button></form>
+  <button class="skip" id="jnSkip" type="button">רק מסתכלים בינתיים</button></div></div>
 <div id="nw" role="dialog" aria-modal="true" aria-labelledby="nwT"><div class="in"><h2 id="nwT">🆕 חדש באולפן!</h2>
   <ul>
   <li><b>🎟️ כרטיסים</b> – אוספים על כל 👏 ו־🍅, כניסה יומית, משימות, ותגובות באינסטגרם.</li>
@@ -417,7 +426,7 @@ let fly=null;
 function flyTo(pos,look,dur=1.6){fly={p0:camera.position.clone(),l0:controls.target.clone(),p1:pos,l1:look,t0:performance.now(),d:dur*1000}}
 $('#sf').onsubmit=e=>{e.preventDefault();const h=$('#q').value.trim().replace(/^@/,'').toLowerCase();if(!h)return;
   const si=seatOf[h];const p=PEOPLE.find(x=>x.handle===h);
-  if(si===undefined){$('#cardH').textContent='@'+h;$('#cardS').textContent='עוד לא באולם – עקבו אחרי @the_noise_2026 ותקבלו כיסא!';$('#card').style.display='block';setTimeout(()=>$('#card').style.display='none',5000);return}
+  if(si===undefined){$('#cardH').textContent='@'+h;$('#cardS').innerHTML='עוד לא באולם…<br><button id="claim">זה אני – תנו לי כיסא! 🪑</button>';$('#card').style.display='block';const jb=$('#claim');if(jb)jb.onclick=async()=>{$('#card').style.display='none';await joinWith(h)};clearTimeout(window._ct);window._ct=setTimeout(()=>$('#card').style.display='none',8000);return}
   const[x,y,z]=SEATS[si];highlight={x,y,z};flyTo(new THREE.Vector3(x*1.18,y+4.2,(z+1)*1.18-1),new THREE.Vector3(x*.55,y+1.2,(z+1)*.55-1));
   const row=SEATS[si][4]+1;$('#cardH').textContent='@'+h;$('#cardS').innerHTML=`שורה ${row} · ${p.role==='judge'?'שופט/ת':p.role==='contestant'?'מתמודד/ת':'בקהל'}`+(ME===h?'<br>👋 זה אתם!':`<br><button id="claim">זה אני! 👋</button>`);$('#card').style.display='block';
   const cb=$('#claim');if(cb)cb.onclick=()=>{ME=h;mySeat=si;try{localStorage.setItem('noise_me',h)}catch(e){}toast('מעכשיו הדמות שלכם מריעה, זורקת עגבניות ואוספת 🎟️!');$('#card').style.display='none';visit()};
@@ -595,7 +604,22 @@ function onPanel(n){if(n==='me'){renderMe();refreshMe()}else if(n==='board'){ren
 const NEWS_V='v2-2026-10-29';
 function showNews(force){let seen=null;try{seen=localStorage.getItem('noise_news_seen')}catch(e){}if(seen===NEWS_V&&!force)return;$('#nw').classList.add('on')}
 $('#nwGo').onclick=()=>{$('#nw').classList.remove('on');try{localStorage.setItem('noise_news_seen',NEWS_V)}catch(e){}if(!ME)toast('חפשו את השם שלכם למעלה ולחצו "זה אני!" 👋')};
-$('#enter').addEventListener('click',()=>setTimeout(()=>showNews(),3800));
+
+// ---------- welcome: ask the Instagram @ ----------
+function claimSeat(h){const si=seatOf[h];if(si===undefined)return false;ME=h;mySeat=si;try{localStorage.setItem('noise_me',h)}catch(e){}
+  const[x,y,z]=SEATS[si];highlight={x,y,z};flyTo(new THREE.Vector3(x*1.18,y+4.2,(z+1)*1.18-1),new THREE.Vector3(x*.55,y+1.2,(z+1)*.55-1));visit();return true}
+async function joinWith(raw){const h=String(raw||'').trim().replace(/^@/,'').toLowerCase();
+  if(!/^[a-z0-9._]{1,30}$/.test(h)||/^\.|\.$|\.\./.test(h)){toast('זה לא נראה כמו @ של אינסטגרם 🤔');return false}
+  if(seatOf[h]!==undefined){claimSeat(h);toast('מצאנו אתכם! 👋 הדמות שלכם כבר באולם');return true}
+  let n=0;try{n=Number(localStorage.getItem('noise_joins')||0)}catch(e){}if(n>=3){toast('אפשר להירשם עד 3 פעמים מאותו מכשיר');return false}
+  try{const r=await call('noise_join',{h});if(!r||!r.ok){toast(r&&r.err==='busy'?'יש עומס באולפן, נסו שוב בעוד כמה דקות':'זה לא נראה כמו @ של אינסטגרם 🤔');return false}
+    try{localStorage.setItem('noise_joins',String(n+1))}catch(e){}await load();
+    if(claimSeat(r.handle)){celebrate('🪑 קיבלתם כיסא!','@'+r.handle+' – עכשיו אתם בקהל של The Noise','🎉');setTimeout(()=>toast('כדי להיכנס להגרלה: 100 🎟️ + תגובה על הפוסט של היום ב־@the_noise_2026'),3500)}
+    else toast('נרשמתם! הכיסא שלכם יופיע עוד רגע');return true}catch(e){toast('משהו השתבש, נסו שוב');return false}}
+function askHandle(){if(ME||DEMO)return false;let sk=null;try{sk=sessionStorage.getItem('noise_jn_skip')}catch(e){}if(sk)return false;$('#jn').classList.add('on');setTimeout(()=>{try{$('#jnIn').focus()}catch(e){}},300);return true}
+$('#jnF').addEventListener('submit',async e=>{e.preventDefault();const ok=await joinWith($('#jnIn').value);if(ok){$('#jn').classList.remove('on');setTimeout(()=>showNews(),2500)}});
+$('#jnSkip').onclick=()=>{$('#jn').classList.remove('on');try{sessionStorage.setItem('noise_jn_skip','1')}catch(e){}showNews()};
+$('#enter').addEventListener('click',()=>setTimeout(()=>{if(!askHandle())showNews()},3800));
 if(location.hash==='#new')setTimeout(()=>showNews(true),1200);
 visit();startRealtime();chatPoll();
 

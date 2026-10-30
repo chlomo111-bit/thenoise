@@ -47,6 +47,9 @@ Il est annoncé dans noise_state `news` (titre + texte) et raconté dans la vid�
 - La story et une réponse à son commentaire lui demandent « מה יקרה מחר בזכותך? ». Il répond en commentaire avant 12:00 le lendemain.
   Refuser insultant / sexuel / vraie personne / impossible (proposer une version proche). Mettre en place dans le jeu, noter `power` dans top_commenter, raconter dans la vidéo (« @x החליט ש… »). Sans réponse avant 12:00 : rien de plus.
 
+## 3 ter. Inscription par le site (30/10)
+À la première visite, le site demande le @ Instagram et donne un siège tout de suite (noise_people.src='site'). Un inscrit du site qui ne commente jamais ne peut pas gagner la loterie (condition « commenter le post du jour »). Aux passages : si un @ inscrit via le site semble faux/insultant, le supprimer de noise_people.
+
 ## 4. Passages 6:00 / 12:00 / 17:00 / 19:55
 1. Lire tous les nouveaux commentaires des publications récentes (exclure ceux de the_noise_2026 et ceux déjà dans noise_ig_seen).
 2. Pour chacun : `insert into noise_people(handle) … on conflict do nothing` (+ tagués), score VIP +1 (+3 si tag), `noise_ig_award(h,'comment',cid)` (+ 'tag'), et si c'est le post du jour `noise_mark_commenter(h, media_id)`. Insérer dans noise_ig_seen.

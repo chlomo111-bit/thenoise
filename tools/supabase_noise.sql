@@ -79,3 +79,8 @@ alter table public.noise_people add column if not exists score int not null defa
 create table if not exists public.noise_reactions (day date not null, kind text not null check (kind in ('clap','tomato')), n bigint not null default 0, primary key (day, kind));
 -- + fonction noise_react(k text, cnt int) security definer (max 30 par appel)
 -- tables privées de la routine : noise_ig_seen, noise_ig_welcomed
+
+-- 30.10.2026 : inscription depuis le site (fenêtre « מה ה־@ שלכם? » à la première visite)
+alter table public.noise_people add column if not exists src text;  -- 'site' = inscrit via le site
+-- noise_join(h text) security definer : valide le @ (^[a-z0-9._]{1,30}$), crée la ligne noise_people (src='site') si absente,
+-- max 40 inscriptions site / 10 min ; côté navigateur max 3 inscriptions par appareil. Retour {ok, handle, existed} ou {ok:false, err}.
