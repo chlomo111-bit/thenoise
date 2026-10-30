@@ -17,6 +17,8 @@ La loterie et la vidéo du vendredi sont faites samedi à partir de 18:30 (loter
 Le vendredi : production du matin + passages 6:00 et 12:00 seulement ; pas de passage 17:00 ni 19:55, pas de loterie 20:00.
 
 ## 1. Vidéo du jour (à partir du dimanche 1/11)
+- **RÈGLE DE SHLOMO DU 30/10 : TOUTES LES VIDÉOS SONT FAITES UNIQUEMENT DANS LE CHAT « The Noise – vidéos » (session_01K8i1w3yD9CDquGsWHdGjZx)** : texte de la voix, réception du MP3, montage, couverture, publication du reel, sauvegarde bureau + chat. Le chat « Automatisation – The Noise » ne fait AUCUNE vidéo et ne programme aucun réveil vidéo : il fait le post du jour, l'événement, les passages, la loterie, et note dans noise_state `news` ce qui s'est passé (la vidéo s'en sert).
+- Le Mac de Shlomo est allumé en permanence : la copie sur le bureau se fait à chaque vidéo.
 - Chaque jour un reel qui raconte ce qui s'est passé dans le jeu (vrais @ tagués, vrais chiffres : public, 🎟️, 👏/🍅, gagnant de la loterie, המגיב של היום et son pouvoir, événement extraordinaire).
 - Thème actuel (en attendant 50 abonnés) : « la salle qui se remplit » — sièges, tomates, public, coulisses de l'émission.
 - AVANT d'écrire : lire TOUS les commentaires du post/reel précédent ; le commentaire valable le plus liké décide de ce qui arrive (on écarte insultant, sexuel, visant une vraie personne, impossible → le suivant).
@@ -55,7 +57,8 @@ Il est annoncé dans noise_state `news` (titre + texte) et raconté dans la vid�
 Économie : rien de nouveau → terminer immédiatement (sauf 19:55 : la story est toujours faite).
 
 ## 5. Tâches programmées (une seule de chaque)
-- « The Noise – production du matin » 5:43 dim–ven (avant le passage de 6:00) : post du jour + événement extraordinaire + texte de la vidéo (envoi programmé 16:00–17:00) + débrief court.
+- « The Noise – production du matin » 5:43 dim–ven (avant le passage de 6:00) : post du jour + événement extraordinaire + débrief court (PAS de texte vidéo : c'est le chat « The Noise – vidéos »).
+- Chat « The Noise – vidéos » : réveil 16:00 dim–jeu (texte voix → MP3 → reel 19:00), vendredi 12:00 (texte de la vidéo du samedi), samedi 18:35 (montage, reel 19:30). Chaque réveil programme le suivant.
 - « The Noise – passages » 6:00, 12:00, 17:00, 19:55 (vendredi : 6:00, 12:00).
 - « The Noise – loterie 20:00 » dim–jeu + sam 20:00 ; samedi 18:30 : loterie du vendredi + vidéo du vendredi si besoin.
-- « The Noise – publier le reel collab » (ponctuelle, 31/10 19:00).
+- « The Noise – publier le reel collab » (ponctuelle, 31/10 19:00, dans le chat « The Noise – vidéos »).
