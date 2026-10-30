@@ -22,6 +22,7 @@ Le vendredi : production du matin + passages 6:00 et 12:00 seulement ; pas de pa
 - AVANT d'écrire : lire TOUS les commentaires du post/reel précédent ; le commentaire valable le plus liké décide de ce qui arrive (on écarte insultant, sexuel, visant une vraie personne, impossible → le suivant).
 - Fin obligatoire : « מה יקרה מחר? התגובה עם הכי הרבה לייקים קובעת ».
 - Texte écrit pour la voix (hébreu, balises Eleven v3, ~25 s, nombres en toutes lettres) envoyé à Shlomo 2–3 h avant la mise en ligne (SendUserMessage + PushNotification) : c'est LA SEULE chose qu'on lui demande (MP3 Nimrod). Mise en ligne 19:00 (samedi : après 18:30).
+- SAUVEGARDE DE CHAQUE VIDÉO (règle de Shlomo du 30/10/2026) : dès qu'une vidéo est montée, (1) l'envoyer dans le chat avec SendUserFile, nommée « The Noise – AAAA-MM-JJ – <titre>.mp4 » (+ sa couverture), et (2) la copier sur le bureau de Shlomo dans ~/Desktop/The Noise/Vidéos/ avec le même nom (outils mcp__remote-devices__ : device_commit_files ; si le bureau n'est pas encore autorisé, device_request_folder_access ~/Desktop). Si l'ordinateur n'est pas joignable, le dire en une ligne et réessayer au passage suivant. Ne jamais supprimer de fichier sur le bureau.
 - Couverture dédiée (jamais une image noire), légende avec CTA + « המבצע אינו קשור לאינסטגרם ואינו ממומן על ידה » + 5 hashtags.
 
 ## 2. Chaque jour quelque chose d'extraordinaire
