@@ -349,8 +349,11 @@ begin
   insert into noise_fan_draws(day, handle, n_eligible) values (dd, w, n);
   if w is not null then
     insert into noise_players(handle, wins) values (w, 1) on conflict (handle) do update set wins = noise_players.wins + 1;
+    -- prix depuis le 31/10/2026 : plus d'argent, +300 tickets bonus
+    update noise_tickets set tickets = tickets + 300, updated_at = now() where day = dd and handle = w;
+    perform noise_sync(w, dd);
   end if;
-  return jsonb_build_object('already', false, 'day', dd, 'handle', w, 'n_eligible', n);
+  return jsonb_build_object('already', false, 'day', dd, 'handle', w, 'n_eligible', n, 'bonus', case when w is null then 0 else 300 end);
 end $$;
 
 -- ---------- admin (mot de passe de la ruche) ----------

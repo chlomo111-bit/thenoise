@@ -32,12 +32,15 @@ Le vendredi : production du matin + passages 6:00 et 12:00 seulement ; pas de pa
 Un événement fou / surprise / nouveauté visible dans le jeu (ex. pluie de tomates géante, un fauteuil de juré qui tourne tout seul, un invité surprise sur scène, double 🎟️ pendant 1 h…), idéalement inspiré du commentaire le plus liké ou de la boîte à idées (`noise_ideas`).
 Il est annoncé dans noise_state `news` (titre + texte) et raconté dans la vidéo.
 
-## 3. Loterie 20 ₪ tous les soirs à 20:00
-- Un seul gagnant, payé par Shlomo par Bit. Conditions : (a) commenter le POST DU JOUR épinglé, (b) ≥ 100 🎟️ dans la journée. Pas de condition d'abonnement.
+## 3. Loterie tous les soirs à 20:00 — PLUS D'ARGENT RÉEL (règle de Shlomo du 31/10/2026)
+**Depuis le 31/10 au soir : plus jamais de vrai argent (ni Bit, ni ₪) dans The Noise.** Le gagnant reçoit :
++300 🎟️ (automatique dans noise_fan_draw), le siège 👑 le lendemain, un tag dans la vidéo, et LE POUVOIR de décider la chose extraordinaire qui arrive le lendemain dans le jeu (en plus du reste) — comme המגיב של היום. On lui demande en réponse et en story « מה יקרה מחר בזכותך? כתבו עד 12:00 ». Le grand gagnant de l'émission : גביע The Noise 🏆 + 1000 🎟️ (pas d'argent).
+Plus de message « à payer par Bit » à Shlomo : le prévenir seulement en cas de problème.
+- Un seul gagnant (bonus 🎟️ + pouvoir, aucun argent). Conditions : (a) commenter le POST DU JOUR épinglé, (b) ≥ 100 🎟️ dans la journée. Pas de condition d'abonnement.
 - POST DU JOUR créé CHAQUE MATIN (image 4:5 1080×1350, hook + rappel des 2 conditions + « הגיבו כאן 👇 »), épinglé si possible (l'API ne permet pas d'épingler → l'indiquer à Shlomo seulement la première fois). Ne jamais l'oublier.
   Son media_id est noté dans noise_state `daily_post` {day, media_id, permalink}.
 - Tirage : `select noise_fan_draw();` (ou avec la date du vendredi). Le site affiche le tirage en direct (noise_lottery_live) et le gagnant a le siège 👑 le lendemain.
-- Puis story du résultat (1080×1920) + message à Shlomo : gagnant + « 20 ₪ à payer par Bit » (ou « personne n'a rempli les conditions »).
+- Puis story du résultat (1080×1920) (pas de message à Shlomo, pas d'argent).
 
 ## 3 bis. המגיב של היום (meilleur commentateur)
 - À 20:00 avec la loterie : le joueur avec le plus de commentaires valables de la journée sur tous les posts du compte (pas de spam identique répété ; égalité = celui qui a atteint ce nombre en premier).
@@ -53,7 +56,7 @@ Il est annoncé dans noise_state `news` (titre + texte) et raconté dans la vid�
 ## 4. Passages 6:00 / 12:00 / 17:00 / 19:55
 1. Lire tous les nouveaux commentaires des publications récentes (exclure ceux de the_noise_2026 et ceux déjà dans noise_ig_seen).
 2. Pour chacun : `insert into noise_people(handle) … on conflict do nothing` (+ tagués), score VIP +1 (+3 si tag), `noise_ig_award(h,'comment',cid)` (+ 'tag'), et si c'est le post du jour `noise_mark_commenter(h, media_id)`. Insérer dans noise_ig_seen.
-3. Répondre à CHAQUE commentaire : hébreu, court, varié, jamais de copier-coller, pas d'URL (« הקישור בביו »), relance (100 🎟️ + תגובה = הגרלה של 20 ₪ ב־20:00 ; תייגו חבר שמזייף). Commentaire insultant/sexuel/visant une vraie personne : pas de réponse, pas de points.
+3. Répondre à CHAQUE commentaire : hébreu, court, varié, jamais de copier-coller, pas d'URL (« הקישור בביו »), relance (100 🎟️ + תגובה = הגרלה ב־20:00 – הזוכה מחליט מה יקרה מחר ; תייגו חבר שמזייף). Commentaire insultant/sexuel/visant une vraie personne : pas de réponse, pas de points.
 4. Repérer la réponse du המגיב של היום d'hier (avant 12:00).
 5. noise_state `followers` {n, at} ; si ≥ 50 abonnés → prévenir Shlomo (reprise du calendrier de l'émission).
 6. Vérifier que le post du jour existe (sinon le créer).

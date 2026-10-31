@@ -178,7 +178,7 @@ button{font-family:inherit;cursor:pointer}
 <li><b>אודישן:</b> כל יום מתמודד אחד שר (בקול מזייף 😉). הקהל מצביע ✅ נשאר / ❌ הולח. 2 שופטים שמסתובבים = ניצל!</li>
 <li><b>השורה הראשונה 👑</b> – כל תגובה = נקודה, תיוג חבר = 3. הכי פעילים יושבים מקדימה.</li>
 <li><b>מחיאות כפיים 👏 ועגבניות 🍅</b> – באולפן אפשר להריע או לזרוק עגבנייה על הבמה!</li>
-<li><b>10 מתמודדים</b> בצוות ← דו־קרב כל יום ← נשאר אחד. הזוכה מקבל <b class="k">20 ₪ בביט</b>.</li>
+<li><b>10 מתמודדים</b> בצוות ← דו־קרב כל יום ← נשאר אחד. הזוכה מקבל <b class="k">גביע The Noise 🏆 + 1000 🎟️</b> ובוחר מה יקרה בעונה הבאה.</li>
 </ol>
 <p class="empty">כל פרק עולה בשעה 19:00. המבצע אינו קשור לאינסטגרם ואינו ממומן על ידה.</p>
 </section>
@@ -208,13 +208,13 @@ button{font-family:inherit;cursor:pointer}
   <button class="btn2 alt" id="snShare" type="button">📲 שתפו בסטורי ותייגו אותנו</button></div>
   <button class="skip" id="snGo" type="button">יאללה לאולפן ←</button></div></div>
 <div id="jn" role="dialog" aria-modal="true" aria-labelledby="jnT"><div class="in"><h2 id="jnT">🎤 ברוכים הבאים לאולפן!</h2>
-  <p>מה ה־@ שלכם באינסטגרם?<br>נשמור לכם כיסא בקהל, ותוכלו לאסוף 🎟️ ולהיכנס להגרלה של 20 ₪.</p>
+  <p>מה ה־@ שלכם באינסטגרם?<br>נשמור לכם כיסא בקהל, ותוכלו לאסוף 🎟️ ולהיכנס להגרלה של הערב 🎁</p>
   <form id="jnF"><input id="jnIn" placeholder="@your_name" maxlength="31" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="ה־@ שלכם באינסטגרם"><button class="btn2" type="submit" style="width:100%">תנו לי כיסא! 🪑</button></form>
   <button class="skip" id="jnSkip" type="button">רק מסתכלים בינתיים</button></div></div>
 <div id="nw" role="dialog" aria-modal="true" aria-labelledby="nwT"><div class="in"><h2 id="nwT">🆕 חדש באולפן!</h2>
   <ul>
   <li><b>🎟️ כרטיסים</b> – אוספים על כל 👏 ו־🍅, כניסה יומית, משימות, ותגובות באינסטגרם.</li>
-  <li><b>🎁 הגרלה של 20 ₪ כל ערב ב־20:00</b> – 100 כרטיסים ביום + תגובה על הפוסט של היום (המוצמד בפרופיל) = אתם בהגרלה! ההגרלה בשידור חי כאן באולפן, והזוכה יושב מחר בכיסא 👑.</li>
+  <li><b>🎁 הגרלה כל ערב ב־20:00</b> – 100 כרטיסים ביום + תגובה על הפוסט של היום (המוצמד בפרופיל) = אתם בהגרלה! ההגרלה בשידור חי כאן באולפן, והזוכה יושב מחר בכיסא 👑.</li>
   <li><b>🗣️ המגיב של היום</b> – מי שכתב הכי הרבה תגובות ביום מקבל כתר על הדמות ובוחר משהו מטורף שיקרה מחר באולפן!</li>
   <li><b>🎯 3 משימות</b> חדשות כל יום (מתחלפות בחצות).</li>
   <li><b>💬 צ׳אט הקהל</b> + <b>💡 תיבת רעיונות</b> לבמאי.</li>
@@ -226,7 +226,7 @@ button{font-family:inherit;cursor:pointer}
   <img src="logo_t.png" alt="The Noise">
   <h1>ברוכים הבאים ל-<span class="k">The Noise</span></h1>
   <p>התוכנית הכי מזייפת באינסטגרם. כל עוקב = עוד כיסא באולם.</p>
-  <div class="cd">🎁 הגרלת 20 ₪ בעוד <span id="cd2">--:--:--</span></div>
+  <div class="cd">🎁 ההגרלה בעוד <span id="cd2">--:--:--</span></div>
   <button id="enter">היכנסו לאולפן</button>
 </div>
 <div id="flash"></div>
@@ -287,7 +287,7 @@ window.addEventListener('error',e=>toast('שגיאה: '+(e.message||'')));
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function sb(path,opts={}){return fetch(CONFIG.SUPABASE_URL+"/rest/v1/"+path,{...opts,headers:{apikey:CONFIG.SUPABASE_KEY,"Content-Type":"application/json",...(opts.headers||{})}})}
 
-// ---------- countdown to the nightly 20 ₪ draw (20:00 Israel; Friday's draw moves to Saturday 18:30, after Shabbat) ----------
+// ---------- countdown to the nightly draw (20:00 Israel; Friday's draw moves to Saturday 18:30, after Shabbat) ----------
 function nextEpisode(){const now=new Date();
   const fmt=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Jerusalem',weekday:'short',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
   const parts=fmt.formatToParts(now);const g=k=>parts.find(x=>x.type===k).value;const wd=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].indexOf(g('weekday'));
@@ -541,7 +541,7 @@ const DEMO_ME={handle:'demo',in_audience:true,goal:100,today:64,total:212,commen
 let shownFresh=new Set();
 function setMe(m){if(!m||typeof m!=='object')return;const prev=MESTATE;MESTATE=m;
   (m.fresh||[]).forEach(k=>{if(shownFresh.has(k))return;shownFresh.add(k);const ms=(m.missions||[]).find(x=>x.k===k);if(ms)celebrate('✅ משימה הושלמה!',ms.t,'+'+ms.r+' 🎟️')});
-  if(prev&&prev.handle===m.handle&&prev.today<100&&m.today>=100)setTimeout(()=>celebrate('🎟️ 100 כרטיסים!',m.commented?'אתם בהגרלה של 20 ₪ הערב ב־20:00 🎁':'עכשיו רק להגיב על הפוסט של היום ב־@the_noise_2026','🤞'),(m.fresh||[]).length?2800:0);
+  if(prev&&prev.handle===m.handle&&prev.today<100&&m.today>=100)setTimeout(()=>celebrate('🎟️ 100 כרטיסים!',m.commented?'אתם בהגרלה של הערב ב־20:00 🎁':'עכשיו רק להגיב על הפוסט של היום ב־@the_noise_2026','🤞'),(m.fresh||[]).length?2800:0);
   renderMe()}
 async function visit(){if(DEMO){setMe(DEMO_ME);return}if(!ME)return;try{setMe(await call('noise_visit',{h:ME}))}catch(e){try{setMe(await call('noise_me',{h:ME}))}catch(_){}}}
 async function refreshMe(){if(DEMO||!ME)return;try{setMe(await call('noise_me',{h:ME}))}catch(e){}}
@@ -554,11 +554,11 @@ function renderMe(){renderPill();const el=$('#meBody');if(!el)return;const m=MES
   if(!m.in_audience){el.innerHTML=`<p><b dir="ltr">@${esc(m.handle)}</b> – ${ERRS.not_in_audience}</p>`;return}
   const ok100=m.today>=100,inDraw=ok100&&m.commented;
   el.innerHTML=`<div class="big">${m.today} <small>🎟️ היום · ${m.total} בסך הכול</small></div>${bar(m.today,100)}<div class="s" style="font-size:13px;opacity:.8">${ok100?'💯 עברתם את ה־100!':`עוד ${100-m.today} כרטיסים ל־100`}</div>
-  <div class="box2"><h3>🎁 הגרלת 20 ₪ – הערב ב־20:00</h3>
+  <div class="box2"><h3>🎁 ההגרלה – הערב ב־20:00</h3>
    <div class="chk">${ok100?'✅':'⬜'} 100 כרטיסים היום (${Math.min(m.today,100)}/100)</div>
    <div class="chk">${m.commented?'✅':'❌'} תגובה על הפוסט של היום ב־@the_noise_2026</div>
    <p style="font-weight:900;color:var(--y)">${m.drawn?(m.drawn_today?`ההגרלה של היום נערכה: 👑 @${esc(m.drawn_today)}${m.drawn_today===m.handle?' – זה אתם!!! 🎉':''}`:'ההגרלה של היום נערכה – אף אחד לא עמד בתנאים 😢'):inDraw?'אתם בהגרלה של הערב! 🤞':'שני ✅ = כרטיס להגרלה'}</p>
-   <div class="note">זוכה אחד בכל ערב: 20 ₪ בביט + הכיסא 👑 מחר בשורה הראשונה + תיוג בסרטון. התגובות נבדקות ב־6:00, 12:00, 17:00 ו־19:55 – הגיבו מוקדם 😉</div></div>
+   <div class="note">זוכה אחד בכל ערב: +300 🎟️ בונוס + הכיסא 👑 מחר בשורה הראשונה + הוא מחליט מה יקרה מחר באולפן ✨ + תיוג בסרטון. התגובות נבדקות ב־6:00, 12:00, 17:00 ו־19:55 – הגיבו מוקדם 😉</div></div>
   <div class="box2"><h3>🎯 משימות היום</h3>${(m.missions||[]).map(x=>`<div class="mis ${x.done?'done':''}"><div class="top"><span>${x.done?'✅':'🎯'} ${esc(x.t)}</span><span class="rw">+${x.r} 🎟️</span></div>${bar(x.progress,x.goal)}<div class="note" style="margin:0">${x.progress}/${x.goal}</div></div>`).join('')}
    <div class="note">משימות חדשות בכל חצות 🕛</div></div>
   <div class="box2"><h3>📊 הסטטיסטיקות שלי</h3><div class="tiles">
@@ -587,7 +587,7 @@ function renderBoard(){const B=BOARD||{today:[],total:[]};const list=B[boardTab]
    <div class="tile"><b style="font-size:15px">${esc(PHASES[STATE.phase]||PHASES.teaser)}</b><span>📺 שלב התוכנית</span></div><div class="tile"><b>${B.players_today||0}</b><span>🙋 שיחקו היום</span></div>
    <div class="tile"><b>${B.tickets_today||0}</b><span>🎟️ כרטיסים היום</span></div><div class="tile"><b>${B.qualified_today||0}</b><span>💯 הגיעו ל־100 היום</span></div>
    <div class="tile"><b>${(TOT.clap||0)} / ${(TOT.tomato||0)}</b><span>👏 / 🍅 היום</span></div><div class="tile"><b>${B.chat_today||0}</b><span>💬 הודעות היום</span></div>`;
-  const fans=B.fans||[];$('#fanHist').innerHTML=`<div class="box2"><h3>🎁 הזוכים בהגרלה</h3>${B.fan_today?`<p>היום בכיסא המלכותי: <b dir="ltr">@${esc(B.fan_today)}</b></p>`:''}${fans.length?fans.map(f=>`<div class="row"><div class="s">${esc(f.day)}</div><div class="h">@${esc(f.handle)}</div></div>`).join(''):'<p class="empty">הגרלה של 20 ₪ כל ערב ב־20:00! 100 🎟️ + תגובה על הפוסט של היום.</p>'}</div>`}
+  const fans=B.fans||[];$('#fanHist').innerHTML=`<div class="box2"><h3>🎁 הזוכים בהגרלה</h3>${B.fan_today?`<p>היום בכיסא המלכותי: <b dir="ltr">@${esc(B.fan_today)}</b></p>`:''}${fans.length?fans.map(f=>`<div class="row"><div class="s">${esc(f.day)}</div><div class="h">@${esc(f.handle)}</div></div>`).join(''):'<p class="empty">הגרלה כל ערב ב־20:00! 100 🎟️ + תגובה על הפוסט של היום = הזוכה מקבל +300 🎟️ ומחליט מה יקרה מחר ✨</p>'}</div>`}
 // --- chat (Supabase realtime + polling fallback) ---
 let MSGS=[],lastSeen=0,unread=0;try{lastSeen=Number(localStorage.getItem('noise_chat_seen')||0)}catch(e){}
 const fmtT=new Intl.DateTimeFormat('he-IL',{timeZone:'Asia/Jerusalem',hour:'2-digit',minute:'2-digit'});
@@ -669,7 +669,7 @@ async function aMod(kind){try{const pass=$('#aPass').value;const rows=await rpc(
 $('#aChat').onclick=()=>aMod('chat');$('#aIdeas').onclick=()=>aMod('ideas');
 $('#aMod').addEventListener('click',async e=>{const b=e.target.closest('[data-del]');if(!b)return;if(!confirm('למחוק את ההודעה?'))return;try{await rpc('noise_admin_chat_delete',{pass:$('#aPass').value,mid:Number(b.dataset.del)});aMod('chat');loadChat()}catch(err){msg(err.message)}});
 
-// ---------- 🎁 live draw (20 ₪, every evening 20:00) ----------
+// ---------- 🎁 live draw (every evening 20:00) ----------
 let LOT=null,lotShown=null;try{lotShown=localStorage.getItem('noise_lot_shown')}catch(e){}
 function ilNow(){const p=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Jerusalem',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date()).split(':').map(Number);return p[0]%24*60+p[1]}
 async function pollLottery(force){if(DEMO)return;const m=ilNow();if(!force&&!(m>=18*60+25&&m<=21*60))return;
@@ -680,9 +680,9 @@ async function pollLottery(force){if(DEMO)return;const m=ilNow();if(!force&&!(m>
     LOT=L;if(fresh.length)rollDraw(fresh[0])}catch(e){}}
 function rollDraw(x){lotShown=x.day;try{localStorage.setItem('noise_lot_shown',x.day)}catch(e){}
   const names=(x.participants&&x.participants.length?x.participants:PEOPLE.map(p=>p.handle)).slice(0,60);const d=$('#mdone');let i=0;const t0=performance.now();
-  $('#mdT1').textContent='🎁 ההגרלה של 20 ₪ – בשידור חי!';$('#mdT3').textContent='🥁';d.classList.remove('on');d.style.transform='translate(-50%,-50%) scale(1)';
+  $('#mdT1').textContent='🎁 ההגרלה – בשידור חי!';$('#mdT3').textContent='🥁';d.classList.remove('on');d.style.transform='translate(-50%,-50%) scale(1)';
   const step=()=>{const el=performance.now()-t0;if(el<4200&&names.length){$('#mdT2').textContent='@'+names[i++%names.length];setTimeout(step,60+el/30)}
-    else{d.style.transform='';if(x.handle)celebrate('🎉 הזוכה של הערב!','@'+x.handle+' · 20 ₪ בביט 💸',x.handle===ME?'זה אתם!!! 🎉':'👑');else celebrate('😱 אף אחד לא עמד בתנאים','מחר ב־20:00 עוד הגרלה!','🎟️')}};step()}
+    else{d.style.transform='';if(x.handle)celebrate('🎉 הזוכה של הערב!','@'+x.handle+' · +300 🎟️ ומחליט מה יקרה מחר ✨',x.handle===ME?'זה אתם!!! 🎉':'👑');else celebrate('😱 אף אחד לא עמד בתנאים','מחר ב־20:00 עוד הגרלה!','🎟️')}};step()}
 setInterval(()=>pollLottery(false),20000);setTimeout(()=>pollLottery(false),4000);
 </script>
 </body>
