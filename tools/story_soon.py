@@ -15,7 +15,14 @@ bgp = root / "media/2026-10-31/cover_collab.jpg"
 if not bgp.exists(): bgp = root / "media/2026-10-30/post_du_jour.jpg"
 bg = base64.b64encode(bgp.read_bytes()).decode()
 
-if mode == "teaser":
+if mode == "launch":
+    body = """<div class="pill">🔴 עכשיו בפרופיל</div>
+<h1>The Noise<br><span class="k">התחיל!</span> 🎤</h1>
+<div class="row">🐝 הדבורה &nbsp;·&nbsp; ⚓ הקפטן &nbsp;·&nbsp; 👵 סבתא מזל</div>
+<div class="sub2">כבר באולם… ואתם? 🪑</div>
+<div class="cta">הפרק החדש בפרופיל 👆</div>
+<div class="sub2" style="direction:ltr;margin-top:50px">@the_noise_2026</div>"""
+elif mode == "teaser":
     body = """<div class="pill">🎤 The Noise</div>
 <h1>הערב<br>ב־<span class="k">19:00</span></h1>
 <div class="sub">עולה הפרק הראשון של<br>התוכנית הכי מזייפת באינסטגרם 😂</div>
