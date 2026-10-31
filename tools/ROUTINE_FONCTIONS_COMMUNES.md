@@ -14,12 +14,12 @@ Schéma complet : `tools/supabase_noise_v2.sql` (déjà appliqué en base le 29.
   ⚠️ Ces fonctions ne modifient PAS noise_people.score (les points VIP +1/+3 restent gérés comme avant).
 - Missions du jour : +10 à +30.
 
-## 2. 🎁 Loterie 20 ₪ (depuis le 30.10 : remplace « מעריץ היום » ; voir tools/ROUTINE.md §3 et §3 bis)
+## 2. 🎁 Loterie (sans argent depuis le 31/10) (depuis le 30.10 : remplace « מעריץ היום » ; voir tools/ROUTINE.md §3 et §3 bis)
 - Éligible : ≥ 100 🎟️ dans la journée ET commentaire sur le « post du jour » épinglé de @the_noise_2026.
 - Post du jour = noise_state `daily_post` {day, media_id, permalink}. Chaque commentateur du jour :
   `select noise_mark_commenter('<username>','<media_id>');`
 - Tirage 20:00 (une seule fois par jour) : `select noise_fan_draw();` → {handle, n_eligible, already}. Vendredi : fait samedi 18:30 avec `noise_fan_draw('<date du vendredi>')`.
-- Le gagnant reçoit 20 ₪ par Bit (Shlomo) + le siège 👑 le lendemain (le site lit noise_fan_draws, jour = hier) + tag dans la vidéo (noise_state `fan_to_cite`).
+- Le gagnant reçoit +300 🎟️ (automatique dans noise_fan_draw, plus aucun argent ni Bit depuis le 31/10) + le pouvoir de décider l'extraordinaire du lendemain + le siège 👑 le lendemain (le site lit noise_fan_draws, jour = hier) + tag dans la vidéo (noise_state `fan_to_cite`).
 - Le site affiche le tirage en direct : `noise_lottery_live(d)` → {drawn, handle, drawn_at, participants[], qualified, commenters}.
 - 🗣️ המגיב של היום : noise_state `top_commenter` {day, handle, n, power} → couronne sur le personnage + ligne dans « השורה הראשונה ».
 

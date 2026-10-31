@@ -16,7 +16,7 @@ if not bgp.exists(): bgp = root / "media/2026-10-30/post_du_jour.jpg"
 bg = base64.b64encode(bgp.read_bytes()).decode()
 
 if mode == "lot5":
-    body = f"""<div class="pill">🎁 הגרלה של 20 ₪</div>
+    body = f"""<div class="pill">🎁 ההגרלה של הערב</div>
 <h1>5 דקות<br><span class="k">להגרלה!</span> ⏰</h1>
 <div class="sub">ב־20:00 בשידור חי באולפן</div>
 <div class="row">1️⃣ אספו 100 🎟️ באולפן (הקישור בביו)</div>
@@ -25,7 +25,7 @@ if mode == "lot5":
 elif mode == "nowin":
     body = f"""<div class="pill">🎁 ההגרלה של הערב</div>
 <h1>אף אחד<br><span class="k">לא נכנס?!</span> 😱</h1>
-<div class="sub">20 ₪ נשארו על הבמה…<br>מחר ב־20:00 – עוד הגרלה!</div>
+<div class="sub">הכתר 👑 נשאר על הבמה…<br>מחר ב־20:00 – עוד הגרלה!</div>
 <div class="row">1️⃣ אספו 100 🎟️ באולפן (הקישור בביו)</div>
 <div class="row">2️⃣ הגיבו על הפוסט של היום 👇</div>
 <div class="cta">מחר זה יכול להיות אתם 👑</div>"""

@@ -5,7 +5,7 @@ Les textes complets des tâches restent consultables dans les tâches désactiv�
 la logique détaillée est dans tools/ROUTINE.md.
 
 Règles communes (30/10) : vidéo du jour (le commentaire le plus liké décide), un événement extraordinaire par jour,
-loterie 20 ₪ à 20:00 (commentaire sur le post du jour + seuil de monnaie, pas d'abonnement obligatoire),
+loterie à 20:00 (sans argent depuis le 31/10 : +300 🎟️ + le gagnant décide de l'extraordinaire du lendemain) (commentaire sur le post du jour + seuil de monnaie, pas d'abonnement obligatoire),
 « המגיב של היום » (badge + pouvoir de choisir un événement le lendemain), passages 6:00 / 12:00 / 17:00 / 19:55,
 Shabbat : rien de vendredi 16:00 à samedi 18:30, tout est décalé à samedi 18:30.
 
