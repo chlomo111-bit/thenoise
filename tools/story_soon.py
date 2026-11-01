@@ -15,7 +15,15 @@ bgp = root / "media/2026-10-31/cover_collab.jpg"
 if not bgp.exists(): bgp = root / "media/2026-10-30/post_du_jour.jpg"
 bg = base64.b64encode(bgp.read_bytes()).decode()
 
-if mode == "lot5":
+if mode == "event":
+    # usage : story_soon.py event N out.jpg 50 "<titre>" "<texte>" "<cta>"
+    t1 = sys.argv[5] if len(sys.argv) > 5 else ""; t2 = sys.argv[6] if len(sys.argv) > 6 else ""; t3 = sys.argv[7] if len(sys.argv) > 7 else "הגיבו על הפוסט של היום 👇"
+    body = f"""<div class="pill">🎤 היום באולפן</div>
+<h1>{t1}</h1>
+<div class="sub">{t2}</div>
+<div class="row">🎁 הגרלה ב־20:00 · הזוכה מחליט מה יקרה מחר</div>
+<div class="cta">{t3}</div>"""
+elif mode == "lot5":
     body = f"""<div class="pill">🎁 ההגרלה של הערב</div>
 <h1>5 דקות<br><span class="k">להגרלה!</span> ⏰</h1>
 <div class="sub">ב־20:00 בשידור חי באולפן</div>
