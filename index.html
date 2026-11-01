@@ -125,6 +125,18 @@ button{font-family:inherit;cursor:pointer}
 #sn .bar{height:20px;border-radius:999px;background:#2a2138;overflow:hidden;margin:10px 0 4px;border:1px solid #3a2f4d}#sn .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#FFC24B,#ff5a5a);border-radius:999px;transition:width 1.4s cubic-bezier(.2,1,.3,1)}
 #sn .cnt{font-weight:900;font-size:18px;margin-bottom:6px}#sn .cnt .k{color:var(--y)}
 #sn .acts{display:flex;flex-direction:column;gap:8px;margin-top:10px}#sn .skip{background:none;border:0;color:#aaa;text-decoration:underline;margin-top:8px;font-size:15px;cursor:pointer}
+#intro .live{font-size:18px;font-weight:900;background:rgba(255,194,75,.12);border:1px solid rgba(255,194,75,.55);border-radius:14px;padding:8px 16px;line-height:1.4}
+#intro .live b{color:var(--y);font-size:26px}
+#intro .faces{font-size:13px;opacity:.85;max-width:360px;min-height:18px}
+#intro .faces span{direction:ltr;unicode-bidi:isolate;color:var(--y);font-weight:700}
+#intro ol.steps{list-style:none;padding:0;margin:2px 0;display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+#intro ol.steps li{background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:14px;font-weight:700}
+#ticker{position:fixed;top:164px;left:50%;transform:translateX(-50%);max-width:calc(100% - 24px);background:rgba(224,31,38,.92);color:#fff;font-weight:800;font-size:14px;border-radius:999px;padding:6px 14px;z-index:2;pointer-events:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:opacity .35s;opacity:0}
+#ticker.on{opacity:1}
+.vbtns{display:flex;gap:8px;margin:10px 0}.vbtns button{flex:1;min-height:52px;font-size:20px}
+.vbar{display:flex;height:14px;border-radius:999px;overflow:hidden;background:#2a2233;margin:6px 0}.vbar i{background:#1fae5b}.vbar u{background:var(--r)}
+.opts{display:grid;gap:8px;margin:10px 0}.opts button{min-height:46px;font-size:16px;direction:ltr}
+.linkbox{direction:ltr;text-align:left;background:#0a0710;border:1px solid var(--line);border-radius:10px;padding:10px;font:700 14px monospace;word-break:break-all;margin:8px 0}
 #jn{position:fixed;inset:0;background:rgba(5,3,10,.85);z-index:13;display:none;align-items:center;justify-content:center;padding:16px}#jn.on{display:flex}
 #jn .in{background:#120d1c;border:2px solid var(--y);border-radius:20px;padding:20px 18px 16px;width:min(420px,100%);text-align:center;animation:pop .5s cubic-bezier(.2,1.4,.4,1)}
 #jn h2{margin:0 0 6px;font-size:26px;font-weight:900}#jn p{margin:4px 0 12px;opacity:.85;line-height:1.5}
@@ -161,6 +173,9 @@ button{font-family:inherit;cursor:pointer}
 <div id="react"><button id="bClap" aria-label="מחיאות כפיים">👏<small id="cClap">0</small></button><button id="bTom" aria-label="לזרוק עגבנייה">🍅<small id="cTom">0</small></button></div>
 <div id="bar">
   <button class="main" data-p="how">איך משתתפים?</button>
+  <button data-p="aud">🎤 אודישן היום</button>
+  <button data-p="mask">🎭 מי במסכה?</button>
+  <button data-p="invite">📲 הזמינו חבר</button>
   <button data-p="cont">המתמודדים</button>
   <button data-p="judges">השופטים</button>
   <button data-p="vip">👑 השורה הראשונה</button>
@@ -182,6 +197,9 @@ button{font-family:inherit;cursor:pointer}
 </ol>
 <p class="empty">כל פרק עולה בשעה 19:00. המבצע אינו קשור לאינסטגרם ואינו ממומן על ידה.</p>
 </section>
+<section class="panel" id="p-aud"><button class="x" aria-label="סגירה">×</button><h2>🎤 אודישן מוקדם – <span class="k">היום</span></h2><div id="audBody"><p class="empty">טוען...</p></div></section>
+<section class="panel" id="p-mask"><button class="x" aria-label="סגירה">×</button><h2>🎭 מי מתחת <span class="k">למסכה?</span></h2><div id="maskBody"><p class="empty">טוען...</p></div></section>
+<section class="panel" id="p-invite"><button class="x" aria-label="סגירה">×</button><h2>📲 הזמינו חברים = <span class="k">+50 🎟️</span></h2><div id="invBody"></div></section>
 <section class="panel" id="p-cont"><button class="x" aria-label="סגירה">×</button><h2>המתמודדים</h2><div id="lCont"></div></section>
 <section class="panel" id="p-judges"><button class="x" aria-label="סגירה">×</button><h2>השופטים</h2><div id="lJud"></div></section>
 <section class="panel" id="p-vip"><button class="x" aria-label="סגירה">×</button><h2>👑 השורה הראשונה</h2><p>כל תגובה באינסטגרם = <b class="k">נקודה</b>, תיוג חבר = <b class="k">3 נקודות</b>. 10 הכי פעילים יושבים בשורה הראשונה, ממש מאחורי השופטים!</p><div id="lVip"></div></section>
@@ -226,10 +244,15 @@ button{font-family:inherit;cursor:pointer}
   <img src="logo_t.png" alt="The Noise">
   <h1>ברוכים הבאים ל-<span class="k">The Noise</span></h1>
   <p>התוכנית הכי מזייפת באינסטגרם. כל עוקב = עוד כיסא באולם.</p>
+  <div class="live" aria-live="polite"><b id="ilN">–</b> כבר באולם 🪑 · <b id="ilF">–</b> עוקבים 📸</div>
+  <div class="faces" id="ilFaces"></div>
+  <ol class="steps"><li>1️⃣ תפסו כיסא 🪑</li><li>2️⃣ הריעו 👏 או עגבנייה 🍅</li><li>3️⃣ הגיבו על הפוסט של היום 💬</li></ol>
+  <div class="cd">📺 הפרק הבא בעוד <span id="cdEp">--:--:--</span></div>
   <div class="cd">🎁 ההגרלה בעוד <span id="cd2">--:--:--</span></div>
   <button id="enter">היכנסו לאולפן</button>
 </div>
 <div id="flash"></div>
+<div id="ticker" aria-live="polite"></div>
 <div id="toast"></div>
 
 <div id="admin">
@@ -279,7 +302,7 @@ button{font-family:inherit;cursor:pointer}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 <script>
 const CONFIG={SUPABASE_URL:"https://ohvmnaymozoxfirkbntt.supabase.co",SUPABASE_KEY:"sb_publishable_kQz8LnmhYbK-8m79fAPe8Q_51MAcYgz",IG:"https://www.instagram.com/the_noise_2026/"};
-const PHASES={teaser:"בקרוב: מחפשים שופטים",judges_call:"שלב 1: מחפשים שופטים",judges_vote:"שלב 2: הצבעה על השופטים",casting:"שלב 3: אודישנים",duels:"שלב 4: דו־קרבות",final:"הגמר!",ended:"העונה הסתיימה"};
+const PHASES={early:"🎤 אודישנים מוקדמים",teaser:"בקרוב: מחפשים שופטים",judges_call:"שלב 1: מחפשים שופטים",judges_vote:"שלב 2: הצבעה על השופטים",casting:"שלב 3: אודישנים",duels:"שלב 4: דו־קרבות",final:"הגמר!",ended:"העונה הסתיימה"};
 const ST={active:"קהל",candidate:"מועמד",elected:"שופט",registered:"נרשם",casting:"באודישן",in:"בצוות",saved:"ניצל",out:"הודח",winner:"הזוכה 🏆"};
 const $=s=>document.querySelector(s);
 function toast(m){const t=$('#toast');t.textContent=m;t.style.display='block';clearTimeout(toast.h);toast.h=setTimeout(()=>t.style.display='none',3200)}
@@ -294,7 +317,12 @@ function nextEpisode(){const now=new Date();
   const cur=Number(g('hour'))%24*3600+Number(g('minute'))*60+Number(g('second'));
   for(let d=0;d<8;d++){const day=(wd+d)%7;const tgts=day===5?[]:day===6?[18*3600+30*60,20*3600]:[20*3600];
     for(const t of tgts){const secs=d*86400+t-cur;if(secs>0)return secs}}return 0}
-function tick(){const s=nextEpisode();const t=[Math.floor(s/3600),Math.floor(s%3600/60),s%60].map(v=>String(v).padStart(2,'0')).join(':');$('#cd').textContent=t;$('#cd2').textContent=t}
+function epSecs(){const now=new Date();const fmt=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Jerusalem',weekday:'short',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
+  const parts=fmt.formatToParts(now);const g=k=>parts.find(x=>x.type===k).value;const wd=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].indexOf(g('weekday'));
+  const cur=Number(g('hour'))%24*3600+Number(g('minute'))*60+Number(g('second'));
+  for(let d=0;d<8;d++){const day=(wd+d)%7;const t=day===5?null:day===6?19*3600+30*60:19*3600;if(t===null)continue;const secs=d*86400+t-cur;if(secs>0)return secs}return 0}
+function fmtS(s){return [Math.floor(s/3600),Math.floor(s%3600/60),s%60].map(v=>String(v).padStart(2,'0')).join(':')}
+function tick(){try{const e=$('#cdEp');if(e)e.textContent=fmtS(epSecs())}catch(_){}const s=nextEpisode();const t=[Math.floor(s/3600),Math.floor(s%3600/60),s%60].map(v=>String(v).padStart(2,'0')).join(':');$('#cd').textContent=t;$('#cd2').textContent=t}
 setInterval(tick,1000);tick();
 
 // ---------- 3D ----------
@@ -395,6 +423,7 @@ async function load(){
     else{const [p,s,b]=await Promise.all([sb('noise_people?select=*&order=score.desc,created_at.asc'),sb('noise_state?select=key,value'),sb('rpc/noise_board',{method:'POST',body:'{}'}).catch(()=>null)]);
       if(!p.ok)throw new Error('people '+p.status);PEOPLE=await p.json();STATE={};(await s.json()).forEach(r=>STATE[r.key]=r.value);
       if(b&&b.ok){try{BOARD=await b.json()}catch(e){}}}
+    try{renderLive()}catch(e){}
     apply();if(typeof renderBoard==='function'){renderBoard();renderMe()}
   }catch(e){toast('לא הצלחנו לטעון את הנתונים, נסו שוב בעוד רגע')}
 }
@@ -543,7 +572,7 @@ function setMe(m){if(!m||typeof m!=='object')return;const prev=MESTATE;MESTATE=m
   (m.fresh||[]).forEach(k=>{if(shownFresh.has(k))return;shownFresh.add(k);const ms=(m.missions||[]).find(x=>x.k===k);if(ms)celebrate('✅ משימה הושלמה!',ms.t,'+'+ms.r+' 🎟️')});
   if(prev&&prev.handle===m.handle&&prev.today<100&&m.today>=100)setTimeout(()=>celebrate('🎟️ 100 כרטיסים!',m.commented?'אתם בהגרלה של הערב ב־20:00 🎁':'עכשיו רק להגיב על הפוסט של היום ב־@the_noise_2026','🤞'),(m.fresh||[]).length?2800:0);
   renderMe()}
-async function visit(){if(DEMO){setMe(DEMO_ME);return}if(!ME)return;try{setMe(await call('noise_visit',{h:ME}))}catch(e){try{setMe(await call('noise_me',{h:ME}))}catch(_){}}}
+async function visit(){if(DEMO){setMe(DEMO_ME);return}if(!ME)return;try{const v=await call('noise_visit',{h:ME});setMe(v);if(v&&v.first_visit&&v.streak_bonus>0)setTimeout(()=>celebrate('🔥 '+v.streak+' ימים ברצף!','בונוס כניסה: +'+v.streak_bonus+' 🎟️','🔥'),1500)}catch(e){try{setMe(await call('noise_me',{h:ME}))}catch(_){}}}
 async function refreshMe(){if(DEMO||!ME)return;try{setMe(await call('noise_me',{h:ME}))}catch(e){}}
 setInterval(refreshMe,30000);
 function renderPill(){const m=MESTATE;const n=m?m.today:0;$('#tkN').textContent=n;$('#tkPill').classList.toggle('full',n>=100)}
@@ -625,8 +654,9 @@ async function joinWith(raw){const h=String(raw||'').trim().replace(/^@/,'').toL
   if(!/^[a-z0-9._]{1,30}$/.test(h)||/^\.|\.$|\.\./.test(h)){toast('זה לא נראה כמו @ של אינסטגרם 🤔');return false}
   if(seatOf[h]!==undefined){claimSeat(h);toast('מצאנו אתכם! 👋 הדמות שלכם כבר באולם');return true}
   let n=0;try{n=Number(localStorage.getItem('noise_joins')||0)}catch(e){}if(n>=3){toast('אפשר להירשם עד 3 פעמים מאותו מכשיר');return false}
-  try{const r=await call('noise_join',{h});if(!r||!r.ok){toast(r&&r.err==='busy'?'יש עומס באולפן, נסו שוב בעוד כמה דקות':'זה לא נראה כמו @ של אינסטגרם 🤔');return false}
+  try{const REFH=getRef();const r=await call('noise_join',REFH&&REFH!==h?{h,ref:REFH}:{h});if(!r||!r.ok){toast(r&&r.err==='busy'?'יש עומס באולפן, נסו שוב בעוד כמה דקות':'זה לא נראה כמו @ של אינסטגרם 🤔');return false}
     try{localStorage.setItem('noise_joins',String(n+1))}catch(e){}await load();
+    if(r.ref)setTimeout(()=>toast('@'+r.ref+' הזמין/ה אתכם – קיבל/ה +50 🎟️ בזכותכם 🙌'),4200);
     if(claimSeat(r.handle)){celebrate('🪑 קיבלתם כיסא!','@'+r.handle+' – עכשיו אתם בקהל של The Noise','🎉');setTimeout(()=>toast('כדי להיכנס להגרלה: 100 🎟️ + תגובה על הפוסט של היום ב־@the_noise_2026'),3500)}
     else toast('נרשמתם! הכיסא שלכם יופיע עוד רגע');return true}catch(e){toast('משהו השתבש, נסו שוב');return false}}
 function askHandle(){if(ME||DEMO)return false;let sk=null;try{sk=sessionStorage.getItem('noise_jn_skip')}catch(e){}if(sk)return false;$('#jn').classList.add('on');setTimeout(()=>{try{$('#jnIn').focus()}catch(e){}},300);return true}
@@ -647,6 +677,102 @@ $('#snShare').onclick=async()=>{const url='https://thenoise.hakaveret.online',te
 $('#enter').addEventListener('click',()=>setTimeout(()=>showSoon(()=>{if(!askHandle())showNews()}),3800));
 if(location.hash==='#new')setTimeout(()=>showNews(true),1200);
 visit();startRealtime();chatPoll();
+
+
+// ---------- v3 (01/11) : compteur en direct, ticker, parrainage, carte de siège, auditions, masques ----------
+const SITE='https://thenoise.hakaveret.online';
+(function(){try{const r=new URLSearchParams(location.search).get('ref');if(r)localStorage.setItem('noise_ref',r.toLowerCase().replace(/^@/,''))}catch(e){}})();
+function getRef(){try{return localStorage.getItem('noise_ref')||''}catch(e){return ''}}
+function follows(){const f=STATE.followers;return Number(f&&(f.n??f))||0}
+function recentJoins(n){return PEOPLE.filter(p=>p.created_at).slice().sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)).slice(0,n)}
+function renderLive(){const n=PEOPLE.length;$('#ilN').textContent=n;$('#ilF').textContent=follows()||'–';
+  const r=recentJoins(4);$('#ilFaces').innerHTML=r.length?'הצטרפו לאחרונה: '+r.map(p=>`<span>@${esc(p.handle)}</span>`).join(' · '):'';
+  buildTicker()}
+let TK=[],tkI=0;
+function buildTicker(){const m=[];const left=Math.max(0,50-follows());
+  recentJoins(5).forEach(p=>{if(Date.now()-new Date(p.created_at)<3*864e5)m.push(`🪑 @${p.handle} נכנס/ה לאולם`)});
+  const a=STATE.audition;if(a&&a.handle)m.push(`🎤 אודישן מוקדם היום: @${a.handle}${a.song?' – '+a.song:''} · הצביעו ✅/❌`);
+  const k=STATE.mask;if(k&&k.options)m.push('🎭 ערב המסכות – מי מתחת למסכה? נחשו = +30 🎟️');
+  const t=STATE.top_commenter;if(t&&t.handle)m.push(`🗣️👑 המגיב של היום: @${t.handle}`);
+  if(BOARD&&BOARD.fan_today)m.push(`👑 זוכה ההגרלה: @${BOARD.fan_today}`);
+  (MSGS||[]).slice(-3).forEach(x=>m.push(`💬 @${x.handle}: ${String(x.body).slice(0,60)}`));
+  m.push('📲 הזמינו חבר עם הלינק שלכם = +50 🎟️');
+  if(left>0)m.push(`🔥 עוד ${left} עוקבים והשופטים נבחרים!`);
+  m.push(`👥 ${PEOPLE.length} כבר באולם – ואתם?`);
+  TK=m}
+function tickerStep(){const el=$('#ticker');if(!TK.length||$('#intro').style.display!=='none'){el.classList.remove('on');return}
+  el.classList.remove('on');setTimeout(()=>{el.textContent=TK[tkI++%TK.length];el.classList.add('on')},380)}
+setInterval(tickerStep,4800);setTimeout(()=>{try{buildTicker()}catch(e){}},1500);
+
+function needSeat(){if(ME)return false;if(!askHandle())toast('קודם תפסו כיסא – כתבו את ה־@ שלכם 🪑');return true}
+
+// ----- invite + seat card -----
+let MYREFS=null;
+async function loadRefs(){if(!ME||DEMO)return;try{const r=await sb('noise_refs?select=friend&referrer=eq.'+encodeURIComponent(ME));if(r.ok)MYREFS=(await r.json()).length}catch(e){}}
+function myLink(){return SITE+'/?ref='+encodeURIComponent(ME||'')}
+function renderInvite(){const el=$('#invBody');if(!ME&&!DEMO){el.innerHTML='<p>תפסו כיסא כדי לקבל לינק אישי 🪑</p><button class="btn2" id="invSeat" style="width:100%">תנו לי כיסא!</button>';$('#invSeat').onclick=()=>{askHandle()};return}
+  el.innerHTML=`<p>כל חבר שנכנס לאולם דרך הלינק שלכם = <b class="k">+50 🎟️</b> לכם (עד 10 ביום).</p>
+  <div class="linkbox" id="invLink">${esc(myLink())}</div>
+  <div class="vbtns"><button class="btn2" id="invCopy">📋 העתקה</button><button class="btn2 alt" id="invShare">📤 שיתוף</button></div>
+  <p class="s">חברים שהבאתם: <b class="k">${MYREFS??'…'}</b></p>
+  <div class="box2"><h3>🪑 כרטיס הכיסא שלי</h3><p class="s">תמונה מוכנה לסטורי – שתפו ותייגו <b dir="ltr">@the_noise_2026</b></p><button class="btn2" id="invCard" style="width:100%">🎨 צרו לי כרטיס לסטורי</button></div>`;
+  $('#invCopy').onclick=async()=>{try{await navigator.clipboard.writeText(myLink());toast('הלינק הועתק! 📋')}catch(e){toast(myLink())}};
+  $('#invShare').onclick=async()=>{const text='🎤 שמרתי לך כיסא ב־The Noise – התוכנית הכי מזייפת באינסטגרם! היכנס/י דרך הלינק שלי:';
+    try{if(navigator.share){await navigator.share({title:'The Noise',text,url:myLink()});return}}catch(e){if(e&&e.name==='AbortError')return}
+    try{await navigator.clipboard.writeText(text+' '+myLink());toast('הועתק – הדביקו לחברים 📋')}catch(e){}};
+  $('#invCard').onclick=seatCard}
+function seatNo(){const i=PEOPLE.findIndex(p=>p.handle===ME);return i<0?PEOPLE.length:i+1}
+async function seatCard(){if(needSeat())return;const c=document.createElement('canvas');c.width=1080;c.height=1920;const x=c.getContext('2d');
+  try{await document.fonts.load('900 80px Heebo')}catch(e){}
+  const g=x.createRadialGradient(540,700,80,540,900,1200);g.addColorStop(0,'#3a0d1a');g.addColorStop(1,'#07040c');x.fillStyle=g;x.fillRect(0,0,1080,1920);
+  for(let i=0;i<14;i++){x.fillStyle=i%2?'rgba(255,194,75,.10)':'rgba(224,31,38,.10)';x.beginPath();x.moveTo(540,-60);x.lineTo(i*80-40,1920);x.lineTo(i*80+20,1920);x.fill()}
+  const img=new Image();img.src='logo_t.png';await new Promise(r=>{img.onload=r;img.onerror=r;setTimeout(r,2500)});
+  if(img.naturalWidth){const w=560,h=w*img.naturalHeight/img.naturalWidth;x.drawImage(img,540-w/2,250,w,h)}
+  x.textAlign='center';x.direction='rtl';x.fillStyle='#fff';x.font='900 84px Heebo, sans-serif';x.fillText('אני יושב/ת בקהל!',540,980);
+  x.fillStyle='#FFC24B';x.font='900 210px Heebo, sans-serif';x.fillText('#'+seatNo(),540,1210);
+  x.fillStyle='#fff';x.font='900 56px Heebo, sans-serif';x.fillText('הכיסא שלי ב־The Noise 🎤',540,1300);
+  x.direction='ltr';x.font='800 64px Heebo, sans-serif';x.fillStyle='#FFC24B';x.fillText('@'+ME,540,1420);
+  x.direction='rtl';x.fillStyle='#E01F26';const bw=820,bh=130;x.beginPath();x.roundRect?x.roundRect(540-bw/2,1520,bw,bh,65):x.rect(540-bw/2,1520,bw,bh);x.fill();
+  x.fillStyle='#fff';x.font='900 56px Heebo, sans-serif';x.fillText('תפסו גם אתם כיסא 👇',540,1605);
+  x.direction='ltr';x.font='700 44px Heebo, sans-serif';x.fillStyle='rgba(255,255,255,.85)';x.fillText('@the_noise_2026 · thenoise.hakaveret.online',540,1760);
+  c.toBlob(async b=>{if(!b)return;const f=new File([b],'the-noise-seat.png',{type:'image/png'});
+    try{if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:'The Noise',text:'@the_noise_2026 🎤 '+myLink()});return}}catch(e){if(e&&e.name==='AbortError')return}
+    const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='the-noise-seat.png';a.click();toast('הכרטיס נשמר – העלו לסטורי ותייגו @the_noise_2026 🙏')},'image/png')}
+
+// ----- early auditions -----
+let AUD=null;
+async function loadAud(){if(DEMO)return;try{AUD=await call('noise_aud_live',{})}catch(e){}renderAud()}
+function renderAud(){const el=$('#audBody');const a=(AUD&&AUD.aud)||STATE.audition;
+  if(!a||!a.handle){el.innerHTML='<p class="empty">האודישן הבא בקרוב… כתבו בתגובות את השם + השיר שלכם כדי לעלות לבמה! 🎤</p>';return}
+  const y=AUD?AUD.yes:0,n=AUD?AUD.no:0,t=Math.max(1,y+n);let voted=null;try{voted=localStorage.getItem('noise_aud_'+a.day)}catch(e){}
+  el.innerHTML=`<p>🔥 משהו שלא קרה באף עונה: <b>התוכנית מתחילה לפני שהאולם מלא!</b> כל יום מתמודד/ת אחד/ת שר/ה – ואתם מחליטים.</p>
+  <div class="box2"><div class="h" dir="ltr" style="font-size:22px;font-weight:900">@${esc(a.handle)}</div>${a.song?`<div class="s">🎵 ${esc(a.song)}</div>`:''}<div class="s">📺 השירה המזייפת – בפרק של 19:00</div></div>
+  <div class="vbtns"><button class="btn2" id="avY" ${voted?'disabled':''}>✅ נשאר/ת</button><button class="btn2 alt" id="avN" ${voted?'disabled':''}>❌ הולך/ת</button></div>
+  <div class="vbar"><i style="width:${Math.round(y/t*100)}%"></i><u style="width:${Math.round(n/t*100)}%"></u></div>
+  <p class="s">✅ ${y} · ❌ ${n} ${voted?'· הצבעתם '+(voted==='yes'?'✅':'❌'):''}</p>
+  <p class="note">הצבעה אחת ביום = +5 🎟️. אפשר להצביע גם בתגובות באינסטגרם ✅/❌.</p>`;
+  const go=async v=>{if(needSeat())return;try{const r=await call('noise_aud_vote',{h:ME,v});
+    if(r&&r.ok){try{localStorage.setItem('noise_aud_'+a.day,v)}catch(e){}AUD=r;toast('ההצבעה נקלטה! +5 🎟️');refreshMe()}
+    else if(r&&r.err==='already'){try{localStorage.setItem('noise_aud_'+a.day,v)}catch(e){}AUD=r;toast('כבר הצבעתם היום 😉')}
+    else if(r&&r.err==='self')toast('אי אפשר להצביע לעצמך 😅');else toast('ההצבעה סגורה כרגע');renderAud()}catch(e){toast('משהו השתבש, נסו שוב')}};
+  $('#avY').onclick=()=>go('yes');$('#avN').onclick=()=>go('no')}
+
+// ----- masks -----
+let MASKN=null;
+async function loadMask(){if(DEMO)return;try{MASKN=await call('noise_mask_count',{})}catch(e){}renderMask()}
+function renderMask(){const el=$('#maskBody');const m=STATE.mask;
+  if(!m||!m.options){el.innerHTML='<p class="empty">ערב המסכות הבא בקרוב 🎭</p>';return}
+  if(m.revealed){el.innerHTML=`<p>הוסרה המסכה! 🎭 זה היה <b class="k" dir="ltr">@${esc(m.revealed)}</b></p><p class="s">${(m.winners||[]).length} ניחשו נכון וקיבלו +30 🎟️</p>`;return}
+  let g=null;try{g=localStorage.getItem('noise_mask_'+m.day)}catch(e){}
+  el.innerHTML=`<p>${esc(m.clue||'מתמודד/ת מסתורי/ת שר/ה מתחת למסכה…')}</p>
+  <div class="opts">${m.options.map(o=>`<button class="btn2 ${g===o?'':'alt'}" data-o="${esc(o)}" ${g?'disabled':''}>🎭 @${esc(o)}</button>`).join('')}</div>
+  <p class="s">${MASKN!=null?MASKN+' כבר ניחשו · ':''}ניחוש אחד ביום · ניחוש נכון = <b class="k">+30 🎟️</b> · הגילוי בפרק של 19:00</p>`;
+  el.querySelectorAll('[data-o]').forEach(b=>b.onclick=async()=>{if(needSeat())return;try{const r=await call('noise_mask_guess',{h:ME,g:b.dataset.o});
+    if(r&&r.ok){try{localStorage.setItem('noise_mask_'+m.day,b.dataset.o)}catch(e){}MASKN=r.n;toast('הניחוש נקלט! 🎭 הגילוי בפרק של 19:00')}
+    else if(r&&r.err==='already')toast('כבר ניחשתם היום 😉');else toast('המשחק סגור כרגע');renderMask()}catch(e){toast('משהו השתבש, נסו שוב')}})}
+
+const _onPanelV3=onPanel;
+onPanel=function(n){if(n==='aud'){renderAud();loadAud()}else if(n==='mask'){renderMask();loadMask()}else if(n==='invite'){renderInvite();loadRefs().then(renderInvite)}else _onPanelV3(n)};
 
 // ---------- admin ----------
 async function rpc(fn,body){const r=await sb('rpc/'+fn,{method:'POST',body:JSON.stringify(body)});if(!r.ok){const t=await r.text();throw new Error(t.includes('bad password')?'סיסמה שגויה':t)}return r.json().catch(()=>null)}
