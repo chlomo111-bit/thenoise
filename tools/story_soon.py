@@ -21,7 +21,7 @@ if mode == "event":
     body = f"""<div class="pill">🎤 היום באולפן</div>
 <h1>{t1}</h1>
 <div class="sub">{t2}</div>
-<div class="row">🎁 הגרלה ב־20:00 · הזוכה מחליט מה יקרה מחר</div>
+<div class="row">🎁 הגרלה כל ערב ב־20:00 🎟️</div>
 <div class="cta">{t3}</div>"""
 elif mode == "lot5":
     body = f"""<div class="pill">🎁 ההגרלה של הערב</div>
