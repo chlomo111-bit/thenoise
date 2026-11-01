@@ -80,7 +80,7 @@ button{font-family:inherit;cursor:pointer}
 #admin .msg{font-size:14px;margin-top:8px;min-height:20px}
 #admin table{width:100%;border-collapse:collapse;font-size:13px}
 #admin td,#admin th{border-bottom:1px solid var(--line);padding:6px;text-align:right}
-@media (max-width:560px){#react{bottom:128px}#next{display:none}.pill{font-size:13px;padding:5px 11px}#hud img{width:40px;height:40px}}
+@media (max-width:560px){#react{bottom:128px}#next{display:none}.pill{font-size:13px;padding:5px 11px}#hud img{width:40px;height:40px}#hud{gap:6px;padding:10px 8px}#phase{min-width:0;flex:0 1 auto;overflow:hidden;text-overflow:ellipsis;font-size:12px;padding:5px 9px}#count .lb{display:none}#count,#tkPill,#mute{flex:none}#spacer{flex:1 1 0;min-width:0}}
 @media (prefers-reduced-motion:reduce){#intro{transition:none}}
 
 /* ---------- V2 : כרטיסים, משימות, צ'אט, דירוג ---------- */
@@ -162,7 +162,7 @@ button{font-family:inherit;cursor:pointer}
   <div id="spacer"></div>
   <button class="pill" id="tkPill" aria-label="הכרטיסים שלי">🎟️ <b id="tkN">0</b>/100</button>
   <button class="pill" id="mute" aria-label="השתקה">🔊</button>
-  <div class="pill" id="count">בקהל: <b id="nPub">0</b></div>
+  <div class="pill" id="count">👥 <span class="lb">בקהל: </span><b id="nPub">0</b></div>
   <div class="pill" id="next">🎁 הגרלה בעוד <b id="cd">--:--:--</b></div>
 </div>
 
