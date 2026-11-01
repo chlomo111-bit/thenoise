@@ -64,7 +64,7 @@ else:
 html = f"""<!doctype html><html dir="rtl" lang="he"><head><meta charset="utf-8"><style>
 @font-face{{font-family:Heebo;src:url(data:font/ttf;base64,{font}) format("truetype");font-weight:100 900}}
 *{{box-sizing:border-box}}body{{margin:0;width:1080px;height:1920px;font-family:Heebo,sans-serif;color:#fff;overflow:hidden;position:relative;background:#05030a}}
-.bg{{position:absolute;inset:-60px;background:url(data:image/jpeg;base64,{bg}) center/cover;filter:blur(16px) brightness(.42) saturate(1.2)}}
+.clip{{position:absolute;inset:0;overflow:hidden}}.bg{{position:absolute;inset:-60px;background:url(data:image/jpeg;base64,{bg}) center/cover;filter:blur(16px) brightness(.42) saturate(1.2)}}
 .wrap>*{{flex-shrink:0}}.wrap{{position:relative;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:260px 90px 300px;text-align:center}}
 .pill{{background:#e0242b;border-radius:999px;padding:16px 46px;font-weight:900;font-size:46px;box-shadow:0 0 40px rgba(224,36,43,.55)}}
 h1{{font-weight:900;font-size:150px;line-height:1.02;margin:50px 0 24px;letter-spacing:-2px}}.k{{color:#FFC24B}}
@@ -72,10 +72,10 @@ h1{{font-weight:900;font-size:150px;line-height:1.02;margin:50px 0 24px;letter-s
 .cnt{{font-weight:900;font-size:150px;line-height:1;direction:ltr}}.cnt small{{font-size:80px;opacity:.85}}
 .bar{{width:100%;height:56px;border-radius:999px;background:rgba(255,255,255,.12);border:2px solid rgba(255,194,75,.5);margin:26px 0 56px;overflow:hidden;display:flex}}
 .bar i{{display:block;height:100%;width:{pct}%;background:linear-gradient(270deg,#FFC24B,#ff5a5a);border-radius:999px}}
-.row{{width:100%;border:3px solid rgba(255,194,75,.75);border-radius:34px;background:rgba(10,6,16,.6);font-weight:900;font-size:44px;padding:28px 24px;margin-bottom:26px;white-space:nowrap}}
+.row{{width:100%;border:3px solid rgba(255,194,75,.75);border-radius:34px;background:rgba(10,6,16,.6);font-weight:900;font-size:44px;padding:28px 24px;margin-bottom:26px;white-space:nowrap;overflow:hidden}}
 .row span{{direction:ltr;unicode-bidi:isolate}}
 .cta{{margin-top:30px;background:#FFC24B;color:#111;border-radius:999px;padding:26px 64px;font-weight:900;font-size:60px}}
-</style></head><body><div class="bg"></div><div class="wrap">{body}</div></body></html>"""
+</style></head><body><div class="clip"><div class="bg"></div></div><div class="wrap">{body}</div></body></html>"""
 
 async def main():
     async with async_playwright() as p:

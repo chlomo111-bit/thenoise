@@ -15,7 +15,7 @@ html = f"""<!doctype html><html dir="rtl" lang="he"><head><meta charset="utf-8">
 <style>
 @font-face{{font-family:Heebo;src:url(data:font/ttf;base64,{font}) format("truetype");font-weight:100 900}}
 *{{box-sizing:border-box}}body{{margin:0;width:1080px;height:1350px;font-family:Heebo,sans-serif;color:#fff;overflow:hidden;position:relative;background:#05030a}}
-.bg{{position:absolute;inset:-40px;background:url(data:image/jpeg;base64,{bg}) center/cover;filter:blur(18px) brightness(.45) saturate(1.2)}}
+.clip{{position:absolute;inset:0;overflow:hidden}}.bg{{position:absolute;inset:-40px;background:url(data:image/jpeg;base64,{bg}) center/cover;filter:blur(18px) brightness(.45) saturate(1.2)}}
 .wrap>*{{flex-shrink:0}}.wrap{{position:relative;height:100%;display:flex;flex-direction:column;align-items:center;padding:86px 90px 60px;text-align:center}}
 .pill{{background:#e0242b;border-radius:999px;padding:14px 40px;font-weight:900;font-size:40px;box-shadow:0 0 40px rgba(224,36,43,.55)}}
 h1{{font-weight:900;font-size:96px;line-height:1.05;margin:46px 0 8px;letter-spacing:-1px}}h1 .k,.k{{color:#FFC24B}}
@@ -27,7 +27,7 @@ h1{{font-weight:900;font-size:96px;line-height:1.05;margin:46px 0 8px;letter-spa
 .row span{{direction:ltr;unicode-bidi:isolate}}
 .cta{{margin-top:auto;background:#FFC24B;color:#111;border-radius:999px;padding:22px 60px;font-weight:900;font-size:54px}}
 .ft{{margin-top:26px;font-weight:500;font-size:32px;opacity:.85;direction:ltr}}
-</style></head><body><div class="bg"></div><div class="wrap">
+</style></head><body><div class="clip"><div class="bg"></div></div><div class="wrap">
 <div class="pill">🎤 The Noise · בקרוב</div>
 <h1>חסרים לנו עוד <span class="k">{left}</span><br>כדי להתחיל!</h1>
 <div class="sub">כשהאולם מתמלא – בוחרים שופטים ונפתחים האודישנים 🎶</div>
