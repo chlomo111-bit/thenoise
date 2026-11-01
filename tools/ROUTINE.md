@@ -11,6 +11,11 @@ Détails techniques des fonctions SQL : `tools/ROUTINE_FONCTIONS_COMMUNES.md`.
 - Reel de lancement en collaboration : samedi 31/10 19:00 (tâche dédiée, ne pas refaire).
 - Monnaie du jeu = 🎟️ כרטיסים. **Seuil du jour = 100 🎟️.**
 
+
+## ⚠️ RÈGLE DE PUBLICATION (Shlomo, 01/11/2026)
+- **MAXIMUM 1 post + 1 reel par jour** sur @the_noise_2026. Jamais plus (le post du jour du matin = LE post ; la vidéo du jour = LE reel). Avant toute publication FEED/REELS : INSTAGRAM_GET_IG_USER_MEDIA → s'il y a déjà un post (IMAGE/CAROUSEL) ou un reel aujourd'hui (heure d'Israël), ne pas en publier un autre du même type.
+- **STORIES : autant qu'on veut** (« spam story »). À CHAQUE passage (6:00, 12:00, 17:00, 19:55) publier au moins 1 story (outil tools/story_soon.py : modes event / soon / teaser / launch / lot5 / nowin), toujours une vraie idée + un hook, variées : événement du jour, compteur d'abonnés (soon), rappel du post du jour, candidats, idée de la boîte à idées, teaser de la vidéo (~1 h avant le reel), résultat de la loterie. Chaque story une seule fois, copiée dans ~/Desktop/Jeux/The Noise/.
+
 ## 0. Shabbat
 Rien entre vendredi 16:00 et samedi 18:30 (heure d'Israël). Toute tâche qui se déclenche dans ce créneau s'arrête immédiatement.
 La loterie du vendredi est faite (vidéo : chat « The Noise – vidéos ») samedi à partir de 18:30 (loterie du vendredi d'abord, `noise_fan_draw('<date du vendredi>')`), puis celle du samedi à 20:00.
