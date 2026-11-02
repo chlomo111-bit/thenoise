@@ -91,3 +91,6 @@ Plus de message « à payer par Bit » à Shlomo : le prévenir seulement en cas
 - « The Noise – passages » 6:00, 12:00, 17:00, 19:55 (vendredi : 6:00, 12:00).
 - « The Noise – loterie 20:00 » dim–jeu + sam 20:00 ; samedi 18:30 : loterie du vendredi.
 - « The Noise – publier le reel collab » (ponctuelle, 31/10 19:00, dans le chat « The Noise – vidéos »).
+
+## Règle horaire (Shlomo, 02/11)
+- RIEN n'est publié sur Instagram avant 08:00 (post, story, réponses). Production du matin à 8:02.
