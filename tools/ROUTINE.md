@@ -94,3 +94,14 @@ Plus de message « à payer par Bit » à Shlomo : le prévenir seulement en cas
 
 ## Règle horaire (Shlomo, 02/11)
 - RIEN n'est publié sur Instagram avant 08:00 (post, story, réponses). Production du matin à 8:02.
+
+## RÈGLEMENT 03.11 (validé par Shlomo, en vigueur dès le mardi 03.11.2026) — PRIORITAIRE sur tout ce qui précède
+Remplace « une vidéo du jour obligatoire chaque jour » et le décalage Shabbat à 18:30.
+1. **Alternance reel / post (tous les jeux)** : mar 03.11 = REEL, mer 04 = post, jeu 05 = REEL, ven 06 = post (+ Shabbat), sam 07 soir = REEL (toujours, priorité absolue), dim 08 = post, lun 09 = REEL, mar 10 = post, mer 11 = REEL, jeu 12 = post, ven 13 = post (vendredi = toujours post), sam 14 soir = REEL, dim 15 = post… Règle : jamais deux reels de suite ; samedi soir = toujours reel ; vendredi et dimanche = toujours post ; sinon on alterne. Aucune vidéo de remplissage.
+   - The Noise : le POST DU JOUR du matin (8:02) est publié TOUS les jours de semaine (c'est la base de la loterie de 20:00 : commenter le post du jour + 100 🎟️). Les jours REEL, le reel s'ajoute le soir (19:00) ; les jours POST, pas de reel (donc pas de textes de voix à Shlomo).
+2. **Structure du reel** (épisode d'émission télé animée, ~45–60 s) : (1) explication courte : « The Noise – l'émission où les candidats ET le jury sont choisis parmi les abonnés » ; (2) « hier on en était à… (X candidats, Y juges en lice, Z abonnés) – aujourd'hui on est à… » ; (3) [מבזק au milieu – le journal de Danit] le commentaire du jour (le plus liké / l'idée du gagnant) ; (4) ce qui s'est passé hier (résultats des votes, éliminations, révélations) ; fin = cliffhanger + question à commenter.
+3. **Ton** : épisode de télé-réalité animée : tension, éliminations, rebondissements, envie de voir la suite. Filmé sur le plateau 3D (tools/film3d_0211.py + tools/build_ep_0211.py), son calé image par image.
+4. **Paliers d'abonnés** (noise_state `palier` = dernier palier fêté) : tous les +10 abonnés → TOUT le monde reçoit +50 🎟️ (select noise_palier_bonus(<abonnés>)) + story « 🎉 X abonnés! כולם קיבלו 50 🎟️ » ; tous les 100 → grand événement (prime spéciale ×2, invité surprise, fête au plateau…) annoncé en story + dans le prochain reel. Jamais de vrai argent.
+5. **Shabbat** : vendredi = post normal seulement + story « שבת שלום » 1 h avant l'entrée de Shabbat (Tel Aviv, vérifier l'horaire chaque semaine, ex. ven 06.11 entrée ≈ 16:23 → story ≈ 15:20). Rien pendant Shabbat (pas de loterie le vendredi soir). Samedi soir après la sortie : REEL + loterie (vendredi + samedi).
+6. **Stories** : minimum 3 par jour en semaine, sans maximum, en alternant images ET petites VIDÉOS en story (8–10 s, plateau 3D qui bouge + musique synthétique, jamais de voix ElevenLabs) : `python3 tools/story_video.py out.mp4 '<titre>' '<texte>' '<cta>'`. Cadrage vérifié avant chaque publication.
+7. Rien n'est publié avant 08:00.
