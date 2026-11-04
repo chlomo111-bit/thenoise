@@ -125,3 +125,8 @@ DÉCISION (test à partir du jeu. 05.11) :
 - Post du jour : 8:02 (inchangé).
 - Juste après publication : répondre à TOUS les commentaires pendant la 1re heure + story « פרק חדש עכשיו 🔥 » (la 1re heure décide de la diffusion).
 - Comparer après 3 reels à 20:30 (vues à 24 h, temps moyen, partages) ; si moins bien que 19:00 → revenir à 19:00.
+
+## Hymne « אני מזייף » (validé par Shlomo le 04.11)
+- Fichier : media/musique/hymne_v2.mp3 (Suno, 63 s, 136 BPM). Pas de stems → « ducking » : la musique descend à ~18 % sous les voix, remonte entre les répliques.
+- Chaque reel : ouvre sur le refrain (+4 dB, public qui saute, Dudi + NissoC qui dansent, texte « אני מזייף, ואני גאה בזה! ») et finit sur le gros refrain + « תייגו חבר שמזייף כמוני 👇 ».
+- Modèle validé « top » : tools/demo_hymne.py (exemple 10 s). Stories vidéo : l'hymne remplace la musique synthétique.
