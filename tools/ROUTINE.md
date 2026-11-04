@@ -105,3 +105,10 @@ Remplace « une vidéo du jour obligatoire chaque jour » et le décalage Shabba
 5. **Shabbat** : vendredi = post normal seulement + story « שבת שלום » 1 h avant l'entrée de Shabbat (Tel Aviv, vérifier l'horaire chaque semaine, ex. ven 06.11 entrée ≈ 16:23 → story ≈ 15:20). Rien pendant Shabbat (pas de loterie le vendredi soir). Samedi soir après la sortie : REEL + loterie (vendredi + samedi).
 6. **Stories** : minimum 3 par jour en semaine, sans maximum, en alternant images ET petites VIDÉOS en story (8–10 s, plateau 3D qui bouge + musique synthétique, jamais de voix ElevenLabs) : `python3 tools/story_video.py out.mp4 '<titre>' '<texte>' '<cta>'`. Cadrage vérifié avant chaque publication.
 7. Rien n'est publié avant 08:00.
+
+## Leçons des stats (04.11) – à appliquer à chaque reel
+- Chiffres : lancement 31/10 = 1599 vues, 32 commentaires, 4 partages, 12,5 s de visionnage moyen ; 01/11 = 696 vues, 11 com., 1 partage ; 02/11 = 182 vues, 7 com., 0 partage ; 03/11 = 172 vues, 1 com., 0 partage, 8,9 s de visionnage moyen sur 56 s.
+- Ce qui marche : une action simple et personnelle (« כתבו אני בקהל » → un siège à ton nom), de vraies personnes nommées/taguées, un défi à envoyer à un ami.
+- Ce qui ne marche pas : vidéos de 50–56 s qui commencent par « ברוכים הבאים » → les gens partent à 9 s.
+- Donc chaque reel : 25–35 s max ; hook choc dans les 2 premières secondes ; UNE mécanique de partage (« שלחו את הסרטון ל… ») qui récompense l'envoyeur ET l'ami (50 🎟️ chacun quand l'ami commente) ; se demander toujours « qui va envoyer ça à qui ? » (ex. à l'ami qui chante faux sous la douche, à l'ami qui ferait un bon juge) ; le mot-clé à commenter est répété à l'écran à la fin.
+- Mécanique « אני מזייף » (dès le reel du 05/11) : quand quelqu'un commente « אני מזייף » (idéalement en taguant qui lui a envoyé) → il devient candidat (casting) + 50 🎟️, et la personne taguée reçoit aussi 50 🎟️ (noise_ig_award / insert noise_tickets).
