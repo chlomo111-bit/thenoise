@@ -112,3 +112,16 @@ Remplace « une vidéo du jour obligatoire chaque jour » et le décalage Shabba
 - Ce qui ne marche pas : vidéos de 50–56 s qui commencent par « ברוכים הבאים » → les gens partent à 9 s.
 - Donc chaque reel : 25–35 s max ; hook choc dans les 2 premières secondes ; UNE mécanique de partage (« שלחו את הסרטון ל… ») qui récompense l'envoyeur ET l'ami (50 🎟️ chacun quand l'ami commente) ; se demander toujours « qui va envoyer ça à qui ? » (ex. à l'ami qui chante faux sous la douche, à l'ami qui ferait un bon juge) ; le mot-clé à commenter est répété à l'écran à la fin.
 - Mécanique « אני מזייף » (dès le reel du 05/11) : quand quelqu'un commente « אני מזייף » (idéalement en taguant qui lui a envoyé) → il devient candidat (casting) + 50 🎟️, et la personne taguée reçoit aussi 50 🎟️ (noise_ig_award / insert noise_tickets).
+
+## Horaire de publication des reels (analyse du 04.11)
+Données réelles (heure d'Israël, UTC+2) :
+- Reels : 31/10 sam. 19:01 → 1599 vues · 01/11 dim. 20:10 → 696 · 02/11 lun. 19:25 → 182 · 03/11 mar. 19:03 → 172.
+- Commentaires des abonnés (64 relevés) : 3 pics → 06:00–09:00 (trajet), 12:00–15:00 (pause), **20:00–22:00 (le plus fort après un reel)**. Presque rien entre 16:00 et 19:30.
+- `online_followers` indisponible sous 100 abonnés (à relancer au palier 100).
+- À 18:00–19:00, 4 comptes de Shlomo publient déjà (סבתא test 18:00, השכנים 19:00, @chlomo.assouline 18:56) → même public, ils se cannibalisent.
+DÉCISION (test à partir du jeu. 05.11) :
+- **Reel de semaine à 20:30** (tâche programmée à 20:20, car elles partent 10–25 min en retard). Il sort APRÈS l'annonce de la loterie de 20:00 → la story résultat pousse vers le reel.
+- **Samedi soir : reel à 19:00** (sortie de Shabbat ~17:25 ; le meilleur reel jusqu'ici est sorti un samedi à 19:01).
+- Post du jour : 8:02 (inchangé).
+- Juste après publication : répondre à TOUS les commentaires pendant la 1re heure + story « פרק חדש עכשיו 🔥 » (la 1re heure décide de la diffusion).
+- Comparer après 3 reels à 20:30 (vues à 24 h, temps moyen, partages) ; si moins bien que 19:00 → revenir à 19:00.
