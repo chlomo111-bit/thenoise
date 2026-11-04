@@ -1,11 +1,14 @@
 """Story VIDÉO The Noise (1080×1920, ~8 s) : plateau 3D du jeu qui bouge (caméra en mouvement, lumières,
 public qui saute) + texte en haut/bas + musique synthétique (jamais de voix).
-Usage : python3 tools/story_video.py out.mp4 '<titre (html, .k = jaune)>' '<texte>' '<cta>' [secondes=8]
+Usage : python3 tools/story_video.py out.mp4 '<titre (html, .k = jaune)>' '<texte>' '<cta>' [secondes=8] [voix.mp3]
+Depuis le 04.11 : musique = hymne media/musique/hymne_v2.mp3 (si présent) ; voix ElevenLabs optionnelle (générée par Claude),
+la musique descend à 18 % sous la voix (début 0.6 s).
 Dépendances : npm i three@0.128.0 @fontsource/heebo dans /tmp/nm (NM=/tmp/nm/node_modules).
 """
 import sys, os, base64, subprocess, pathlib, tempfile
 from playwright.sync_api import sync_playwright
 out, title, text, cta = sys.argv[1:5]; SEC = float(sys.argv[5]) if len(sys.argv) > 5 else 8.0
+VOICE = sys.argv[6] if len(sys.argv) > 6 else None
 FPS = 30; N = int(SEC * FPS)
 R = pathlib.Path(__file__).resolve().parent.parent; NM = os.environ.get('NM', '/tmp/nm/node_modules')
 font = base64.b64encode((R / 'tools/fonts/Heebo.ttf').read_bytes()).decode()
@@ -65,12 +68,21 @@ with sync_playwright() as p:
         pg.evaluate(f'window.__T={t};vshot({t},{k})'); ff.stdin.write(pg.screenshot(type='jpeg', quality=88))
     ff.stdin.close(); ff.wait(); b.close()
 
-# musique : kick 4/4 + hi-hat + basse en arpège (120 bpm), fondu en fin
-mus = (f"aevalsrc='0.6*sin(2*PI*52*t)*exp(-16*mod(t,0.5))"
-       f"+0.08*(random(0)*2-1)*exp(-60*mod(t+0.25,0.5))"
-       f"+0.16*sin(2*PI*110*(1+0.5*eq(floor(mod(t,2)/0.5),1)+0.25*eq(floor(mod(t,2)/0.5),2)+0.333*eq(floor(mod(t,2)/0.5),3))*t)*exp(-3*mod(t,0.25))"
-       f"+0.05*sin(2*PI*440*t)*eq(mod(floor(t*4),8),0)*exp(-8*mod(t,0.25))':s=44100:d={SEC}")
-subprocess.run(['ffmpeg', '-y', '-v', 'error', '-i', str(tmp / 'v.mp4'), '-f', 'lavfi', '-i', mus,
-                '-filter_complex', f'[1:a]afade=t=in:d=0.3,afade=t=out:st={SEC-0.8}:d=0.8,alimiter=limit=0.9[a]',
-                '-map', '0:v', '-map', '[a]', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '160k', '-shortest', '-movflags', '+faststart', out], check=True)
+HYM = R / 'media/musique/hymne_v2.mp3'
+if HYM.exists():
+    ins = ['-i', str(HYM)]; m = '[1:a]atrim=0:%s,asetpts=PTS-STARTPTS' % SEC
+else:   # musique synthétique de secours : kick 4/4 + hi-hat + basse (120 bpm)
+    mus = (f"aevalsrc='0.6*sin(2*PI*52*t)*exp(-16*mod(t,0.5))"
+           f"+0.08*(random(0)*2-1)*exp(-60*mod(t+0.25,0.5))"
+           f"+0.16*sin(2*PI*110*(1+0.5*eq(floor(mod(t,2)/0.5),1)+0.25*eq(floor(mod(t,2)/0.5),2)+0.333*eq(floor(mod(t,2)/0.5),3))*t)*exp(-3*mod(t,0.25))':s=44100:d={SEC}")
+    ins = ['-f', 'lavfi', '-i', mus]; m = '[1:a]anull'
+fl = f'{m},afade=t=in:d=0.3,afade=t=out:st={SEC-0.8}:d=0.8'
+if VOICE:
+    vd = float(subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', VOICE], capture_output=True, text=True).stdout or 0)
+    a, z = 0.35, 0.6 + vd + 0.15
+    fl += f",volume='if(between(t,{a},{z}),0.18,1)':eval=frame[m];[2:a]volume=1.15,adelay=600|600[v];[m][v]amix=inputs=2:normalize=0"
+    ins += ['-i', VOICE]
+fl += ',alimiter=limit=0.9[a]'
+subprocess.run(['ffmpeg', '-y', '-v', 'error', '-i', str(tmp / 'v.mp4'), *ins,
+                '-filter_complex', fl, '-map', '0:v', '-map', '[a]', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '160k', '-t', str(SEC), '-movflags', '+faststart', out], check=True)
 print('ok', out)

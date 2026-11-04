@@ -138,3 +138,8 @@ DÉCISION (test à partir du jeu. 05.11) :
 - 1 prise par voix (économie de crédits : ~13 crédits/seconde, un reel de 30 s ≈ 400 crédits) ; une seule génération, jamais de relance en double.
 - Récupération : creative_get_flow_run_status → content_url → curl (elevenlabsusercontent.com fonctionne).
 - Toujours écrire le texte APRÈS l'analyse du reel précédent + commentaires ; garder voix.txt dans media/AAAA-MM-JJ/.
+
+## Stories avec voix (règle du 04.11, 20:53 — remplace « pas de voix dans les stories »)
+- Les stories VIDÉO ont maintenant une phrase parlée (Dudi/Nimrod ou Danit, générée par Claude, eleven_v3, 1 prise, ~3–5 s ≈ 40–65 crédits).
+- tools/story_video.py out.mp4 '<titre>' '<texte>' '<cta>' [sec] [voix.mp3] → hymne en fond, baissé sous la voix.
+- La voix dit une seule chose courte et humaine (question ou appel : « מי החבר הכי מזייף שלכם? »). Stories image : sans voix.
