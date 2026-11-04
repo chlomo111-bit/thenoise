@@ -130,3 +130,11 @@ DÉCISION (test à partir du jeu. 05.11) :
 - Fichier : media/musique/hymne_v2.mp3 (Suno, 63 s, 136 BPM). Pas de stems → « ducking » : la musique descend à ~18 % sous les voix, remonte entre les répliques.
 - Chaque reel : ouvre sur le refrain (+4 dB, public qui saute, Dudi + NissoC qui dansent, texte « אני מזייף, ואני גאה בזה! ») et finit sur le gros refrain + « תייגו חבר שמזייף כמוני 👇 ».
 - Modèle validé « top » : tools/demo_hymne.py (exemple 10 s). Stories vidéo : l'hymne remplace la musique synthétique.
+
+## Voix ElevenLabs — c'est Claude qui les génère (règle du 04.11, 20:51)
+- Shlomo ne génère plus les voix : plus de texte à lui envoyer, plus d'attente des MP3.
+- Outil : ElevenLabs creative_generate_speech, modèle eleven_v3 (tags [shouting] [whispers] [laughs] [excited]).
+  Nimrod / Dudi = ZiofZHcEBTn5sRySe5h8 · Danit / présentatrice = s0T0DT6EAPeX57MQpn3I.
+- 1 prise par voix (économie de crédits : ~13 crédits/seconde, un reel de 30 s ≈ 400 crédits) ; une seule génération, jamais de relance en double.
+- Récupération : creative_get_flow_run_status → content_url → curl (elevenlabsusercontent.com fonctionne).
+- Toujours écrire le texte APRÈS l'analyse du reel précédent + commentaires ; garder voix.txt dans media/AAAA-MM-JJ/.
