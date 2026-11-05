@@ -152,3 +152,11 @@ DÉCISION (test à partir du jeu. 05.11) :
 - Les stories VIDÉO ont maintenant une phrase parlée (Dudi/Nimrod ou Danit, générée par Claude, eleven_v3, 1 prise, ~3–5 s ≈ 40–65 crédits).
 - tools/story_video.py out.mp4 '<titre>' '<texte>' '<cta>' [sec] [voix.mp3] → hymne en fond, baissé sous la voix.
 - La voix dit une seule chose courte et humaine (question ou appel : « מי החבר הכי מזייף שלכם? »). Stories image : sans voix.
+
+## Décisions du 05.11 (Shlomo : « applique tout tes conseils »)
+- LOTERIE (essai 2 semaines, jusqu'au 19.11) : il suffit de commenter le post du jour ; 100+ 🎟️ = 2 chances. noise_fan_draw modifié ; textes site / post_jour / story_soon / plateau mis à jour. Le passage DOIT remplir noise_daily_commenters (day, handle, post_id) avec les commentateurs du post du jour avant 20:00.
+- Votes d'audition ✅/❌ en COMMENTAIRE (compter dans le passage, en plus du site).
+- Reels ≤ 30 s, ouverture + fin sur le refrain de l'hymne (boucle), réponse à chaque commentaire dans l'heure.
+- Rendez-vous story fixe « הזיוף של היום » (17:00) : le meilleur commentaire/voix du jour avec le pseudo de l'abonné. Story question à 17:00 (Shlomo ajoute le sondage s'il veut).
+- COLLAB : l'API ne permet pas d'inviter des collaborateurs → le samedi, Shlomo ajoute lui-même les 4 autres comptes en collaborateurs sur le reel crossover (Modifier → Inviter des collaborateurs). Lui envoyer UN rappel d'une ligne après la publication de 19:00.
+- PLAN SEMAINE 06–12.11 : ven 6 post « מי מגיע לפרק של מוצ״ש? » + שבת שלום · sam 7 reel crossover ר · dim 8 post + stories compteur 📩 X/50 · lun 9 REEL « הזיופים שלכם – זה החבר שלכם במקלחת 🚿 » (voix d'abonnés si reçues en DM, sinon public 3D qui chante l'hymne faux) · mar 10 post « מי השופט הכי קשוח שאתם מכירים? » (tag) · mer 11 REEL « 4 שופטים – אחד מהם אתם? » (dévoiler les 1ers jurés avec pseudos à l'écran : noam_jano, itaylevi885, jewels_by_girlz, bdvy214) · jeu 12 post + BILAN (objectif 300 vues/reel ; sinon proposer fusion).

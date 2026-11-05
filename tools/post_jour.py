@@ -23,8 +23,8 @@ h1{{font-weight:900;font-size:104px;line-height:1.04;margin:40px 0 26px;letter-s
 <div class="pill">🎁 ההגרלה של הערב · 20:00</div>
 <h1>מי יחליט מה<br>יקרה <span class="k">מחר</span> באולפן?</h1>
 {ev}
-<div class="row">1️⃣ אספו 100 🎟️ באולפן (הקישור בביו)</div>
-<div class="row">2️⃣ הגיבו כאן על הפוסט הזה 👇</div>
+<div class="row">✅ חדש: מספיק להגיב על הפוסט כדי להיכנס!</div>
+<div class="row">🎟️ 100 כרטיסים באולפן = כפול סיכוי</div>
 <div class="row">🏆 הזוכה: <span dir="ltr">+300 🎟️</span> · כתר 👑 · מחליט מה יקרה מחר</div>
 <div class="cta">הגיבו כאן 👇</div>
 <div class="ft">@the_noise_2026 · thenoise.hakaveret.online</div>

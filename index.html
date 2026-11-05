@@ -232,7 +232,7 @@ button{font-family:inherit;cursor:pointer}
 <div id="nw" role="dialog" aria-modal="true" aria-labelledby="nwT"><div class="in"><h2 id="nwT">🆕 חדש באולפן!</h2>
   <ul>
   <li><b>🎟️ כרטיסים</b> – אוספים על כל 👏 ו־🍅, כניסה יומית, משימות, ותגובות באינסטגרם.</li>
-  <li><b>🎁 הגרלה כל ערב ב־20:00</b> – 100 כרטיסים ביום + תגובה על הפוסט של היום (המוצמד בפרופיל) = אתם בהגרלה! ההגרלה בשידור חי כאן באולפן, והזוכה יושב מחר בכיסא 👑.</li>
+  <li><b>🎁 הגרלה כל ערב ב־20:00</b> – מספיק להגיב על הפוסט של היום = אתם בהגרלה! (100 כרטיסים ביום = כפול סיכוי 🎟️) ההגרלה בשידור חי כאן באולפן, והזוכה יושב מחר בכיסא 👑.</li>
   <li><b>🗣️ המגיב של היום</b> – מי שכתב הכי הרבה תגובות ביום מקבל כתר על הדמות ובוחר משהו מטורף שיקרה מחר באולפן!</li>
   <li><b>🎯 3 משימות</b> חדשות כל יום (מתחלפות בחצות).</li>
   <li><b>💬 צ׳אט הקהל</b> + <b>💡 תיבת רעיונות</b> לבמאי.</li>
@@ -570,7 +570,7 @@ const DEMO_ME={handle:'demo',in_audience:true,goal:100,today:64,total:212,commen
 let shownFresh=new Set();
 function setMe(m){if(!m||typeof m!=='object')return;const prev=MESTATE;MESTATE=m;
   (m.fresh||[]).forEach(k=>{if(shownFresh.has(k))return;shownFresh.add(k);const ms=(m.missions||[]).find(x=>x.k===k);if(ms)celebrate('✅ משימה הושלמה!',ms.t,'+'+ms.r+' 🎟️')});
-  if(prev&&prev.handle===m.handle&&prev.today<100&&m.today>=100)setTimeout(()=>celebrate('🎟️ 100 כרטיסים!',m.commented?'אתם בהגרלה של הערב ב־20:00 🎁':'עכשיו רק להגיב על הפוסט של היום ב־@the_noise_2026','🤞'),(m.fresh||[]).length?2800:0);
+  if(prev&&prev.handle===m.handle&&prev.today<100&&m.today>=100)setTimeout(()=>celebrate('🎟️ 100 כרטיסים!',m.commented?'כפול סיכוי בהגרלה של הערב ב־20:00 🎁':'עכשיו להגיב על הפוסט של היום ב־@the_noise_2026 – וזה כפול סיכוי','🤞'),(m.fresh||[]).length?2800:0);
   renderMe()}
 async function visit(){if(DEMO){setMe(DEMO_ME);return}if(!ME)return;try{const v=await call('noise_visit',{h:ME});setMe(v);if(v&&v.first_visit&&v.streak_bonus>0)setTimeout(()=>celebrate('🔥 '+v.streak+' ימים ברצף!','בונוס כניסה: +'+v.streak_bonus+' 🎟️','🔥'),1500)}catch(e){try{setMe(await call('noise_me',{h:ME}))}catch(_){}}}
 async function refreshMe(){if(DEMO||!ME)return;try{setMe(await call('noise_me',{h:ME}))}catch(e){}}
@@ -581,12 +581,12 @@ function renderMe(){renderPill();const el=$('#meBody');if(!el)return;const m=MES
   if(!ME&&!DEMO){el.innerHTML='<p>חפשו את השם שלכם בשורת החיפוש למעלה ולחצו <b>"זה אני! 👋"</b> כדי להתחיל לאסוף 🎟️ כרטיסים.</p><p class="empty">עוד לא באולם? עקבו אחרי <b>@the_noise_2026</b> ותקבלו כיסא.</p>';return}
   if(!m){el.innerHTML='<p class="empty">טוען...</p>';return}
   if(!m.in_audience){el.innerHTML=`<p><b dir="ltr">@${esc(m.handle)}</b> – ${ERRS.not_in_audience}</p>`;return}
-  const ok100=m.today>=100,inDraw=ok100&&m.commented;
+  const ok100=m.today>=100,inDraw=m.commented;
   el.innerHTML=`<div class="big">${m.today} <small>🎟️ היום · ${m.total} בסך הכול</small></div>${bar(m.today,100)}<div class="s" style="font-size:13px;opacity:.8">${ok100?'💯 עברתם את ה־100!':`עוד ${100-m.today} כרטיסים ל־100`}</div>
   <div class="box2"><h3>🎁 ההגרלה – הערב ב־20:00</h3>
-   <div class="chk">${ok100?'✅':'⬜'} 100 כרטיסים היום (${Math.min(m.today,100)}/100)</div>
-   <div class="chk">${m.commented?'✅':'❌'} תגובה על הפוסט של היום ב־@the_noise_2026</div>
-   <p style="font-weight:900;color:var(--y)">${m.drawn?(m.drawn_today?`ההגרלה של היום נערכה: 👑 @${esc(m.drawn_today)}${m.drawn_today===m.handle?' – זה אתם!!! 🎉':''}`:'ההגרלה של היום נערכה – אף אחד לא עמד בתנאים 😢'):inDraw?'אתם בהגרלה של הערב! 🤞':'שני ✅ = כרטיס להגרלה'}</p>
+   <div class="chk">${m.commented?'✅':'❌'} תגובה על הפוסט של היום ב־@the_noise_2026 = אתם בהגרלה</div>
+   <div class="chk">${ok100?'✅':'⬜'} בונוס: 100 כרטיסים היום = כפול סיכוי (${Math.min(m.today,100)}/100)</div>
+   <p style="font-weight:900;color:var(--y)">${m.drawn?(m.drawn_today?`ההגרלה של היום נערכה: 👑 @${esc(m.drawn_today)}${m.drawn_today===m.handle?' – זה אתם!!! 🎉':''}`:'ההגרלה של היום נערכה – אף אחד לא עמד בתנאים 😢'):inDraw?'אתם בהגרלה של הערב! 🤞':'תגובה אחת על הפוסט = כרטיס להגרלה 💬'}</p>
    <div class="note">זוכה אחד בכל ערב: +300 🎟️ בונוס + הכיסא 👑 מחר בשורה הראשונה + הוא מחליט מה יקרה מחר באולפן ✨ + תיוג בסרטון. התגובות נבדקות ב־6:00, 12:00, 17:00 ו־19:55 – הגיבו מוקדם 😉</div></div>
   <div class="box2"><h3>🎯 משימות היום</h3>${(m.missions||[]).map(x=>`<div class="mis ${x.done?'done':''}"><div class="top"><span>${x.done?'✅':'🎯'} ${esc(x.t)}</span><span class="rw">+${x.r} 🎟️</span></div>${bar(x.progress,x.goal)}<div class="note" style="margin:0">${x.progress}/${x.goal}</div></div>`).join('')}
    <div class="note">משימות חדשות בכל חצות 🕛</div></div>
@@ -657,7 +657,7 @@ async function joinWith(raw){const h=String(raw||'').trim().replace(/^@/,'').toL
   try{const REFH=getRef();const r=await call('noise_join',REFH&&REFH!==h?{h,ref:REFH}:{h});if(!r||!r.ok){toast(r&&r.err==='busy'?'יש עומס באולפן, נסו שוב בעוד כמה דקות':'זה לא נראה כמו @ של אינסטגרם 🤔');return false}
     try{localStorage.setItem('noise_joins',String(n+1))}catch(e){}await load();
     if(r.ref)setTimeout(()=>toast('@'+r.ref+' הזמין/ה אתכם – קיבל/ה +50 🎟️ בזכותכם 🙌'),4200);
-    if(claimSeat(r.handle)){celebrate('🪑 קיבלתם כיסא!','@'+r.handle+' – עכשיו אתם בקהל של The Noise','🎉');setTimeout(()=>toast('כדי להיכנס להגרלה: 100 🎟️ + תגובה על הפוסט של היום ב־@the_noise_2026'),3500)}
+    if(claimSeat(r.handle)){celebrate('🪑 קיבלתם כיסא!','@'+r.handle+' – עכשיו אתם בקהל של The Noise','🎉');setTimeout(()=>toast('כדי להיכנס להגרלה: מספיק להגיב על הפוסט של היום ב־@the_noise_2026 💬'),3500)}
     else toast('נרשמתם! הכיסא שלכם יופיע עוד רגע');return true}catch(e){toast('משהו השתבש, נסו שוב');return false}}
 function askHandle(){if(ME||DEMO)return false;let sk=null;try{sk=sessionStorage.getItem('noise_jn_skip')}catch(e){}if(sk)return false;$('#jn').classList.add('on');setTimeout(()=>{try{$('#jnIn').focus()}catch(e){}},300);return true}
 $('#jnF').addEventListener('submit',async e=>{e.preventDefault();const ok=await joinWith($('#jnIn').value);if(ok){$('#jn').classList.remove('on');setTimeout(()=>showNews(),2500)}});
