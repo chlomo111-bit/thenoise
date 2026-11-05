@@ -310,17 +310,16 @@ window.addEventListener('error',e=>toast('שגיאה: '+(e.message||'')));
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function sb(path,opts={}){return fetch(CONFIG.SUPABASE_URL+"/rest/v1/"+path,{...opts,headers:{apikey:CONFIG.SUPABASE_KEY,"Content-Type":"application/json",...(opts.headers||{})}})}
 
-// ---------- countdown to the nightly draw (20:00 Israel; Friday's draw moves to Saturday 18:30, after Shabbat) ----------
+// ---------- countdown to the nightly draw (20:00 Israel; Friday's draw moves to Saturday 20:00, after Shabbat) ----------
 function nextEpisode(){const now=new Date();
   const fmt=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Jerusalem',weekday:'short',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
   const parts=fmt.formatToParts(now);const g=k=>parts.find(x=>x.type===k).value;const wd=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].indexOf(g('weekday'));
   const cur=Number(g('hour'))%24*3600+Number(g('minute'))*60+Number(g('second'));
-  for(let d=0;d<8;d++){const day=(wd+d)%7;const tgts=day===5?[]:day===6?[18*3600+30*60,20*3600]:[20*3600];
+  for(let d=0;d<8;d++){const day=(wd+d)%7;const tgts=day===5?[]:[20*3600];
     for(const t of tgts){const secs=d*86400+t-cur;if(secs>0)return secs}}return 0}
-function epSecs(){const now=new Date();const fmt=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Jerusalem',weekday:'short',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
-  const parts=fmt.formatToParts(now);const g=k=>parts.find(x=>x.type===k).value;const wd=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].indexOf(g('weekday'));
-  const cur=Number(g('hour'))%24*3600+Number(g('minute'))*60+Number(g('second'));
-  for(let d=0;d<8;d++){const day=(wd+d)%7;const t=day===5?null:day===6?19*3600+30*60:19*3600;if(t===null)continue;const secs=d*86400+t-cur;if(secs>0)return secs}return 0}
+// prochains épisodes (reels) — liste tenue à jour chaque semaine par l'automatisation (heure d'Israël)
+const EPISODES=['2026-11-07T19:00:00+02:00','2026-11-09T20:30:00+02:00','2026-11-11T20:30:00+02:00','2026-11-14T19:00:00+02:00'];
+function epSecs(){const now=Date.now();for(const e of EPISODES){const s=Math.floor((Date.parse(e)-now)/1000);if(s>0)return s}return 0}
 function fmtS(s){return [Math.floor(s/3600),Math.floor(s%3600/60),s%60].map(v=>String(v).padStart(2,'0')).join(':')}
 function tick(){try{const e=$('#cdEp');if(e)e.textContent=fmtS(epSecs())}catch(_){}const s=nextEpisode();const t=[Math.floor(s/3600),Math.floor(s%3600/60),s%60].map(v=>String(v).padStart(2,'0')).join(':');$('#cd').textContent=t;$('#cd2').textContent=t}
 setInterval(tick,1000);tick();

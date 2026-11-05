@@ -160,3 +160,8 @@ DÉCISION (test à partir du jeu. 05.11) :
 - Rendez-vous story fixe « הזיוף של היום » (17:00) : le meilleur commentaire/voix du jour avec le pseudo de l'abonné. Story question à 17:00 (Shlomo ajoute le sondage s'il veut).
 - COLLAB : l'API ne permet pas d'inviter des collaborateurs → le samedi, Shlomo ajoute lui-même les 4 autres comptes en collaborateurs sur le reel crossover (Modifier → Inviter des collaborateurs). Lui envoyer UN rappel d'une ligne après la publication de 19:00.
 - PLAN SEMAINE 06–12.11 : ven 6 post « מי מגיע לפרק של מוצ״ש? » + שבת שלום · sam 7 reel crossover ר · dim 8 post + stories compteur 📩 X/50 · lun 9 REEL « הזיופים שלכם – זה החבר שלכם במקלחת 🚿 » (voix d'abonnés si reçues en DM, sinon public 3D qui chante l'hymne faux) · mar 10 post « מי השופט הכי קשוח שאתם מכירים? » (tag) · mer 11 REEL « 4 שופטים – אחד מהם אתם? » (dévoiler les 1ers jurés avec pseudos à l'écran : noam_jano, itaylevi885, jewels_by_girlz, bdvy214) · jeu 12 post + BILAN (objectif 300 vues/reel ; sinon proposer fusion).
+
+## Site — générique d'entrée (05.11 soir)
+- index.html : const EPISODES = dates ISO des prochains reels (compte à rebours « הפרק הבא »). À METTRE À JOUR chaque dimanche (semaine suivante) — sinon le compteur tombe à 0.
+- Tirage du samedi = 20:00 (plus 18:30).
+- Chaque passage : mettre à jour noise_state 'followers' {n, at} (il était bloqué à 51 depuis le 01/11 → le site affichait 51).
