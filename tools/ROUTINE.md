@@ -165,3 +165,4 @@ DÉCISION (test à partir du jeu. 05.11) :
 - index.html : const EPISODES = dates ISO des prochains reels (compte à rebours « הפרק הבא »). À METTRE À JOUR chaque dimanche (semaine suivante) — sinon le compteur tombe à 0.
 - Tirage du samedi = 20:00 (plus 18:30).
 - Chaque passage : mettre à jour noise_state 'followers' {n, at} (il était bloqué à 51 depuis le 01/11 → le site affichait 51).
+- 06.11 : Shlomo trouve la voix v3 « pas expressive » → TOUJOURS eleven_v4 avec tags superposés ([excited] [shouting], [nervous] [whispers], [gasps], [laughs], [mischievously], [short pause]), ellipses et !! ; une réplique = une génération (timing précis, pas de découpe).
