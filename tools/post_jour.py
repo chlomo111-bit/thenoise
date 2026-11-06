@@ -1,9 +1,10 @@
 """Post du jour 1080×1350 The Noise (loterie sans argent).
 Usage : python3 tools/post_jour.py <sortie.jpg> "<ligne événement du jour>"
 """
-import asyncio, base64, sys, pathlib
+import asyncio, base64, sys, pathlib, os
 from playwright.async_api import async_playwright
 out = sys.argv[1]; event = sys.argv[2] if len(sys.argv) > 2 else ""; credit = sys.argv[3] if len(sys.argv) > 3 else ""
+PILL = os.environ.get("PILL", "🎁 ההגרלה של הערב · 20:00")
 root = pathlib.Path(__file__).resolve().parent.parent
 font = base64.b64encode((root / "tools/fonts/Heebo.ttf").read_bytes()).decode()
 bg = base64.b64encode((root / "media/2026-10-31/cover_collab.jpg").read_bytes()).decode()
@@ -20,7 +21,7 @@ h1{{font-weight:900;font-size:104px;line-height:1.04;margin:40px 0 26px;letter-s
 .cta{{margin-top:auto;background:#FFC24B;color:#111;border-radius:999px;padding:22px 70px;font-weight:900;font-size:58px}}
 .ft{{margin-top:22px;font-weight:500;font-size:30px;opacity:.85;direction:ltr}}
 </style></head><body><div class="clip"><div class="bg"></div></div><div class="wrap">
-<div class="pill">🎁 ההגרלה של הערב · 20:00</div>
+<div class="pill">{PILL}</div>
 <h1>מי יחליט מה<br>יקרה <span class="k">מחר</span> באולפן?</h1>
 {ev}
 <div class="row">✅ חדש: מספיק להגיב על הפוסט כדי להיכנס!</div>
