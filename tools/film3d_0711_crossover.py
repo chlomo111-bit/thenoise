@@ -8,8 +8,8 @@ E = '/tmp/claude-0/ep5'; FPS = 30
 spec = importlib.util.spec_from_file_location('b1', '/tmp/claude-0/ep/build.py'); B1 = importlib.util.module_from_spec(spec); spec.loader.exec_module(B1)
 
 # ---- timeline (s) ----
-CUT = [0, 3.6, 8.0, 12.4, 20.75, 23.6, 28.9, 31.4, 34.9]
-VO = [('n1', 0.5), ('n2', 3.75), ('d1', 12.55), ('n3', 20.95)]
+CUT = [0, 4.8, 10.9, 15.4, 23.4, 26.2, 32.6, 35.1, 38.6]
+VO = [('n1', 0.3), ('n2', 4.9), ('d1', 15.5), ('n3', 23.5)]
 TOTAL = CUT[-1]; NF = [round(CUT[i+1]*FPS) - round(CUT[i]*FPS) for i in range(len(CUT)-1)]
 FST = [round(c*FPS) for c in CUT[:-1]]
 BURSTS = [CUT[2] + 0.8]
