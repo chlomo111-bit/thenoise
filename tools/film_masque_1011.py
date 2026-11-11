@@ -123,9 +123,13 @@ def main():
         errs = []; st.on('pageerror', lambda e: errs.append(str(e)))
         st.goto('http://local/index.html?demo'); st.wait_for_timeout(4000)
         st.evaluate(CHAR_JS + ";0"); st.evaluate(STUDIO_JS + ";0"); st.evaluate(EXTRA + ";0")
+        if os.environ.get('NOTEXT'): st.add_style_tag(content='#ov>div:not(#oF):not(#oD):not(#oV){display:none!important}')
         n = int(round(TOTAL * FPS))
         for i in range(n):
             if i % SAMPLE: continue
+            if os.environ.get('RANGE'):
+                _a,_b=map(float,os.environ['RANGE'].split(','))
+                if not (_a <= i / FPS < _b): continue
             t = i / FPS
             o, x, key, top, mid, bot, vio = plan(t)
             h = max([z for z in HITS if z <= t], default=-9); dt = t - h
